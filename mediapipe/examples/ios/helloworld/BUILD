@@ -34,7 +34,7 @@ alias(
 ios_application(
     name = "HelloWorldApp",
     app_icons = ["//mediapipe/examples/ios/common:AppIcon"],
-    bundle_id = BUNDLE_ID_PREFIX + ".HelloWorld",
+    bundle_id = BUNDLE_ID_PREFIX,
     families = [
         "iphone",
         "ipad",
@@ -56,6 +56,5 @@ objc_library(
     deps = [
         "//mediapipe/examples/ios/common:CommonMediaPipeAppLibrary",
         "//mediapipe/graphs/edge_detection:mobile_calculators",
-        "//third_party/apple_frameworks:Metal",
     ],
 )
