@@ -1,0 +1,1860 @@
+aom
+├── jpeg-xl
+│   ├── brotli
+│   ├── giflib
+│   ├── highway
+│   ├── imath
+│   ├── jpeg-turbo
+│   ├── libpng
+│   ├── little-cms2
+│   │   ├── jpeg-turbo
+│   │   └── libtiff
+│   │       ├── jpeg-turbo
+│   │       └── zstd
+│   │           ├── lz4
+│   │           └── xz
+│   ├── openexr
+│   │   └── imath
+│   └── webp
+│       ├── giflib
+│       ├── jpeg-turbo
+│       ├── libpng
+│       └── libtiff
+│           ├── jpeg-turbo
+│           └── zstd
+│               ├── lz4
+│               └── xz
+└── libvmaf
+
+bazelisk
+
+brotli
+
+ca-certificates
+
+cairo
+├── fontconfig
+│   └── freetype
+│       └── libpng
+├── freetype
+│   └── libpng
+├── glib
+│   ├── pcre2
+│   └── gettext
+├── libpng
+├── libx11
+│   ├── libxcb
+│   │   ├── libxau
+│   │   │   └── xorgproto
+│   │   └── libxdmcp
+│   │       └── xorgproto
+│   └── xorgproto
+├── libxcb
+│   ├── libxau
+│   │   └── xorgproto
+│   └── libxdmcp
+│       └── xorgproto
+├── libxext
+│   ├── libx11
+│   │   ├── libxcb
+│   │   │   ├── libxau
+│   │   │   │   └── xorgproto
+│   │   │   └── libxdmcp
+│   │   │       └── xorgproto
+│   │   └── xorgproto
+│   └── xorgproto
+├── libxrender
+│   ├── libx11
+│   │   ├── libxcb
+│   │   │   ├── libxau
+│   │   │   │   └── xorgproto
+│   │   │   └── libxdmcp
+│   │   │       └── xorgproto
+│   │   └── xorgproto
+│   └── xorgproto
+├── lzo
+└── pixman
+
+ceres-solver
+├── eigen
+├── gflags
+├── glog
+│   └── gflags
+├── metis
+├── openblas
+│   └── gcc
+│       ├── gmp
+│       ├── isl
+│       │   └── gmp
+│       ├── libmpc
+│       │   ├── gmp
+│       │   └── mpfr
+│       │       └── gmp
+│       ├── mpfr
+│       │   └── gmp
+│       └── zstd
+│           ├── lz4
+│           └── xz
+├── suite-sparse
+│   ├── metis
+│   └── openblas
+│       └── gcc
+│           ├── gmp
+│           ├── isl
+│           │   └── gmp
+│           ├── libmpc
+│           │   ├── gmp
+│           │   └── mpfr
+│           │       └── gmp
+│           ├── mpfr
+│           │   └── gmp
+│           └── zstd
+│               ├── lz4
+│               └── xz
+└── tbb
+
+cjson
+
+cmake
+
+dav1d
+
+docker
+
+eigen
+
+ffmpeg@4
+├── aom
+│   ├── jpeg-xl
+│   │   ├── brotli
+│   │   ├── giflib
+│   │   ├── highway
+│   │   ├── imath
+│   │   ├── jpeg-turbo
+│   │   ├── libpng
+│   │   ├── little-cms2
+│   │   │   ├── jpeg-turbo
+│   │   │   └── libtiff
+│   │   │       ├── jpeg-turbo
+│   │   │       └── zstd
+│   │   │           ├── lz4
+│   │   │           └── xz
+│   │   ├── openexr
+│   │   │   └── imath
+│   │   └── webp
+│   │       ├── giflib
+│   │       ├── jpeg-turbo
+│   │       ├── libpng
+│   │       └── libtiff
+│   │           ├── jpeg-turbo
+│   │           └── zstd
+│   │               ├── lz4
+│   │               └── xz
+│   └── libvmaf
+├── dav1d
+├── fontconfig
+│   └── freetype
+│       └── libpng
+├── freetype
+│   └── libpng
+├── frei0r
+├── gnutls
+│   ├── ca-certificates
+│   ├── gmp
+│   ├── libidn2
+│   │   ├── libunistring
+│   │   └── gettext
+│   ├── libtasn1
+│   ├── libunistring
+│   ├── nettle
+│   │   └── gmp
+│   ├── p11-kit
+│   │   ├── ca-certificates
+│   │   └── libtasn1
+│   └── unbound
+│       ├── libevent
+│       │   └── openssl@1.1
+│       │       └── ca-certificates
+│       ├── libnghttp2
+│       └── openssl@1.1
+│           └── ca-certificates
+├── lame
+├── libass
+│   ├── freetype
+│   │   └── libpng
+│   ├── fribidi
+│   ├── harfbuzz
+│   │   ├── cairo
+│   │   │   ├── fontconfig
+│   │   │   │   └── freetype
+│   │   │   │       └── libpng
+│   │   │   ├── freetype
+│   │   │   │   └── libpng
+│   │   │   ├── glib
+│   │   │   │   ├── pcre2
+│   │   │   │   └── gettext
+│   │   │   ├── libpng
+│   │   │   ├── libx11
+│   │   │   │   ├── libxcb
+│   │   │   │   │   ├── libxau
+│   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   └── libxdmcp
+│   │   │   │   │       └── xorgproto
+│   │   │   │   └── xorgproto
+│   │   │   ├── libxcb
+│   │   │   │   ├── libxau
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── libxdmcp
+│   │   │   │       └── xorgproto
+│   │   │   ├── libxext
+│   │   │   │   ├── libx11
+│   │   │   │   │   ├── libxcb
+│   │   │   │   │   │   ├── libxau
+│   │   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   │   └── libxdmcp
+│   │   │   │   │   │       └── xorgproto
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── xorgproto
+│   │   │   ├── libxrender
+│   │   │   │   ├── libx11
+│   │   │   │   │   ├── libxcb
+│   │   │   │   │   │   ├── libxau
+│   │   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   │   └── libxdmcp
+│   │   │   │   │   │       └── xorgproto
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── xorgproto
+│   │   │   ├── lzo
+│   │   │   └── pixman
+│   │   ├── freetype
+│   │   │   └── libpng
+│   │   ├── glib
+│   │   │   ├── pcre2
+│   │   │   └── gettext
+│   │   ├── graphite2
+│   │   └── icu4c
+│   └── libunibreak
+├── libbluray
+│   ├── fontconfig
+│   │   └── freetype
+│   │       └── libpng
+│   └── freetype
+│       └── libpng
+├── librist
+│   ├── cjson
+│   └── mbedtls
+├── libsoxr
+├── libvidstab
+├── libvmaf
+├── libvorbis
+│   └── libogg
+├── libvpx
+├── opencore-amr
+├── openjpeg
+│   ├── libpng
+│   ├── libtiff
+│   │   ├── jpeg-turbo
+│   │   └── zstd
+│   │       ├── lz4
+│   │       └── xz
+│   └── little-cms2
+│       ├── jpeg-turbo
+│       └── libtiff
+│           ├── jpeg-turbo
+│           └── zstd
+│               ├── lz4
+│               └── xz
+├── opus
+├── rav1e
+├── rubberband
+│   ├── libsamplerate
+│   └── libsndfile
+│       ├── flac
+│       │   └── libogg
+│       ├── lame
+│       ├── libogg
+│       ├── libvorbis
+│       │   └── libogg
+│       ├── mpg123
+│       └── opus
+├── sdl2
+├── snappy
+├── speex
+│   └── libogg
+├── srt
+│   └── openssl@1.1
+│       └── ca-certificates
+├── tesseract
+│   ├── cairo
+│   │   ├── fontconfig
+│   │   │   └── freetype
+│   │   │       └── libpng
+│   │   ├── freetype
+│   │   │   └── libpng
+│   │   ├── glib
+│   │   │   ├── pcre2
+│   │   │   └── gettext
+│   │   ├── libpng
+│   │   ├── libx11
+│   │   │   ├── libxcb
+│   │   │   │   ├── libxau
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── libxdmcp
+│   │   │   │       └── xorgproto
+│   │   │   └── xorgproto
+│   │   ├── libxcb
+│   │   │   ├── libxau
+│   │   │   │   └── xorgproto
+│   │   │   └── libxdmcp
+│   │   │       └── xorgproto
+│   │   ├── libxext
+│   │   │   ├── libx11
+│   │   │   │   ├── libxcb
+│   │   │   │   │   ├── libxau
+│   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   └── libxdmcp
+│   │   │   │   │       └── xorgproto
+│   │   │   │   └── xorgproto
+│   │   │   └── xorgproto
+│   │   ├── libxrender
+│   │   │   ├── libx11
+│   │   │   │   ├── libxcb
+│   │   │   │   │   ├── libxau
+│   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   └── libxdmcp
+│   │   │   │   │       └── xorgproto
+│   │   │   │   └── xorgproto
+│   │   │   └── xorgproto
+│   │   ├── lzo
+│   │   └── pixman
+│   ├── icu4c
+│   ├── leptonica
+│   │   ├── giflib
+│   │   ├── jpeg-turbo
+│   │   ├── libpng
+│   │   ├── libtiff
+│   │   │   ├── jpeg-turbo
+│   │   │   └── zstd
+│   │   │       ├── lz4
+│   │   │       └── xz
+│   │   ├── openjpeg
+│   │   │   ├── libpng
+│   │   │   ├── libtiff
+│   │   │   │   ├── jpeg-turbo
+│   │   │   │   └── zstd
+│   │   │   │       ├── lz4
+│   │   │   │       └── xz
+│   │   │   └── little-cms2
+│   │   │       ├── jpeg-turbo
+│   │   │       └── libtiff
+│   │   │           ├── jpeg-turbo
+│   │   │           └── zstd
+│   │   │               ├── lz4
+│   │   │               └── xz
+│   │   └── webp
+│   │       ├── giflib
+│   │       ├── jpeg-turbo
+│   │       ├── libpng
+│   │       └── libtiff
+│   │           ├── jpeg-turbo
+│   │           └── zstd
+│   │               ├── lz4
+│   │               └── xz
+│   ├── libarchive
+│   │   ├── libb2
+│   │   ├── lz4
+│   │   ├── xz
+│   │   └── zstd
+│   │       ├── lz4
+│   │       └── xz
+│   └── pango
+│       ├── cairo
+│       │   ├── fontconfig
+│       │   │   └── freetype
+│       │   │       └── libpng
+│       │   ├── freetype
+│       │   │   └── libpng
+│       │   ├── glib
+│       │   │   ├── pcre2
+│       │   │   └── gettext
+│       │   ├── libpng
+│       │   ├── libx11
+│       │   │   ├── libxcb
+│       │   │   │   ├── libxau
+│       │   │   │   │   └── xorgproto
+│       │   │   │   └── libxdmcp
+│       │   │   │       └── xorgproto
+│       │   │   └── xorgproto
+│       │   ├── libxcb
+│       │   │   ├── libxau
+│       │   │   │   └── xorgproto
+│       │   │   └── libxdmcp
+│       │   │       └── xorgproto
+│       │   ├── libxext
+│       │   │   ├── libx11
+│       │   │   │   ├── libxcb
+│       │   │   │   │   ├── libxau
+│       │   │   │   │   │   └── xorgproto
+│       │   │   │   │   └── libxdmcp
+│       │   │   │   │       └── xorgproto
+│       │   │   │   └── xorgproto
+│       │   │   └── xorgproto
+│       │   ├── libxrender
+│       │   │   ├── libx11
+│       │   │   │   ├── libxcb
+│       │   │   │   │   ├── libxau
+│       │   │   │   │   │   └── xorgproto
+│       │   │   │   │   └── libxdmcp
+│       │   │   │   │       └── xorgproto
+│       │   │   │   └── xorgproto
+│       │   │   └── xorgproto
+│       │   ├── lzo
+│       │   └── pixman
+│       ├── fontconfig
+│       │   └── freetype
+│       │       └── libpng
+│       ├── freetype
+│       │   └── libpng
+│       ├── fribidi
+│       ├── glib
+│       │   ├── pcre2
+│       │   └── gettext
+│       └── harfbuzz
+│           ├── cairo
+│           │   ├── fontconfig
+│           │   │   └── freetype
+│           │   │       └── libpng
+│           │   ├── freetype
+│           │   │   └── libpng
+│           │   ├── glib
+│           │   │   ├── pcre2
+│           │   │   └── gettext
+│           │   ├── libpng
+│           │   ├── libx11
+│           │   │   ├── libxcb
+│           │   │   │   ├── libxau
+│           │   │   │   │   └── xorgproto
+│           │   │   │   └── libxdmcp
+│           │   │   │       └── xorgproto
+│           │   │   └── xorgproto
+│           │   ├── libxcb
+│           │   │   ├── libxau
+│           │   │   │   └── xorgproto
+│           │   │   └── libxdmcp
+│           │   │       └── xorgproto
+│           │   ├── libxext
+│           │   │   ├── libx11
+│           │   │   │   ├── libxcb
+│           │   │   │   │   ├── libxau
+│           │   │   │   │   │   └── xorgproto
+│           │   │   │   │   └── libxdmcp
+│           │   │   │   │       └── xorgproto
+│           │   │   │   └── xorgproto
+│           │   │   └── xorgproto
+│           │   ├── libxrender
+│           │   │   ├── libx11
+│           │   │   │   ├── libxcb
+│           │   │   │   │   ├── libxau
+│           │   │   │   │   │   └── xorgproto
+│           │   │   │   │   └── libxdmcp
+│           │   │   │   │       └── xorgproto
+│           │   │   │   └── xorgproto
+│           │   │   └── xorgproto
+│           │   ├── lzo
+│           │   └── pixman
+│           ├── freetype
+│           │   └── libpng
+│           ├── glib
+│           │   ├── pcre2
+│           │   └── gettext
+│           ├── graphite2
+│           └── icu4c
+├── theora
+│   ├── libogg
+│   └── libvorbis
+│       └── libogg
+├── webp
+│   ├── giflib
+│   ├── jpeg-turbo
+│   ├── libpng
+│   └── libtiff
+│       ├── jpeg-turbo
+│       └── zstd
+│           ├── lz4
+│           └── xz
+├── x264
+├── x265
+├── xvid
+├── xz
+├── zeromq
+│   └── libsodium
+└── zimg
+
+flac
+└── libogg
+
+fontconfig
+└── freetype
+    └── libpng
+
+freetype
+└── libpng
+
+frei0r
+
+fribidi
+
+gcc
+├── gmp
+├── isl
+│   └── gmp
+├── libmpc
+│   ├── gmp
+│   └── mpfr
+│       └── gmp
+├── mpfr
+│   └── gmp
+└── zstd
+    ├── lz4
+    └── xz
+
+gdbm
+
+gettext
+
+gflags
+
+giflib
+
+glib
+├── pcre2
+└── gettext
+
+glog
+└── gflags
+
+gmp
+
+gnutls
+├── ca-certificates
+├── gmp
+├── libidn2
+│   ├── libunistring
+│   └── gettext
+├── libtasn1
+├── libunistring
+├── nettle
+│   └── gmp
+├── p11-kit
+│   ├── ca-certificates
+│   └── libtasn1
+└── unbound
+    ├── libevent
+    │   └── openssl@1.1
+    │       └── ca-certificates
+    ├── libnghttp2
+    └── openssl@1.1
+        └── ca-certificates
+
+graphite2
+
+harfbuzz
+├── cairo
+│   ├── fontconfig
+│   │   └── freetype
+│   │       └── libpng
+│   ├── freetype
+│   │   └── libpng
+│   ├── glib
+│   │   ├── pcre2
+│   │   └── gettext
+│   ├── libpng
+│   ├── libx11
+│   │   ├── libxcb
+│   │   │   ├── libxau
+│   │   │   │   └── xorgproto
+│   │   │   └── libxdmcp
+│   │   │       └── xorgproto
+│   │   └── xorgproto
+│   ├── libxcb
+│   │   ├── libxau
+│   │   │   └── xorgproto
+│   │   └── libxdmcp
+│   │       └── xorgproto
+│   ├── libxext
+│   │   ├── libx11
+│   │   │   ├── libxcb
+│   │   │   │   ├── libxau
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── libxdmcp
+│   │   │   │       └── xorgproto
+│   │   │   └── xorgproto
+│   │   └── xorgproto
+│   ├── libxrender
+│   │   ├── libx11
+│   │   │   ├── libxcb
+│   │   │   │   ├── libxau
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── libxdmcp
+│   │   │   │       └── xorgproto
+│   │   │   └── xorgproto
+│   │   └── xorgproto
+│   ├── lzo
+│   └── pixman
+├── freetype
+│   └── libpng
+├── glib
+│   ├── pcre2
+│   └── gettext
+├── graphite2
+└── icu4c
+
+highway
+
+icu4c
+
+imath
+
+isl
+└── gmp
+
+jpeg-turbo
+
+jpeg-xl
+├── brotli
+├── giflib
+├── highway
+├── imath
+├── jpeg-turbo
+├── libpng
+├── little-cms2
+│   ├── jpeg-turbo
+│   └── libtiff
+│       ├── jpeg-turbo
+│       └── zstd
+│           ├── lz4
+│           └── xz
+├── openexr
+│   └── imath
+└── webp
+    ├── giflib
+    ├── jpeg-turbo
+    ├── libpng
+    └── libtiff
+        ├── jpeg-turbo
+        └── zstd
+            ├── lz4
+            └── xz
+
+lame
+
+leptonica
+├── giflib
+├── jpeg-turbo
+├── libpng
+├── libtiff
+│   ├── jpeg-turbo
+│   └── zstd
+│       ├── lz4
+│       └── xz
+├── openjpeg
+│   ├── libpng
+│   ├── libtiff
+│   │   ├── jpeg-turbo
+│   │   └── zstd
+│   │       ├── lz4
+│   │       └── xz
+│   └── little-cms2
+│       ├── jpeg-turbo
+│       └── libtiff
+│           ├── jpeg-turbo
+│           └── zstd
+│               ├── lz4
+│               └── xz
+└── webp
+    ├── giflib
+    ├── jpeg-turbo
+    ├── libpng
+    └── libtiff
+        ├── jpeg-turbo
+        └── zstd
+            ├── lz4
+            └── xz
+
+libarchive
+├── libb2
+├── lz4
+├── xz
+└── zstd
+    ├── lz4
+    └── xz
+
+libass
+├── freetype
+│   └── libpng
+├── fribidi
+├── harfbuzz
+│   ├── cairo
+│   │   ├── fontconfig
+│   │   │   └── freetype
+│   │   │       └── libpng
+│   │   ├── freetype
+│   │   │   └── libpng
+│   │   ├── glib
+│   │   │   ├── pcre2
+│   │   │   └── gettext
+│   │   ├── libpng
+│   │   ├── libx11
+│   │   │   ├── libxcb
+│   │   │   │   ├── libxau
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── libxdmcp
+│   │   │   │       └── xorgproto
+│   │   │   └── xorgproto
+│   │   ├── libxcb
+│   │   │   ├── libxau
+│   │   │   │   └── xorgproto
+│   │   │   └── libxdmcp
+│   │   │       └── xorgproto
+│   │   ├── libxext
+│   │   │   ├── libx11
+│   │   │   │   ├── libxcb
+│   │   │   │   │   ├── libxau
+│   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   └── libxdmcp
+│   │   │   │   │       └── xorgproto
+│   │   │   │   └── xorgproto
+│   │   │   └── xorgproto
+│   │   ├── libxrender
+│   │   │   ├── libx11
+│   │   │   │   ├── libxcb
+│   │   │   │   │   ├── libxau
+│   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   └── libxdmcp
+│   │   │   │   │       └── xorgproto
+│   │   │   │   └── xorgproto
+│   │   │   └── xorgproto
+│   │   ├── lzo
+│   │   └── pixman
+│   ├── freetype
+│   │   └── libpng
+│   ├── glib
+│   │   ├── pcre2
+│   │   └── gettext
+│   ├── graphite2
+│   └── icu4c
+└── libunibreak
+
+libb2
+
+libbluray
+├── fontconfig
+│   └── freetype
+│       └── libpng
+└── freetype
+    └── libpng
+
+libevent
+└── openssl@1.1
+    └── ca-certificates
+
+libidn2
+├── libunistring
+└── gettext
+
+libmpc
+├── gmp
+└── mpfr
+    └── gmp
+
+libnghttp2
+
+libogg
+
+libpng
+
+librist
+├── cjson
+└── mbedtls
+
+libsamplerate
+
+libsndfile
+├── flac
+│   └── libogg
+├── lame
+├── libogg
+├── libvorbis
+│   └── libogg
+├── mpg123
+└── opus
+
+libsodium
+
+libsoxr
+
+libtasn1
+
+libtiff
+├── jpeg-turbo
+└── zstd
+    ├── lz4
+    └── xz
+
+libunibreak
+
+libunistring
+
+libvidstab
+
+libvmaf
+
+libvorbis
+└── libogg
+
+libvpx
+
+libx11
+├── libxcb
+│   ├── libxau
+│   │   └── xorgproto
+│   └── libxdmcp
+│       └── xorgproto
+└── xorgproto
+
+libxau
+└── xorgproto
+
+libxcb
+├── libxau
+│   └── xorgproto
+└── libxdmcp
+    └── xorgproto
+
+libxdmcp
+└── xorgproto
+
+libxext
+├── libx11
+│   ├── libxcb
+│   │   ├── libxau
+│   │   │   └── xorgproto
+│   │   └── libxdmcp
+│   │       └── xorgproto
+│   └── xorgproto
+└── xorgproto
+
+libxrender
+├── libx11
+│   ├── libxcb
+│   │   ├── libxau
+│   │   │   └── xorgproto
+│   │   └── libxdmcp
+│   │       └── xorgproto
+│   └── xorgproto
+└── xorgproto
+
+little-cms2
+├── jpeg-turbo
+└── libtiff
+    ├── jpeg-turbo
+    └── zstd
+        ├── lz4
+        └── xz
+
+lz4
+
+lzo
+
+mbedtls
+
+meson
+├── ninja
+└── python@3.11
+    ├── mpdecimal
+    ├── openssl@1.1
+    │   └── ca-certificates
+    ├── sqlite
+    │   └── readline
+    └── xz
+
+metis
+
+mpdecimal
+
+mpfr
+└── gmp
+
+mpg123
+
+nasm
+
+nettle
+└── gmp
+
+ninja
+
+numpy
+└── openblas
+    └── gcc
+        ├── gmp
+        ├── isl
+        │   └── gmp
+        ├── libmpc
+        │   ├── gmp
+        │   └── mpfr
+        │       └── gmp
+        ├── mpfr
+        │   └── gmp
+        └── zstd
+            ├── lz4
+            └── xz
+
+onnxruntime
+
+openblas
+└── gcc
+    ├── gmp
+    ├── isl
+    │   └── gmp
+    ├── libmpc
+    │   ├── gmp
+    │   └── mpfr
+    │       └── gmp
+    ├── mpfr
+    │   └── gmp
+    └── zstd
+        ├── lz4
+        └── xz
+
+opencore-amr
+
+opencv@3
+├── ceres-solver
+│   ├── eigen
+│   ├── gflags
+│   ├── glog
+│   │   └── gflags
+│   ├── metis
+│   ├── openblas
+│   │   └── gcc
+│   │       ├── gmp
+│   │       ├── isl
+│   │       │   └── gmp
+│   │       ├── libmpc
+│   │       │   ├── gmp
+│   │       │   └── mpfr
+│   │       │       └── gmp
+│   │       ├── mpfr
+│   │       │   └── gmp
+│   │       └── zstd
+│   │           ├── lz4
+│   │           └── xz
+│   ├── suite-sparse
+│   │   ├── metis
+│   │   └── openblas
+│   │       └── gcc
+│   │           ├── gmp
+│   │           ├── isl
+│   │           │   └── gmp
+│   │           ├── libmpc
+│   │           │   ├── gmp
+│   │           │   └── mpfr
+│   │           │       └── gmp
+│   │           ├── mpfr
+│   │           │   └── gmp
+│   │           └── zstd
+│   │               ├── lz4
+│   │               └── xz
+│   └── tbb
+├── eigen
+├── ffmpeg@4
+│   ├── aom
+│   │   ├── jpeg-xl
+│   │   │   ├── brotli
+│   │   │   ├── giflib
+│   │   │   ├── highway
+│   │   │   ├── imath
+│   │   │   ├── jpeg-turbo
+│   │   │   ├── libpng
+│   │   │   ├── little-cms2
+│   │   │   │   ├── jpeg-turbo
+│   │   │   │   └── libtiff
+│   │   │   │       ├── jpeg-turbo
+│   │   │   │       └── zstd
+│   │   │   │           ├── lz4
+│   │   │   │           └── xz
+│   │   │   ├── openexr
+│   │   │   │   └── imath
+│   │   │   └── webp
+│   │   │       ├── giflib
+│   │   │       ├── jpeg-turbo
+│   │   │       ├── libpng
+│   │   │       └── libtiff
+│   │   │           ├── jpeg-turbo
+│   │   │           └── zstd
+│   │   │               ├── lz4
+│   │   │               └── xz
+│   │   └── libvmaf
+│   ├── dav1d
+│   ├── fontconfig
+│   │   └── freetype
+│   │       └── libpng
+│   ├── freetype
+│   │   └── libpng
+│   ├── frei0r
+│   ├── gnutls
+│   │   ├── ca-certificates
+│   │   ├── gmp
+│   │   ├── libidn2
+│   │   │   ├── libunistring
+│   │   │   └── gettext
+│   │   ├── libtasn1
+│   │   ├── libunistring
+│   │   ├── nettle
+│   │   │   └── gmp
+│   │   ├── p11-kit
+│   │   │   ├── ca-certificates
+│   │   │   └── libtasn1
+│   │   └── unbound
+│   │       ├── libevent
+│   │       │   └── openssl@1.1
+│   │       │       └── ca-certificates
+│   │       ├── libnghttp2
+│   │       └── openssl@1.1
+│   │           └── ca-certificates
+│   ├── lame
+│   ├── libass
+│   │   ├── freetype
+│   │   │   └── libpng
+│   │   ├── fribidi
+│   │   ├── harfbuzz
+│   │   │   ├── cairo
+│   │   │   │   ├── fontconfig
+│   │   │   │   │   └── freetype
+│   │   │   │   │       └── libpng
+│   │   │   │   ├── freetype
+│   │   │   │   │   └── libpng
+│   │   │   │   ├── glib
+│   │   │   │   │   ├── pcre2
+│   │   │   │   │   └── gettext
+│   │   │   │   ├── libpng
+│   │   │   │   ├── libx11
+│   │   │   │   │   ├── libxcb
+│   │   │   │   │   │   ├── libxau
+│   │   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   │   └── libxdmcp
+│   │   │   │   │   │       └── xorgproto
+│   │   │   │   │   └── xorgproto
+│   │   │   │   ├── libxcb
+│   │   │   │   │   ├── libxau
+│   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   └── libxdmcp
+│   │   │   │   │       └── xorgproto
+│   │   │   │   ├── libxext
+│   │   │   │   │   ├── libx11
+│   │   │   │   │   │   ├── libxcb
+│   │   │   │   │   │   │   ├── libxau
+│   │   │   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   │   │   └── libxdmcp
+│   │   │   │   │   │   │       └── xorgproto
+│   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   └── xorgproto
+│   │   │   │   ├── libxrender
+│   │   │   │   │   ├── libx11
+│   │   │   │   │   │   ├── libxcb
+│   │   │   │   │   │   │   ├── libxau
+│   │   │   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   │   │   └── libxdmcp
+│   │   │   │   │   │   │       └── xorgproto
+│   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   └── xorgproto
+│   │   │   │   ├── lzo
+│   │   │   │   └── pixman
+│   │   │   ├── freetype
+│   │   │   │   └── libpng
+│   │   │   ├── glib
+│   │   │   │   ├── pcre2
+│   │   │   │   └── gettext
+│   │   │   ├── graphite2
+│   │   │   └── icu4c
+│   │   └── libunibreak
+│   ├── libbluray
+│   │   ├── fontconfig
+│   │   │   └── freetype
+│   │   │       └── libpng
+│   │   └── freetype
+│   │       └── libpng
+│   ├── librist
+│   │   ├── cjson
+│   │   └── mbedtls
+│   ├── libsoxr
+│   ├── libvidstab
+│   ├── libvmaf
+│   ├── libvorbis
+│   │   └── libogg
+│   ├── libvpx
+│   ├── opencore-amr
+│   ├── openjpeg
+│   │   ├── libpng
+│   │   ├── libtiff
+│   │   │   ├── jpeg-turbo
+│   │   │   └── zstd
+│   │   │       ├── lz4
+│   │   │       └── xz
+│   │   └── little-cms2
+│   │       ├── jpeg-turbo
+│   │       └── libtiff
+│   │           ├── jpeg-turbo
+│   │           └── zstd
+│   │               ├── lz4
+│   │               └── xz
+│   ├── opus
+│   ├── rav1e
+│   ├── rubberband
+│   │   ├── libsamplerate
+│   │   └── libsndfile
+│   │       ├── flac
+│   │       │   └── libogg
+│   │       ├── lame
+│   │       ├── libogg
+│   │       ├── libvorbis
+│   │       │   └── libogg
+│   │       ├── mpg123
+│   │       └── opus
+│   ├── sdl2
+│   ├── snappy
+│   ├── speex
+│   │   └── libogg
+│   ├── srt
+│   │   └── openssl@1.1
+│   │       └── ca-certificates
+│   ├── tesseract
+│   │   ├── cairo
+│   │   │   ├── fontconfig
+│   │   │   │   └── freetype
+│   │   │   │       └── libpng
+│   │   │   ├── freetype
+│   │   │   │   └── libpng
+│   │   │   ├── glib
+│   │   │   │   ├── pcre2
+│   │   │   │   └── gettext
+│   │   │   ├── libpng
+│   │   │   ├── libx11
+│   │   │   │   ├── libxcb
+│   │   │   │   │   ├── libxau
+│   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   └── libxdmcp
+│   │   │   │   │       └── xorgproto
+│   │   │   │   └── xorgproto
+│   │   │   ├── libxcb
+│   │   │   │   ├── libxau
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── libxdmcp
+│   │   │   │       └── xorgproto
+│   │   │   ├── libxext
+│   │   │   │   ├── libx11
+│   │   │   │   │   ├── libxcb
+│   │   │   │   │   │   ├── libxau
+│   │   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   │   └── libxdmcp
+│   │   │   │   │   │       └── xorgproto
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── xorgproto
+│   │   │   ├── libxrender
+│   │   │   │   ├── libx11
+│   │   │   │   │   ├── libxcb
+│   │   │   │   │   │   ├── libxau
+│   │   │   │   │   │   │   └── xorgproto
+│   │   │   │   │   │   └── libxdmcp
+│   │   │   │   │   │       └── xorgproto
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── xorgproto
+│   │   │   ├── lzo
+│   │   │   └── pixman
+│   │   ├── icu4c
+│   │   ├── leptonica
+│   │   │   ├── giflib
+│   │   │   ├── jpeg-turbo
+│   │   │   ├── libpng
+│   │   │   ├── libtiff
+│   │   │   │   ├── jpeg-turbo
+│   │   │   │   └── zstd
+│   │   │   │       ├── lz4
+│   │   │   │       └── xz
+│   │   │   ├── openjpeg
+│   │   │   │   ├── libpng
+│   │   │   │   ├── libtiff
+│   │   │   │   │   ├── jpeg-turbo
+│   │   │   │   │   └── zstd
+│   │   │   │   │       ├── lz4
+│   │   │   │   │       └── xz
+│   │   │   │   └── little-cms2
+│   │   │   │       ├── jpeg-turbo
+│   │   │   │       └── libtiff
+│   │   │   │           ├── jpeg-turbo
+│   │   │   │           └── zstd
+│   │   │   │               ├── lz4
+│   │   │   │               └── xz
+│   │   │   └── webp
+│   │   │       ├── giflib
+│   │   │       ├── jpeg-turbo
+│   │   │       ├── libpng
+│   │   │       └── libtiff
+│   │   │           ├── jpeg-turbo
+│   │   │           └── zstd
+│   │   │               ├── lz4
+│   │   │               └── xz
+│   │   ├── libarchive
+│   │   │   ├── libb2
+│   │   │   ├── lz4
+│   │   │   ├── xz
+│   │   │   └── zstd
+│   │   │       ├── lz4
+│   │   │       └── xz
+│   │   └── pango
+│   │       ├── cairo
+│   │       │   ├── fontconfig
+│   │       │   │   └── freetype
+│   │       │   │       └── libpng
+│   │       │   ├── freetype
+│   │       │   │   └── libpng
+│   │       │   ├── glib
+│   │       │   │   ├── pcre2
+│   │       │   │   └── gettext
+│   │       │   ├── libpng
+│   │       │   ├── libx11
+│   │       │   │   ├── libxcb
+│   │       │   │   │   ├── libxau
+│   │       │   │   │   │   └── xorgproto
+│   │       │   │   │   └── libxdmcp
+│   │       │   │   │       └── xorgproto
+│   │       │   │   └── xorgproto
+│   │       │   ├── libxcb
+│   │       │   │   ├── libxau
+│   │       │   │   │   └── xorgproto
+│   │       │   │   └── libxdmcp
+│   │       │   │       └── xorgproto
+│   │       │   ├── libxext
+│   │       │   │   ├── libx11
+│   │       │   │   │   ├── libxcb
+│   │       │   │   │   │   ├── libxau
+│   │       │   │   │   │   │   └── xorgproto
+│   │       │   │   │   │   └── libxdmcp
+│   │       │   │   │   │       └── xorgproto
+│   │       │   │   │   └── xorgproto
+│   │       │   │   └── xorgproto
+│   │       │   ├── libxrender
+│   │       │   │   ├── libx11
+│   │       │   │   │   ├── libxcb
+│   │       │   │   │   │   ├── libxau
+│   │       │   │   │   │   │   └── xorgproto
+│   │       │   │   │   │   └── libxdmcp
+│   │       │   │   │   │       └── xorgproto
+│   │       │   │   │   └── xorgproto
+│   │       │   │   └── xorgproto
+│   │       │   ├── lzo
+│   │       │   └── pixman
+│   │       ├── fontconfig
+│   │       │   └── freetype
+│   │       │       └── libpng
+│   │       ├── freetype
+│   │       │   └── libpng
+│   │       ├── fribidi
+│   │       ├── glib
+│   │       │   ├── pcre2
+│   │       │   └── gettext
+│   │       └── harfbuzz
+│   │           ├── cairo
+│   │           │   ├── fontconfig
+│   │           │   │   └── freetype
+│   │           │   │       └── libpng
+│   │           │   ├── freetype
+│   │           │   │   └── libpng
+│   │           │   ├── glib
+│   │           │   │   ├── pcre2
+│   │           │   │   └── gettext
+│   │           │   ├── libpng
+│   │           │   ├── libx11
+│   │           │   │   ├── libxcb
+│   │           │   │   │   ├── libxau
+│   │           │   │   │   │   └── xorgproto
+│   │           │   │   │   └── libxdmcp
+│   │           │   │   │       └── xorgproto
+│   │           │   │   └── xorgproto
+│   │           │   ├── libxcb
+│   │           │   │   ├── libxau
+│   │           │   │   │   └── xorgproto
+│   │           │   │   └── libxdmcp
+│   │           │   │       └── xorgproto
+│   │           │   ├── libxext
+│   │           │   │   ├── libx11
+│   │           │   │   │   ├── libxcb
+│   │           │   │   │   │   ├── libxau
+│   │           │   │   │   │   │   └── xorgproto
+│   │           │   │   │   │   └── libxdmcp
+│   │           │   │   │   │       └── xorgproto
+│   │           │   │   │   └── xorgproto
+│   │           │   │   └── xorgproto
+│   │           │   ├── libxrender
+│   │           │   │   ├── libx11
+│   │           │   │   │   ├── libxcb
+│   │           │   │   │   │   ├── libxau
+│   │           │   │   │   │   │   └── xorgproto
+│   │           │   │   │   │   └── libxdmcp
+│   │           │   │   │   │       └── xorgproto
+│   │           │   │   │   └── xorgproto
+│   │           │   │   └── xorgproto
+│   │           │   ├── lzo
+│   │           │   └── pixman
+│   │           ├── freetype
+│   │           │   └── libpng
+│   │           ├── glib
+│   │           │   ├── pcre2
+│   │           │   └── gettext
+│   │           ├── graphite2
+│   │           └── icu4c
+│   ├── theora
+│   │   ├── libogg
+│   │   └── libvorbis
+│   │       └── libogg
+│   ├── webp
+│   │   ├── giflib
+│   │   ├── jpeg-turbo
+│   │   ├── libpng
+│   │   └── libtiff
+│   │       ├── jpeg-turbo
+│   │       └── zstd
+│   │           ├── lz4
+│   │           └── xz
+│   ├── x264
+│   ├── x265
+│   ├── xvid
+│   ├── xz
+│   ├── zeromq
+│   │   └── libsodium
+│   └── zimg
+├── gflags
+├── glog
+│   └── gflags
+├── jpeg-turbo
+├── libpng
+├── libtiff
+│   ├── jpeg-turbo
+│   └── zstd
+│       ├── lz4
+│       └── xz
+├── numpy
+│   └── openblas
+│       └── gcc
+│           ├── gmp
+│           ├── isl
+│           │   └── gmp
+│           ├── libmpc
+│           │   ├── gmp
+│           │   └── mpfr
+│           │       └── gmp
+│           ├── mpfr
+│           │   └── gmp
+│           └── zstd
+│               ├── lz4
+│               └── xz
+├── openexr
+│   └── imath
+├── protobuf
+├── python@3.10
+│   ├── gdbm
+│   ├── mpdecimal
+│   ├── openssl@1.1
+│   │   └── ca-certificates
+│   ├── readline
+│   ├── sqlite
+│   │   └── readline
+│   └── xz
+├── tbb
+└── webp
+    ├── giflib
+    ├── jpeg-turbo
+    ├── libpng
+    └── libtiff
+        ├── jpeg-turbo
+        └── zstd
+            ├── lz4
+            └── xz
+
+openexr
+└── imath
+
+openjpeg
+├── libpng
+├── libtiff
+│   ├── jpeg-turbo
+│   └── zstd
+│       ├── lz4
+│       └── xz
+└── little-cms2
+    ├── jpeg-turbo
+    └── libtiff
+        ├── jpeg-turbo
+        └── zstd
+            ├── lz4
+            └── xz
+
+openssl@1.1
+└── ca-certificates
+
+opus
+
+p11-kit
+├── ca-certificates
+└── libtasn1
+
+pango
+├── cairo
+│   ├── fontconfig
+│   │   └── freetype
+│   │       └── libpng
+│   ├── freetype
+│   │   └── libpng
+│   ├── glib
+│   │   ├── pcre2
+│   │   └── gettext
+│   ├── libpng
+│   ├── libx11
+│   │   ├── libxcb
+│   │   │   ├── libxau
+│   │   │   │   └── xorgproto
+│   │   │   └── libxdmcp
+│   │   │       └── xorgproto
+│   │   └── xorgproto
+│   ├── libxcb
+│   │   ├── libxau
+│   │   │   └── xorgproto
+│   │   └── libxdmcp
+│   │       └── xorgproto
+│   ├── libxext
+│   │   ├── libx11
+│   │   │   ├── libxcb
+│   │   │   │   ├── libxau
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── libxdmcp
+│   │   │   │       └── xorgproto
+│   │   │   └── xorgproto
+│   │   └── xorgproto
+│   ├── libxrender
+│   │   ├── libx11
+│   │   │   ├── libxcb
+│   │   │   │   ├── libxau
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── libxdmcp
+│   │   │   │       └── xorgproto
+│   │   │   └── xorgproto
+│   │   └── xorgproto
+│   ├── lzo
+│   └── pixman
+├── fontconfig
+│   └── freetype
+│       └── libpng
+├── freetype
+│   └── libpng
+├── fribidi
+├── glib
+│   ├── pcre2
+│   └── gettext
+└── harfbuzz
+    ├── cairo
+    │   ├── fontconfig
+    │   │   └── freetype
+    │   │       └── libpng
+    │   ├── freetype
+    │   │   └── libpng
+    │   ├── glib
+    │   │   ├── pcre2
+    │   │   └── gettext
+    │   ├── libpng
+    │   ├── libx11
+    │   │   ├── libxcb
+    │   │   │   ├── libxau
+    │   │   │   │   └── xorgproto
+    │   │   │   └── libxdmcp
+    │   │   │       └── xorgproto
+    │   │   └── xorgproto
+    │   ├── libxcb
+    │   │   ├── libxau
+    │   │   │   └── xorgproto
+    │   │   └── libxdmcp
+    │   │       └── xorgproto
+    │   ├── libxext
+    │   │   ├── libx11
+    │   │   │   ├── libxcb
+    │   │   │   │   ├── libxau
+    │   │   │   │   │   └── xorgproto
+    │   │   │   │   └── libxdmcp
+    │   │   │   │       └── xorgproto
+    │   │   │   └── xorgproto
+    │   │   └── xorgproto
+    │   ├── libxrender
+    │   │   ├── libx11
+    │   │   │   ├── libxcb
+    │   │   │   │   ├── libxau
+    │   │   │   │   │   └── xorgproto
+    │   │   │   │   └── libxdmcp
+    │   │   │   │       └── xorgproto
+    │   │   │   └── xorgproto
+    │   │   └── xorgproto
+    │   ├── lzo
+    │   └── pixman
+    ├── freetype
+    │   └── libpng
+    ├── glib
+    │   ├── pcre2
+    │   └── gettext
+    ├── graphite2
+    └── icu4c
+
+pcre2
+
+pixman
+
+pkg-config
+
+protobuf
+
+python@3.10
+├── gdbm
+├── mpdecimal
+├── openssl@1.1
+│   └── ca-certificates
+├── readline
+├── sqlite
+│   └── readline
+└── xz
+
+python@3.11
+├── mpdecimal
+├── openssl@1.1
+│   └── ca-certificates
+├── sqlite
+│   └── readline
+└── xz
+
+python@3.7
+├── gdbm
+├── mpdecimal
+├── openssl@1.1
+│   └── ca-certificates
+├── readline
+├── sqlite
+│   └── readline
+└── xz
+
+python@3.8
+├── gdbm
+├── mpdecimal
+├── openssl@1.1
+│   └── ca-certificates
+├── readline
+├── sqlite
+│   └── readline
+├── tcl-tk
+│   └── openssl@1.1
+│       └── ca-certificates
+└── xz
+
+python@3.9
+├── gdbm
+├── mpdecimal
+├── openssl@1.1
+│   └── ca-certificates
+├── readline
+├── sqlite
+│   └── readline
+└── xz
+
+rav1e
+
+readline
+
+rubberband
+├── libsamplerate
+└── libsndfile
+    ├── flac
+    │   └── libogg
+    ├── lame
+    ├── libogg
+    ├── libvorbis
+    │   └── libogg
+    ├── mpg123
+    └── opus
+
+sdl2
+
+snappy
+
+speex
+└── libogg
+
+sqlite
+└── readline
+
+srt
+└── openssl@1.1
+    └── ca-certificates
+
+suite-sparse
+├── metis
+└── openblas
+    └── gcc
+        ├── gmp
+        ├── isl
+        │   └── gmp
+        ├── libmpc
+        │   ├── gmp
+        │   └── mpfr
+        │       └── gmp
+        ├── mpfr
+        │   └── gmp
+        └── zstd
+            ├── lz4
+            └── xz
+
+tbb
+
+tcl-tk
+└── openssl@1.1
+    └── ca-certificates
+
+telnet
+
+tesseract
+├── cairo
+│   ├── fontconfig
+│   │   └── freetype
+│   │       └── libpng
+│   ├── freetype
+│   │   └── libpng
+│   ├── glib
+│   │   ├── pcre2
+│   │   └── gettext
+│   ├── libpng
+│   ├── libx11
+│   │   ├── libxcb
+│   │   │   ├── libxau
+│   │   │   │   └── xorgproto
+│   │   │   └── libxdmcp
+│   │   │       └── xorgproto
+│   │   └── xorgproto
+│   ├── libxcb
+│   │   ├── libxau
+│   │   │   └── xorgproto
+│   │   └── libxdmcp
+│   │       └── xorgproto
+│   ├── libxext
+│   │   ├── libx11
+│   │   │   ├── libxcb
+│   │   │   │   ├── libxau
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── libxdmcp
+│   │   │   │       └── xorgproto
+│   │   │   └── xorgproto
+│   │   └── xorgproto
+│   ├── libxrender
+│   │   ├── libx11
+│   │   │   ├── libxcb
+│   │   │   │   ├── libxau
+│   │   │   │   │   └── xorgproto
+│   │   │   │   └── libxdmcp
+│   │   │   │       └── xorgproto
+│   │   │   └── xorgproto
+│   │   └── xorgproto
+│   ├── lzo
+│   └── pixman
+├── icu4c
+├── leptonica
+│   ├── giflib
+│   ├── jpeg-turbo
+│   ├── libpng
+│   ├── libtiff
+│   │   ├── jpeg-turbo
+│   │   └── zstd
+│   │       ├── lz4
+│   │       └── xz
+│   ├── openjpeg
+│   │   ├── libpng
+│   │   ├── libtiff
+│   │   │   ├── jpeg-turbo
+│   │   │   └── zstd
+│   │   │       ├── lz4
+│   │   │       └── xz
+│   │   └── little-cms2
+│   │       ├── jpeg-turbo
+│   │       └── libtiff
+│   │           ├── jpeg-turbo
+│   │           └── zstd
+│   │               ├── lz4
+│   │               └── xz
+│   └── webp
+│       ├── giflib
+│       ├── jpeg-turbo
+│       ├── libpng
+│       └── libtiff
+│           ├── jpeg-turbo
+│           └── zstd
+│               ├── lz4
+│               └── xz
+├── libarchive
+│   ├── libb2
+│   ├── lz4
+│   ├── xz
+│   └── zstd
+│       ├── lz4
+│       └── xz
+└── pango
+    ├── cairo
+    │   ├── fontconfig
+    │   │   └── freetype
+    │   │       └── libpng
+    │   ├── freetype
+    │   │   └── libpng
+    │   ├── glib
+    │   │   ├── pcre2
+    │   │   └── gettext
+    │   ├── libpng
+    │   ├── libx11
+    │   │   ├── libxcb
+    │   │   │   ├── libxau
+    │   │   │   │   └── xorgproto
+    │   │   │   └── libxdmcp
+    │   │   │       └── xorgproto
+    │   │   └── xorgproto
+    │   ├── libxcb
+    │   │   ├── libxau
+    │   │   │   └── xorgproto
+    │   │   └── libxdmcp
+    │   │       └── xorgproto
+    │   ├── libxext
+    │   │   ├── libx11
+    │   │   │   ├── libxcb
+    │   │   │   │   ├── libxau
+    │   │   │   │   │   └── xorgproto
+    │   │   │   │   └── libxdmcp
+    │   │   │   │       └── xorgproto
+    │   │   │   └── xorgproto
+    │   │   └── xorgproto
+    │   ├── libxrender
+    │   │   ├── libx11
+    │   │   │   ├── libxcb
+    │   │   │   │   ├── libxau
+    │   │   │   │   │   └── xorgproto
+    │   │   │   │   └── libxdmcp
+    │   │   │   │       └── xorgproto
+    │   │   │   └── xorgproto
+    │   │   └── xorgproto
+    │   ├── lzo
+    │   └── pixman
+    ├── fontconfig
+    │   └── freetype
+    │       └── libpng
+    ├── freetype
+    │   └── libpng
+    ├── fribidi
+    ├── glib
+    │   ├── pcre2
+    │   └── gettext
+    └── harfbuzz
+        ├── cairo
+        │   ├── fontconfig
+        │   │   └── freetype
+        │   │       └── libpng
+        │   ├── freetype
+        │   │   └── libpng
+        │   ├── glib
+        │   │   ├── pcre2
+        │   │   └── gettext
+        │   ├── libpng
+        │   ├── libx11
+        │   │   ├── libxcb
+        │   │   │   ├── libxau
+        │   │   │   │   └── xorgproto
+        │   │   │   └── libxdmcp
+        │   │   │       └── xorgproto
+        │   │   └── xorgproto
+        │   ├── libxcb
+        │   │   ├── libxau
+        │   │   │   └── xorgproto
+        │   │   └── libxdmcp
+        │   │       └── xorgproto
+        │   ├── libxext
+        │   │   ├── libx11
+        │   │   │   ├── libxcb
+        │   │   │   │   ├── libxau
+        │   │   │   │   │   └── xorgproto
+        │   │   │   │   └── libxdmcp
+        │   │   │   │       └── xorgproto
+        │   │   │   └── xorgproto
+        │   │   └── xorgproto
+        │   ├── libxrender
+        │   │   ├── libx11
+        │   │   │   ├── libxcb
+        │   │   │   │   ├── libxau
+        │   │   │   │   │   └── xorgproto
+        │   │   │   │   └── libxdmcp
+        │   │   │   │       └── xorgproto
+        │   │   │   └── xorgproto
+        │   │   └── xorgproto
+        │   ├── lzo
+        │   └── pixman
+        ├── freetype
+        │   └── libpng
+        ├── glib
+        │   ├── pcre2
+        │   └── gettext
+        ├── graphite2
+        └── icu4c
+
+theora
+├── libogg
+└── libvorbis
+    └── libogg
+
+unbound
+├── libevent
+│   └── openssl@1.1
+│       └── ca-certificates
+├── libnghttp2
+└── openssl@1.1
+    └── ca-certificates
+
+util-macros
+
+webp
+├── giflib
+├── jpeg-turbo
+├── libpng
+└── libtiff
+    ├── jpeg-turbo
+    └── zstd
+        ├── lz4
+        └── xz
+
+x264
+
+x265
+
+xorgproto
+
+xtrans
+
+xvid
+
+xz
+
+zeromq
+└── libsodium
+
+zimg
+
+zstd
+├── lz4
+└── xz
+
