@@ -1,0 +1,62 @@
+-----------------------Current Progress-----------------------
+
+in this version we are trying  to take MPIrisTracker and modify it so it includes Jim's new graph - baby steps and piece meal.
+
+Currently, from graph outputting face_landmarks (face mesh points) output (at 30fps) and segmentation mask and pose landmarks output (also at 30fps, but SHOULD be at 5fps).
+
+Still todo: using graph outputs to generate RR (and HR, although current iOS implementation of averaging ROI values will apply perfectly here)
+
+
+-----------------------Ultimate goal-----------------------
+
+
+exposure, white balance, gain (ev)
+- optimize over center of frame where we assume face to be,
+- lock them
+- kick off graph
+- focus
+- make sure exposure time allows for 30fps - and then lock in at 30fps
+
+
+Graph flow:
+
+  Inputs:
+    - video stream
+    - side packets (although with new graph, I'm including them as constants into graph, so no need to supply them externally)
+
+
+  Outputs:
+    packet 1:
+    - time stamp of ~30fps
+    - face mesh points with 30fps
+
+    packet 2:
+    - segmentation mask ~5fps w/ timestamp
+
+    packet 3:
+    - pose landmarks ~5fps
+
+    packet 4:
+    - throttled input cpu ~30fps
+
+    packet 5:
+    - throttled input cpu 2 ~5fps
+
+
+Android (java -> kotlin) or iOS (objective c/swift)
+
+    HR (TODO - although in iOS it is mostly done):
+    - take throttled input cpu
+    - take face mesh points
+    - take time stamps of packet 1
+    - compute average ROI (using opencv)
+
+
+    RR (TODO):
+    - takes pose landmarks
+    - takes segmentation mask
+    - takes throtteld input cpu 2
+    - takes face mesh points
+
+    - using opencv to get points on body
+    - using opencv to track points
