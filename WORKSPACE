@@ -87,10 +87,23 @@ http_archive(
 )
 
 # iOS basic build deps.
+#http_archive(
+#    name = "build_bazel_rules_apple",
+#    sha256 = "3e2c7ae0ddd181c4053b6491dad1d01ae29011bc322ca87eea45957c76d3a0c3",
+#    url = "https://github.com/bazelbuild/rules_apple/releases/download/2.1.0/#rules_apple.2.1.0.tar.gz",
+#    patches = [
+#        # Bypass checking ios unit test runner when building MP ios applications.
+ #       "@//third_party:build_bazel_rules_apple_bypass_test_runner_check.diff"
+#    ],
+#    patch_args = [
+#        "-p1",
+#    ],
+#)
+
 http_archive(
     name = "build_bazel_rules_apple",
-    sha256 = "3e2c7ae0ddd181c4053b6491dad1d01ae29011bc322ca87eea45957c76d3a0c3",
-    url = "https://github.com/bazelbuild/rules_apple/releases/download/2.1.0/rules_apple.2.1.0.tar.gz",
+    sha256 = "90e3b5e8ff942be134e64a83499974203ea64797fd620eddeb71b3a8e1bff681",
+    url = "https://github.com/bazelbuild/rules_apple/releases/download/1.1.2/rules_apple.1.1.2.tar.gz",
     patches = [
         # Bypass checking ios unit test runner when building MP ios applications.
         "@//third_party:build_bazel_rules_apple_bypass_test_runner_check.diff"
