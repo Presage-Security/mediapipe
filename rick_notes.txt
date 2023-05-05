@@ -1,0 +1,24 @@
+IOS HELLO WORLD BUILD COMMAND: bazel build -c opt --apple_platform_type=ios --cpu=arm64 mediapipe/examples/ios/helloworld:HelloWorldApp --sandbox_debug --verbose_failures --objccopt="-Wundeclared-selector -Wdeprecated-declarations -v"
+
+
+
+ls -a /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/
+.			iPhoneSimulator.sdk
+..			iPhoneSimulator16.2.sdk
+
+
+
+xcode-select --version
+xcode-select version 2397.
+
+
+
+python --version
+Python 3.7.16
+
+
+cc --version
+Apple clang version 14.0.3 (clang-1403.0.22.14.1)
+Target: x86_64-apple-darwin22.4.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin

@@ -34,7 +34,7 @@ alias(
 ios_application(
     name = "HelloWorldApp",
     app_icons = ["//mediapipe/examples/ios/common:AppIcon"],
-    bundle_id = BUNDLE_ID_PREFIX + ".HelloWorld",
+    bundle_id = BUNDLE_ID_PREFIX,
     families = [
         "iphone",
         "ipad",
@@ -44,9 +44,10 @@ ios_application(
         "Info.plist",
     ],
     minimum_os_version = MIN_IOS_VERSION,
-    provisioning_profile = example_provisioning(),
     deps = [":HelloWorldAppLibrary"],
 )
+   # provisioning_profile = example_provisioning(),
+
 
 objc_library(
     name = "HelloWorldAppLibrary",

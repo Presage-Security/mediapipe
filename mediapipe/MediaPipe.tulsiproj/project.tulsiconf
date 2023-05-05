@@ -2,7 +2,10 @@
   "configDefaults" : {
     "optionSet" : {
       "CLANG_CXX_LANGUAGE_STANDARD" : {
-        "p" : "c++14"
+        "p" : "compiler-default"
+      },
+      "ProjectGenerationPlatformConfiguration" : {
+        "p" : "ios_arm64e"
       }
     }
   },

@@ -34,7 +34,7 @@ alias(
 ios_application(
     name = "ObjectDetectionGpuApp",
     app_icons = ["//mediapipe/examples/ios/common:AppIcon"],
-    bundle_id = BUNDLE_ID_PREFIX + ".ObjectDetectionGpu",
+    bundle_id = BUNDLE_ID_PREFIX,
     families = [
         "iphone",
         "ipad",
