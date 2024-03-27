@@ -1827,3 +1827,16 @@ cc_library(
         ":memory_manager",
     ],
 )
+
+# region ===== PRESAGE: collect framework headers ======================================================================
+
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["*.h"]),
+    prefix = "mediapipe/framework",
+    visibility = ["//visibility:public"],
+)
+
+# endregion ============================================================================================================

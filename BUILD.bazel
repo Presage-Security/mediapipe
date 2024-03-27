@@ -11,6 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+load("@rules_pkg//pkg:zip.bzl", "pkg_zip")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_filegroup", "pkg_files")
 
 licenses(["notice"])
 
@@ -20,3 +22,29 @@ exports_files([
     "package.json",
     "yarn.lock",
 ])
+
+cc_shared_library(
+    name = "mediapipe",
+    deps = [
+        "//mediapipe/framework:calculator_framework",
+    ],
+)
+
+pkg_filegroup(
+    name = "mediapipe_headers",
+    srcs = [
+        "//mediapipe/framework:headers",
+        "//mediapipe/framework/formats:headers",
+        "//mediapipe/framework/port:headers",
+    ],
+)
+
+pkg_zip(
+    name = "mediapipe_package",
+    srcs = [
+        "LICENSE",
+        ":mediapipe",
+        ":mediapipe_headers",
+    ],
+    out = "mediapipe.zip",
+)

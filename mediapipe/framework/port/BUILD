@@ -479,3 +479,16 @@ cc_library(
     hdrs = ["requires.h"],
     deps = ["//mediapipe/framework/deps:requires"],
 )
+
+# region ===== PRESAGE: collect framework/port headers =================================================================
+
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]),
+    prefix = "mediapipe/framework/port",
+    visibility = ["//visibility:public"],
+)
+
+# endregion ============================================================================================================

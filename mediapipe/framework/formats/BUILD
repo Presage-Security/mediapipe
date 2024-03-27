@@ -593,3 +593,15 @@ mediapipe_register_type(
     ],
     deps = [":body_rig_cc_proto"],
 )
+# region ===== PRESAGE: collect framework/formats headers =================================================================
+
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]),
+    prefix = "mediapipe/framework/formats",
+    visibility = ["//visibility:public"],
+)
+
+# endregion ============================================================================================================
