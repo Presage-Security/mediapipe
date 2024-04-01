@@ -877,9 +877,9 @@ cc_library(
         "//mediapipe/framework/formats:image",
         "//mediapipe/framework/formats:image_frame",
         "//mediapipe/framework/formats:yuv_image",
-        "//third_party/libyuv",
         "@com_google_absl//absl/status",
         "@com_google_absl//absl/strings:str_format",
+        "@libyuv",
     ],
     alwayslink = 1,
 )
