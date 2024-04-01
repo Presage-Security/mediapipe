@@ -23,19 +23,25 @@ exports_files([
     "yarn.lock",
 ])
 
-cc_shared_library(
-    name = "mediapipe",
-    deps = [
-        "//mediapipe/framework:calculator_framework",
-    ],
-)
-
 pkg_filegroup(
     name = "mediapipe_headers",
     srcs = [
+        "//mediapipe/calculators/core:headers",
         "//mediapipe/framework:headers",
         "//mediapipe/framework/formats:headers",
         "//mediapipe/framework/port:headers",
+        "//mediapipe/framework/tool:headers",
+        "//mediapipe/gpu:headers",
+    ],
+    prefix = "include",
+)
+
+filegroup(
+    name = "mediapipe_libraries",
+    srcs = [
+        "//mediapipe/calculators/core:mediapipe_calculators_core",
+        "//mediapipe/framework:mediapipe_calculator_framework",
+        "//mediapipe/gpu:mediapipe_gpu",
     ],
 )
 
@@ -43,8 +49,8 @@ pkg_zip(
     name = "mediapipe_package",
     srcs = [
         "LICENSE",
-        ":mediapipe",
         ":mediapipe_headers",
+        ":mediapipe_libraries",
     ],
     out = "mediapipe.zip",
 )

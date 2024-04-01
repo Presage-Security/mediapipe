@@ -1284,3 +1284,31 @@ mediapipe_cc_test(
         "@com_google_absl//absl/log:absl_check",
     ],
 )
+# region ===== PRESAGE =================================================================================================
+
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+load("//mediapipe/framework/tool:mediapipe_transitive_library.bzl", "mediapipe_cc_shared_library")
+
+mediapipe_cc_shared_library(
+    name = "mediapipe_gpu",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":gl_calculator_helper",
+        ":gl_context",
+        ":gl_scaler_calculator",
+        ":gl_simple_calculator",
+        ":shader_util",
+    ],
+)
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]) + [
+        ":mediapipe_gpu_cc_protos",
+        ":mediapipe_gpu_cc_protos.h",
+    ],
+    prefix = "mediapipe/gpu",
+    visibility = ["//visibility:public"],
+)
+
+# endregion ============================================================================================================

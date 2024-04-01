@@ -1828,13 +1828,27 @@ cc_library(
     ],
 )
 
-# region ===== PRESAGE: collect framework headers ======================================================================
+# region ===== PRESAGE =================================================================================================
 
 load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+load("//mediapipe/framework/tool:mediapipe_transitive_library.bzl", "mediapipe_cc_shared_library")
+
+mediapipe_cc_shared_library(
+    name = "mediapipe_calculator_framework",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework/tool:text_to_binary_graph",
+        "//third_party/abseil:abseil_flags",
+    ],
+)
 
 pkg_files(
     name = "headers",
-    srcs = glob(["*.h"]),
+    srcs = glob(["*.h"]) + [
+        ":mediapipe_calculator_framework_cc_protos",
+        ":mediapipe_calculator_framework_cc_protos.h",
+    ],
     prefix = "mediapipe/framework",
     visibility = ["//visibility:public"],
 )
