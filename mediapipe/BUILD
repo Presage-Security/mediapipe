@@ -196,6 +196,31 @@ config_setting_and_platform(
     visibility = ["//visibility:public"],
 )
 
+# Emscripten.
+config_setting(
+    name = "emscripten",
+    values = {"crosstool_top": "@emsdk//emscripten_toolchain:everything"},
+)
+
+# Emscripten + WASM.
+config_setting(
+    name = "emscripten_wasm",
+    values = {
+        "crosstool_top": "@emsdk//emscripten_toolchain:everything",
+        "cpu": "wasm",
+    },
+)
+
+# Emscripten + WASM w/ SIMD support.
+config_setting(
+    name = "emscripten_wasmsimd",
+    values = {
+        "crosstool_top": "@emsdk//emscripten_toolchain:everything",
+        "cpu": "wasm",
+        "copt": "-msimd128",
+    },
+)
+
 exports_files(
     ["provisioning_profile.mobileprovision"],
     visibility = ["//visibility:public"],

@@ -16,9 +16,13 @@ http_archive(
         "https://github.com/bazelbuild/bazel-skylib/releases/download/1.3.0/bazel-skylib-1.3.0.tar.gz",
     ],
 )
+
 load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
+
 bazel_skylib_workspace()
+
 load("@bazel_skylib//lib:versions.bzl", "versions")
+
 versions.check(minimum_bazel_version = "3.7.2")
 
 # ABSL on 2023-10-18
@@ -38,7 +42,7 @@ http_archive(
 http_archive(
     name = "rules_cc",
     strip_prefix = "rules_cc-2f8c04c04462ab83c545ab14c0da68c3b4c96191",
-# The commit can be updated if the build passes. Last updated 6/23/22.
+    # The commit can be updated if the build passes. Last updated 6/23/22.
     urls = ["https://github.com/bazelbuild/rules_cc/archive/2f8c04c04462ab83c545ab14c0da68c3b4c96191.zip"],
 )
 
@@ -55,15 +59,15 @@ rules_foreign_cc_dependencies()
 
 http_archive(
     name = "com_google_protobuf",
-    sha256 = "87407cd28e7a9c95d9f61a098a53cf031109d451a7763e7dd1253abf8b4df422",
-    strip_prefix = "protobuf-3.19.1",
-    urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.19.1.tar.gz"],
-    patches = [
-        "@//third_party:com_google_protobuf_fixes.diff"
-    ],
     patch_args = [
         "-p1",
     ],
+    patches = [
+        "@//third_party:com_google_protobuf_fixes.diff",
+    ],
+    sha256 = "87407cd28e7a9c95d9f61a098a53cf031109d451a7763e7dd1253abf8b4df422",
+    strip_prefix = "protobuf-3.19.1",
+    urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.19.1.tar.gz"],
 )
 
 http_archive(
@@ -96,15 +100,15 @@ http_archive(
 http_archive(
     name = "zlib",
     build_file = "@//third_party:zlib.BUILD",
-    sha256 = "b3a24de97a8fdbc835b9833169501030b8977031bcb54b3b3ac13740f846ab30",
-    strip_prefix = "zlib-1.2.13",
-    url = "http://zlib.net/fossils/zlib-1.2.13.tar.gz",
-    patches = [
-        "@//third_party:zlib.diff",
-    ],
     patch_args = [
         "-p1",
     ],
+    patches = [
+        "@//third_party:zlib.diff",
+    ],
+    sha256 = "b3a24de97a8fdbc835b9833169501030b8977031bcb54b3b3ac13740f846ab30",
+    strip_prefix = "zlib-1.2.13",
+    url = "http://zlib.net/fossils/zlib-1.2.13.tar.gz",
 )
 
 # iOS basic build deps.
@@ -125,24 +129,28 @@ load(
     "@build_bazel_rules_apple//apple:repositories.bzl",
     "apple_rules_dependencies",
 )
+
 apple_rules_dependencies()
 
 load(
     "@build_bazel_rules_swift//swift:repositories.bzl",
     "swift_rules_dependencies",
 )
+
 swift_rules_dependencies()
 
 load(
     "@build_bazel_rules_swift//swift:extras.bzl",
     "swift_rules_extra_dependencies",
 )
+
 swift_rules_extra_dependencies()
 
 load(
     "@build_bazel_apple_support//lib:repositories.bzl",
     "apple_support_dependencies",
 )
+
 apple_support_dependencies()
 
 # This is used to select all contents of the archives for CMake-based packages to give CMake access to them.
@@ -183,6 +191,7 @@ http_archive(
         "https://github.com/google/glog/archive/v0.6.0.tar.gz",
     ],
 )
+
 http_archive(
     name = "com_github_glog_glog_no_gflags",
     strip_prefix = "glog-0.6.0",
@@ -615,6 +624,28 @@ external_files()
 load("@//third_party:wasm_files.bzl", "wasm_files")
 wasm_files()
 
+#region ------------------------- WASM ---------------------------------------------------------------------------------
+http_archive(
+    name = "emsdk",
+    sha256 = "6cb6fd281081f309f82a2769fa06633e25fd851a8539462676bf021c78a5ba19",
+    strip_prefix = "emsdk-3.1.26//bazel",
+    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.26.tar.gz",
+)
+
+load("@emsdk//:deps.bzl", emsdk_deps = "deps")
+
+emsdk_deps()
+
+load("@emsdk//:emscripten_deps.bzl", emsdk_emscripten_deps = "emscripten_deps")
+
+emsdk_emscripten_deps(emscripten_version = "3.1.26")
+
+# Use for newer Emscripten versions:
+load("@emsdk//:toolchains.bzl", "register_emscripten_toolchains")
+
+register_emscripten_toolchains()
+
+#endregion -------------------------------------------------------------------------------------------------------------
 # Halide
 
 new_local_repository(
