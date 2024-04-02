@@ -28,15 +28,15 @@ versions.check(minimum_bazel_version = "3.7.2")
 # ABSL on 2023-10-18
 http_archive(
     name = "com_google_absl",
-    urls = ["https://github.com/abseil/abseil-cpp/archive//9687a8ea750bfcddf790372093245a1d041b21a3.tar.gz"],
-    patches = [
-        "@//third_party:com_google_absl_windows_patch.diff"
-    ],
     patch_args = [
         "-p1",
     ],
-    strip_prefix = "abseil-cpp-9687a8ea750bfcddf790372093245a1d041b21a3",
+    patches = [
+        "@//third_party:com_google_absl_windows_patch.diff",
+    ],
     sha256 = "f841f78243f179326f2a80b719f2887c38fe226d288ecdc46e2aa091e6aa43bc",
+    strip_prefix = "abseil-cpp-9687a8ea750bfcddf790372093245a1d041b21a3",
+    urls = ["https://github.com/abseil/abseil-cpp/archive//9687a8ea750bfcddf790372093245a1d041b21a3.tar.gz"],
 )
 
 http_archive(
@@ -75,7 +75,7 @@ http_archive(
     sha256 = "a615cac78fad03952cc3e1fd231ce789a8df6e81a5957b64350cb8200364b385",
     strip_prefix = "cpuinfo-d6860c477c99f1fce9e28eb206891af3c0e1a1d7",
     urls = [
-        "https://github.com/pytorch/cpuinfo/archive/d6860c477c99f1fce9e28eb206891af3c0e1a1d7.zip"
+        "https://github.com/pytorch/cpuinfo/archive/d6860c477c99f1fce9e28eb206891af3c0e1a1d7.zip",
     ],
 )
 
@@ -114,15 +114,15 @@ http_archive(
 # iOS basic build deps.
 http_archive(
     name = "build_bazel_rules_apple",
-    sha256 = "3e2c7ae0ddd181c4053b6491dad1d01ae29011bc322ca87eea45957c76d3a0c3",
-    url = "https://github.com/bazelbuild/rules_apple/releases/download/2.1.0/rules_apple.2.1.0.tar.gz",
-    patches = [
-        # Bypass checking ios unit test runner when building MP ios applications.
-        "@//third_party:build_bazel_rules_apple_bypass_test_runner_check.diff"
-    ],
     patch_args = [
         "-p1",
     ],
+    patches = [
+        # Bypass checking ios unit test runner when building MP ios applications.
+        "@//third_party:build_bazel_rules_apple_bypass_test_runner_check.diff",
+    ],
+    sha256 = "3e2c7ae0ddd181c4053b6491dad1d01ae29011bc322ca87eea45957c76d3a0c3",
+    url = "https://github.com/bazelbuild/rules_apple/releases/download/2.1.0/rules_apple.2.1.0.tar.gz",
 )
 
 load(
@@ -160,33 +160,33 @@ all_content = """filegroup(name = "all", srcs = glob(["**"]), visibility = ["//v
 # Last updated 2021-07-02.
 http_archive(
     name = "com_google_googletest",
-    urls = ["https://github.com/google/googletest/archive/4ec4cd23f486bf70efcc5d2caa40f24368f752e3.zip"],
-    strip_prefix = "googletest-4ec4cd23f486bf70efcc5d2caa40f24368f752e3",
     sha256 = "de682ea824bfffba05b4e33b67431c247397d6175962534305136aa06f92e049",
+    strip_prefix = "googletest-4ec4cd23f486bf70efcc5d2caa40f24368f752e3",
+    urls = ["https://github.com/google/googletest/archive/4ec4cd23f486bf70efcc5d2caa40f24368f752e3.zip"],
 )
 
 # Google Benchmark library v1.6.1 released on 2022-01-10.
 http_archive(
     name = "com_google_benchmark",
-    urls = ["https://github.com/google/benchmark/archive/refs/tags/v1.6.1.tar.gz"],
-    strip_prefix = "benchmark-1.6.1",
-    sha256 = "6132883bc8c9b0df5375b16ab520fac1a85dc9e4cf5be59480448ece74b278d4",
     build_file = "@//third_party:benchmark.BUILD",
+    sha256 = "6132883bc8c9b0df5375b16ab520fac1a85dc9e4cf5be59480448ece74b278d4",
+    strip_prefix = "benchmark-1.6.1",
+    urls = ["https://github.com/google/benchmark/archive/refs/tags/v1.6.1.tar.gz"],
 )
 
 # gflags needed by glog
 http_archive(
     name = "com_github_gflags_gflags",
-    strip_prefix = "gflags-2.2.2",
     sha256 = "19713a36c9f32b33df59d1c79b4958434cb005b5b47dc5400a7a4b078111d9b5",
+    strip_prefix = "gflags-2.2.2",
     url = "https://github.com/gflags/gflags/archive/v2.2.2.zip",
 )
 
 # 2020-08-21
 http_archive(
     name = "com_github_glog_glog",
-    strip_prefix = "glog-0.6.0",
     sha256 = "8a83bf982f37bb70825df71a9709fa90ea9f4447fb3c099e1d720a439d88bad6",
+    strip_prefix = "glog-0.6.0",
     urls = [
         "https://github.com/google/glog/archive/v0.6.0.tar.gz",
     ],
@@ -194,17 +194,17 @@ http_archive(
 
 http_archive(
     name = "com_github_glog_glog_no_gflags",
-    strip_prefix = "glog-0.6.0",
-    sha256 = "8a83bf982f37bb70825df71a9709fa90ea9f4447fb3c099e1d720a439d88bad6",
     build_file = "@//third_party:glog_no_gflags.BUILD",
-    urls = [
-        "https://github.com/google/glog/archive/v0.6.0.tar.gz",
+    patch_args = [
+        "-p1",
     ],
     patches = [
         "@//third_party:com_github_glog_glog.diff",
     ],
-    patch_args = [
-        "-p1",
+    sha256 = "8a83bf982f37bb70825df71a9709fa90ea9f4447fb3c099e1d720a439d88bad6",
+    strip_prefix = "glog-0.6.0",
+    urls = [
+        "https://github.com/google/glog/archive/v0.6.0.tar.gz",
     ],
 )
 
@@ -213,34 +213,34 @@ http_archive(
 # crashes on some Android devices.
 http_archive(
     name = "com_github_glog_glog_windows",
-    strip_prefix = "glog-3a0d4d22c5ae0b9a2216988411cfa6bf860cc372",
-    sha256 = "170d08f80210b82d95563f4723a15095eff1aad1863000e8eeb569c96a98fefb",
-    urls = [
-      "https://github.com/google/glog/archive/3a0d4d22c5ae0b9a2216988411cfa6bf860cc372.zip",
+    patch_args = [
+        "-p1",
     ],
     patches = [
         "@//third_party:com_github_glog_glog.diff",
         "@//third_party:com_github_glog_glog_windows_patch.diff",
     ],
-    patch_args = [
-        "-p1",
+    sha256 = "170d08f80210b82d95563f4723a15095eff1aad1863000e8eeb569c96a98fefb",
+    strip_prefix = "glog-3a0d4d22c5ae0b9a2216988411cfa6bf860cc372",
+    urls = [
+        "https://github.com/google/glog/archive/3a0d4d22c5ae0b9a2216988411cfa6bf860cc372.zip",
     ],
 )
 
 # easyexif
 http_archive(
     name = "easyexif",
-    url = "https://github.com/mayanklahiri/easyexif/archive/master.zip",
-    strip_prefix = "easyexif-master",
     build_file = "@//third_party:easyexif.BUILD",
+    strip_prefix = "easyexif-master",
+    url = "https://github.com/mayanklahiri/easyexif/archive/master.zip",
 )
 
 # libyuv
 http_archive(
     name = "libyuv",
+    build_file = "@//third_party:libyuv.BUILD",
     # Error: operand type mismatch for `vbroadcastss' caused by commit 8a13626e42f7fdcf3a6acbb0316760ee54cda7d8.
     urls = ["https://chromium.googlesource.com/libyuv/libyuv/+archive/2525698acba9bf9b701ba6b4d9584291a1f62257.tar.gz"],
-    build_file = "@//third_party:libyuv.BUILD",
 )
 
 # Note: protobuf-javalite is no longer released as a separate download, it's included in the main Java download.
@@ -253,37 +253,38 @@ http_archive(
 )
 
 load("@//third_party/flatbuffers:workspace.bzl", flatbuffers = "repo")
+
 flatbuffers()
 
 http_archive(
     name = "com_google_audio_tools",
-    strip_prefix = "multichannel-audio-tools-1f6b1319f13282eda6ff1317be13de67f4723860",
-    urls = ["https://github.com/google/multichannel-audio-tools/archive/1f6b1319f13282eda6ff1317be13de67f4723860.zip"],
-    sha256 = "fe346e1aee4f5069c4cbccb88706a9a2b2b4cf98aeb91ec1319be77e07dd7435",
-    repo_mapping = {"@com_github_glog_glog" : "@com_github_glog_glog_no_gflags"},
+    patch_args = ["-p1"],
     # TODO: Fix this in AudioTools directly
     patches = ["@//third_party:com_google_audio_tools_fixes.diff"],
-    patch_args = ["-p1"]
+    repo_mapping = {"@com_github_glog_glog": "@com_github_glog_glog_no_gflags"},
+    sha256 = "fe346e1aee4f5069c4cbccb88706a9a2b2b4cf98aeb91ec1319be77e07dd7435",
+    strip_prefix = "multichannel-audio-tools-1f6b1319f13282eda6ff1317be13de67f4723860",
+    urls = ["https://github.com/google/multichannel-audio-tools/archive/1f6b1319f13282eda6ff1317be13de67f4723860.zip"],
 )
 
 http_archive(
     name = "pffft",
+    build_file = "@//third_party:pffft.BUILD",
     strip_prefix = "jpommier-pffft-7c3b5a7dc510",
     urls = ["https://bitbucket.org/jpommier/pffft/get/7c3b5a7dc510.zip"],
-    build_file = "@//third_party:pffft.BUILD",
 )
 
 # sentencepiece
 http_archive(
     name = "com_google_sentencepiece",
-    strip_prefix = "sentencepiece-0.1.96",
-    sha256 = "8409b0126ebd62b256c685d5757150cf7fcb2b92a2f2b98efb3f38fc36719754",
-    urls = [
-        "https://github.com/google/sentencepiece/archive/refs/tags/v0.1.96.zip"
-    ],
     build_file = "@//third_party:sentencepiece.BUILD",
-    patches = ["@//third_party:com_google_sentencepiece.diff"],
     patch_args = ["-p1"],
+    patches = ["@//third_party:com_google_sentencepiece.diff"],
+    sha256 = "8409b0126ebd62b256c685d5757150cf7fcb2b92a2f2b98efb3f38fc36719754",
+    strip_prefix = "sentencepiece-0.1.96",
+    urls = [
+        "https://github.com/google/sentencepiece/archive/refs/tags/v0.1.96.zip",
+    ],
 )
 
 http_archive(
@@ -298,17 +299,17 @@ http_archive(
 
 http_archive(
     name = "org_tensorflow_text",
+    patch_args = ["-p1"],
+    patches = [
+        "@//third_party:tensorflow_text_remove_tf_deps.diff",
+        "@//third_party:tensorflow_text_a0f49e63.diff",
+    ],
+    repo_mapping = {"@com_google_re2": "@com_googlesource_code_re2"},
     sha256 = "f64647276f7288d1b1fe4c89581d51404d0ce4ae97f2bcc4c19bd667549adca8",
     strip_prefix = "text-2.2.0",
     urls = [
         "https://github.com/tensorflow/text/archive/v2.2.0.zip",
     ],
-    patches = [
-        "@//third_party:tensorflow_text_remove_tf_deps.diff",
-        "@//third_party:tensorflow_text_a0f49e63.diff",
-    ],
-    patch_args = ["-p1"],
-    repo_mapping = {"@com_google_re2": "@com_googlesource_code_re2"},
 )
 
 http_archive(
@@ -323,20 +324,20 @@ http_archive(
 # 2020-07-09
 http_archive(
     name = "pybind11_bazel",
+    sha256 = "75922da3a1bdb417d820398eb03d4e9bd067c4905a4246d35a44c01d62154d91",
     strip_prefix = "pybind11_bazel-203508e14aab7309892a1c5f7dd05debda22d9a5",
     urls = ["https://github.com/pybind/pybind11_bazel/archive/203508e14aab7309892a1c5f7dd05debda22d9a5.zip"],
-    sha256 = "75922da3a1bdb417d820398eb03d4e9bd067c4905a4246d35a44c01d62154d91",
 )
 
 # 2022-10-20
 http_archive(
     name = "pybind11",
+    build_file = "@pybind11_bazel//:pybind11.BUILD",
+    sha256 = "fcf94065efcfd0a7a828bacf118fa11c43f6390d0c805e3e6342ac119f2e9976",
+    strip_prefix = "pybind11-2.10.1",
     urls = [
         "https://github.com/pybind/pybind11/archive/v2.10.1.zip",
     ],
-    sha256 = "fcf94065efcfd0a7a828bacf118fa11c43f6390d0c805e3e6342ac119f2e9976",
-    strip_prefix = "pybind11-2.10.1",
-    build_file = "@pybind11_bazel//:pybind11.BUILD",
 )
 
 http_archive(
@@ -351,15 +352,15 @@ http_archive(
 # Point to the commit that deprecates the usage of Eigen::MappedSparseMatrix.
 http_archive(
     name = "ceres_solver",
-    url = "https://github.com/ceres-solver/ceres-solver/archive/123fba61cf2611a3c8bddc9d91416db26b10b558.zip",
-    patches = [
-        "@//third_party:ceres_solver_compatibility_fixes.diff"
-    ],
     patch_args = [
         "-p1",
     ],
+    patches = [
+        "@//third_party:ceres_solver_compatibility_fixes.diff",
+    ],
+    sha256 = "8b7b16ceb363420e0fd499576daf73fa338adb0b1449f58bea7862766baa1ac7",
     strip_prefix = "ceres-solver-123fba61cf2611a3c8bddc9d91416db26b10b558",
-    sha256 = "8b7b16ceb363420e0fd499576daf73fa338adb0b1449f58bea7862766baa1ac7"
+    url = "https://github.com/ceres-solver/ceres-solver/archive/123fba61cf2611a3c8bddc9d91416db26b10b558.zip",
 )
 
 http_archive(
@@ -378,7 +379,7 @@ new_local_repository(
 new_local_repository(
     name = "linux_ffmpeg",
     build_file = "@//third_party:ffmpeg_linux.BUILD",
-    path = "/usr"
+    path = "/usr",
 )
 
 new_local_repository(
@@ -416,8 +417,8 @@ http_archive(
 # '-DBUILD_PROTOBUF=OFF -DBUILD_opencv_dnn=OFF'.
 http_archive(
     name = "ios_opencv",
-    sha256 = "7dd536d06f59e6e1156b546bd581523d8df92ce83440002885ec5abc06558de2",
     build_file = "@//third_party:opencv_ios.BUILD",
+    sha256 = "7dd536d06f59e6e1156b546bd581523d8df92ce83440002885ec5abc06558de2",
     type = "zip",
     url = "https://github.com/opencv/opencv/releases/download/3.2.0/opencv-3.2.0-ios-framework.zip",
 )
@@ -432,45 +433,46 @@ http_archive(
 # Task libraries are built.
 http_archive(
     name = "ios_opencv_source",
-    sha256 = "a61e7a4618d353140c857f25843f39b2abe5f451b018aab1604ef0bc34cd23d5",
     build_file = "@//third_party:opencv_ios_source.BUILD",
+    sha256 = "a61e7a4618d353140c857f25843f39b2abe5f451b018aab1604ef0bc34cd23d5",
     type = "zip",
     url = "https://github.com/opencv/opencv/archive/refs/tags/4.5.3.zip",
 )
 
 http_archive(
     name = "stblib",
-    strip_prefix = "stb-b42009b3b9d4ca35bc703f5310eedc74f584be58",
-    sha256 = "13a99ad430e930907f5611325ec384168a958bf7610e63e60e2fd8e7b7379610",
-    urls = ["https://github.com/nothings/stb/archive/b42009b3b9d4ca35bc703f5310eedc74f584be58.tar.gz"],
     build_file = "@//third_party:stblib.BUILD",
-    patches = [
-        "@//third_party:stb_image_impl.diff"
-    ],
     patch_args = [
         "-p1",
     ],
+    patches = [
+        "@//third_party:stb_image_impl.diff",
+    ],
+    sha256 = "13a99ad430e930907f5611325ec384168a958bf7610e63e60e2fd8e7b7379610",
+    strip_prefix = "stb-b42009b3b9d4ca35bc703f5310eedc74f584be58",
+    urls = ["https://github.com/nothings/stb/archive/b42009b3b9d4ca35bc703f5310eedc74f584be58.tar.gz"],
 )
 
 # More iOS deps.
 
 http_archive(
     name = "google_toolbox_for_mac",
-    url = "https://github.com/google/google-toolbox-for-mac/archive/v2.2.1.zip",
+    build_file = "@//third_party:google_toolbox_for_mac.BUILD",
     sha256 = "e3ac053813c989a88703556df4dc4466e424e30d32108433ed6beaec76ba4fdc",
     strip_prefix = "google-toolbox-for-mac-2.2.1",
-    build_file = "@//third_party:google_toolbox_for_mac.BUILD",
+    url = "https://github.com/google/google-toolbox-for-mac/archive/v2.2.1.zip",
 )
 
 # Maven dependencies.
 
 RULES_JVM_EXTERNAL_TAG = "4.0"
+
 RULES_JVM_EXTERNAL_SHA = "31701ad93dbfe544d597dbe62c9a1fdd76d81d8a9150c2bf1ecf928ecdf97169"
 
 http_archive(
     name = "rules_jvm_external",
-    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
     sha256 = RULES_JVM_EXTERNAL_SHA,
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
     url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
 )
 
@@ -509,13 +511,13 @@ maven_install(
         "junit:junit:4.12",
         "org.hamcrest:hamcrest-library:1.3",
     ],
+    fetch_sources = True,
     repositories = [
         "https://maven.google.com",
         "https://dl.google.com/dl/android/maven2",
         "https://repo1.maven.org/maven2",
         "https://jcenter.bintray.com",
     ],
-    fetch_sources = True,
     version_conflict_policy = "pinned",
 )
 
@@ -533,12 +535,14 @@ http_archive(
 # TensorFlow repo should always go after the other external dependencies.
 # TF on 2024-02-27.
 _TENSORFLOW_GIT_COMMIT = "4bdc149ac84738b06a592473595c1c9c2bd2a9a3"
+
 # curl -L https://github.com/tensorflow/tensorflow/archive/<TENSORFLOW_GIT_COMMIT>.tar.gz | shasum -a 256
 _TENSORFLOW_SHA256 = "1bbdd3dd266de720e08b7093d2441a9bca183c32d7c8e4c84e05d17e770974bf"
+
 http_archive(
     name = "org_tensorflow",
-    urls = [
-      "https://github.com/tensorflow/tensorflow/archive/%s.tar.gz" % _TENSORFLOW_GIT_COMMIT,
+    patch_args = [
+        "-p1",
     ],
     patches = [
         "@//third_party:org_tensorflow_system_python.diff",
@@ -548,33 +552,38 @@ http_archive(
         # See https://github.com/bazelbuild/bazel/issues/19912
         "@//third_party:org_tensorflow_objc_build_fixes.diff",
     ],
-    patch_args = [
-        "-p1",
-    ],
-    strip_prefix = "tensorflow-%s" % _TENSORFLOW_GIT_COMMIT,
     sha256 = _TENSORFLOW_SHA256,
+    strip_prefix = "tensorflow-%s" % _TENSORFLOW_GIT_COMMIT,
+    urls = [
+        "https://github.com/tensorflow/tensorflow/archive/%s.tar.gz" % _TENSORFLOW_GIT_COMMIT,
+    ],
 )
 
 load("@org_tensorflow//tensorflow:workspace3.bzl", "tf_workspace3")
+
 tf_workspace3()
+
 load("@org_tensorflow//tensorflow:workspace2.bzl", "tf_workspace2")
+
 tf_workspace2()
 
 # Edge TPU
 http_archive(
-  name = "libedgetpu",
-  sha256 = "14d5527a943a25bc648c28a9961f954f70ba4d79c0a9ca5ae226e1831d72fe80",
-  strip_prefix = "libedgetpu-3164995622300286ef2bb14d7fdc2792dae045b7",
-  urls = [
-    "https://github.com/google-coral/libedgetpu/archive/3164995622300286ef2bb14d7fdc2792dae045b7.tar.gz"
-  ],
+    name = "libedgetpu",
+    sha256 = "14d5527a943a25bc648c28a9961f954f70ba4d79c0a9ca5ae226e1831d72fe80",
+    strip_prefix = "libedgetpu-3164995622300286ef2bb14d7fdc2792dae045b7",
+    urls = [
+        "https://github.com/google-coral/libedgetpu/archive/3164995622300286ef2bb14d7fdc2792dae045b7.tar.gz",
+    ],
 )
+
 load("@libedgetpu//:workspace.bzl", "libedgetpu_dependencies")
+
 libedgetpu_dependencies()
 
 load("@coral_crosstool//:configure.bzl", "cc_crosstool")
-cc_crosstool(name = "crosstool")
 
+cc_crosstool(name = "crosstool")
 
 # Node dependencies
 http_archive(
@@ -584,11 +593,14 @@ http_archive(
 )
 
 load("@build_bazel_rules_nodejs//:repositories.bzl", "build_bazel_rules_nodejs_dependencies")
+
 build_bazel_rules_nodejs_dependencies()
 
 # fetches nodejs, npm, and yarn
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
+
 node_repositories()
+
 yarn_install(
     name = "npm",
     package_json = "@//:package.json",
@@ -610,18 +622,24 @@ http_archive(
     urls = ["https://github.com/protocolbuffers/protobuf-javascript/archive/refs/tags/v3.21.2.tar.gz"],
 )
 
-load("@rules_proto_grpc//:repositories.bzl", "rules_proto_grpc_toolchains", "rules_proto_grpc_repos")
+load("@rules_proto_grpc//:repositories.bzl", "rules_proto_grpc_repos", "rules_proto_grpc_toolchains")
+
 rules_proto_grpc_toolchains()
+
 rules_proto_grpc_repos()
 
 load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+
 rules_proto_dependencies()
+
 rules_proto_toolchains()
 
 load("@//third_party:external_files.bzl", "external_files")
+
 external_files()
 
 load("@//third_party:wasm_files.bzl", "wasm_files")
+
 wasm_files()
 
 #region ------------------------- WASM ---------------------------------------------------------------------------------
@@ -651,39 +669,39 @@ register_emscripten_toolchains()
 new_local_repository(
     name = "halide",
     build_file = "@//third_party/halide:BUILD.bazel",
-    path = "third_party/halide"
+    path = "third_party/halide",
 )
 
 http_archive(
     name = "linux_halide",
+    build_file = "@//third_party:halide.BUILD",
     sha256 = "d290fadf3f358c94aacf43c883de6468bb98883e26116920afd491ec0e440cd2",
     strip_prefix = "Halide-15.0.1-x86-64-linux",
     urls = ["https://github.com/halide/Halide/releases/download/v15.0.1/Halide-15.0.1-x86-64-linux-4c63f1befa1063184c5982b11b6a2cc17d4e5815.tar.gz"],
-    build_file = "@//third_party:halide.BUILD",
 )
 
 http_archive(
     name = "macos_x86_64_halide",
+    build_file = "@//third_party:halide.BUILD",
     sha256 = "48ff073ac1aee5c4aca941a4f043cac64b38ba236cdca12567e09d803594a61c",
     strip_prefix = "Halide-15.0.1-x86-64-osx",
     urls = ["https://github.com/halide/Halide/releases/download/v15.0.1/Halide-15.0.1-x86-64-osx-4c63f1befa1063184c5982b11b6a2cc17d4e5815.tar.gz"],
-    build_file = "@//third_party:halide.BUILD",
 )
 
 http_archive(
     name = "macos_arm_64_halide",
+    build_file = "@//third_party:halide.BUILD",
     sha256 = "db5d20d75fa7463490fcbc79c89f0abec9c23991f787c8e3e831fff411d5395c",
     strip_prefix = "Halide-15.0.1-arm-64-osx",
     urls = ["https://github.com/halide/Halide/releases/download/v15.0.1/Halide-15.0.1-arm-64-osx-4c63f1befa1063184c5982b11b6a2cc17d4e5815.tar.gz"],
-    build_file = "@//third_party:halide.BUILD",
 )
 
 http_archive(
     name = "windows_halide",
+    build_file = "@//third_party:halide.BUILD",
     sha256 = "61fd049bd75ee918ac6c30d0693aac6048f63f8d1fc4db31001573e58eae8dae",
     strip_prefix = "Halide-15.0.1-x86-64-windows",
     urls = ["https://github.com/halide/Halide/releases/download/v15.0.1/Halide-15.0.1-x86-64-windows-4c63f1befa1063184c5982b11b6a2cc17d4e5815.zip"],
-    build_file = "@//third_party:halide.BUILD",
 )
 
 http_archive(
@@ -695,8 +713,7 @@ http_archive(
 
 http_archive(
     name = "com_github_nlohmann_json",
+    build_file = "@//third_party:nlohmann.BUILD",
     sha256 = "6bea5877b1541d353bd77bdfbdb2696333ae5ed8f9e8cc22df657192218cad91",
     urls = ["https://github.com/nlohmann/json/releases/download/v3.9.1/include.zip"],
-    build_file = "@//third_party:nlohmann.BUILD",
 )
-
