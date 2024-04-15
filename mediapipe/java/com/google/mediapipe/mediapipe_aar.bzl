@@ -270,7 +270,14 @@ def mediapipe_java_proto_src_extractor(target, src_out, name = ""):
 
     if not name:
         name = target.split(":")[-1] + "_proto_java_src_extractor"
-    src_jar = target.replace("_java_proto_lite", "_proto-lite-src.jar").replace(":", "/").replace("//", "")
+
+    #TODO: when upgrading bazel >=6.5.0, replace with repo_name() and adjust usage (see https://bazel.build/versions/6.5.0/rules/lib/native#repository_name)
+    src_jar = target.replace("_java_proto_lite", "_proto-lite-src.jar").replace(":", "/")
+
+    if native.repository_name() == "@mediapipe":
+        src_jar = src_jar.replace("@mediapipe//", "")
+    else:
+        src_jar = src_jar.replace("@mediapipe//", "external/mediapipe/")
     native.genrule(
         name = name + "_proto_java_src_extractor",
         srcs = [target],
