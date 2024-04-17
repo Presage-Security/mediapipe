@@ -34,6 +34,10 @@ JNIEXPORT jlongArray JNICALL PACKET_GETTER_METHOD(nativeGetPairPackets)(
 JNIEXPORT jlongArray JNICALL PACKET_GETTER_METHOD(nativeGetVectorPackets)(
     JNIEnv* env, jobject thiz, jlong packet);
 
+JNIEXPORT jstring JNICALL PACKET_GETTER_METHOD(nativeGetJson)(JNIEnv* env,
+                                                              jobject thiz,
+                                                              jlong packet);
+
 JNIEXPORT jshort JNICALL PACKET_GETTER_METHOD(nativeGetInt16)(JNIEnv* env,
                                                               jobject thiz,
                                                               jlong packet);

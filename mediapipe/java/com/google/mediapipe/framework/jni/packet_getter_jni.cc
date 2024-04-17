@@ -28,6 +28,7 @@
 #include "mediapipe/java/com/google/mediapipe/framework/jni/colorspace.h"
 #include "mediapipe/java/com/google/mediapipe/framework/jni/graph.h"
 #include "mediapipe/java/com/google/mediapipe/framework/jni/jni_util.h"
+#include "nlohmann/json.hpp"
 #if !MEDIAPIPE_DISABLE_GPU
 #include "mediapipe/gpu/gl_calculator_helper.h"
 #include "mediapipe/gpu/gpu_buffer.h"
@@ -146,6 +147,20 @@ JNIEXPORT jlongArray JNICALL PACKET_GETTER_METHOD(nativeGetVectorPackets)(
   env->SetLongArrayRegion(return_handles, 0, handles.size(),
                           reinterpret_cast<const jlong*>(&(handles[0])));
   return return_handles;
+}
+
+JNIEXPORT jstring JNICALL PACKET_GETTER_METHOD(nativeGetJson)(JNIEnv* env,
+                                                              jobject thiz,
+                                                              jlong packet) {
+  nlohmann::json json_data = GetFromNativeHandle<nlohmann::json>(packet);
+
+  // Convert the JSON object to a string
+  std::string jsonString = json_data.dump();
+
+  // Create a jstring from the jsonString
+  jstring javaString = env->NewStringUTF(jsonString.c_str());
+
+  return javaString;
 }
 
 JNIEXPORT jshort JNICALL PACKET_GETTER_METHOD(nativeGetInt16)(JNIEnv* env,

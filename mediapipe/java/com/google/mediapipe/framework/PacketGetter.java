@@ -85,6 +85,10 @@ public final class PacketGetter {
     return packets;
   }
 
+  public static String getJson(final Packet packet) {
+    return nativeGetJson(packet.getNativeHandle());
+  }
+
   public static short getInt16(final Packet packet) {
     return nativeGetInt16(packet.getNativeHandle());
   }
@@ -390,6 +394,8 @@ public final class PacketGetter {
   private static native long[] nativeGetPairPackets(long nativePacketHandle);
 
   private static native long[] nativeGetVectorPackets(long nativePacketHandle);
+
+  private static native String nativeGetJson(long nativePacketHandle);
 
   private static native short nativeGetInt16(long nativePacketHandle);
 
