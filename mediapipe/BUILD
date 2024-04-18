@@ -213,7 +213,7 @@ config_setting(
 
 # Emscripten + WASM w/ SIMD support.
 config_setting(
-    name = "emscripten_wasmsimd",
+    name = "emscripten_wasm_simd",
     values = {
         "crosstool_top": "@emsdk//emscripten_toolchain:everything",
         "cpu": "wasm",
