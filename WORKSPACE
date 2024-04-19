@@ -195,6 +195,12 @@ http_archive(
 # 2024-02-17
 http_archive(
     name = "com_github_glog_glog_emscripten",
+    patch_args = [
+        "-p1",
+    ],
+    patches = [
+        "//third_party:com_github_glog_glog_emscripten_getpid_and_write_fix.diff",
+    ],
     sha256 = "375106b5976231b92e66879c1a92ce062923b9ae573c42b56ba28b112ee4cc11",
     strip_prefix = "glog-0.7.0",
     urls = [
