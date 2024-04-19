@@ -15,6 +15,7 @@
 licenses(["notice"])  # Apache 2.0
 
 load("@mediapipe//mediapipe:platforms.bzl", "config_setting_and_platform")
+load("@bazel_skylib//lib:selects.bzl", "selects")
 
 # Generic Android
 config_setting(
@@ -219,6 +220,14 @@ config_setting(
         "cpu": "wasm",
         "copt": "-msimd128",
     },
+)
+
+selects.config_setting_group(
+    name = "wasm",
+    match_any = [
+        ":emscripten_wasm",
+        ":emscripten_wasm_simd",
+    ],
 )
 
 exports_files(

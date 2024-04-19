@@ -47,6 +47,9 @@ cc_library(
         "//mediapipe:windows": [
             "@com_github_glog_glog_windows//:glog",
         ],
+        "//mediapipe:wasm": [
+            "@com_github_glog_glog_emscripten//:glog",
+        ],
         "//conditions:default": [
             "@com_github_glog_glog//:glog",
         ],
