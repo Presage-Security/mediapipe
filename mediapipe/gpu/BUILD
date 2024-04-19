@@ -169,6 +169,9 @@ cc_library(
         "//mediapipe:macos": [
             "gl_context_nsgl.cc",
         ],
+        "//mediapipe:wasm": [
+            "gl_context_webgl.cc",
+        ],
     }),
     hdrs = ["gl_context.h"],
     copts = select({
