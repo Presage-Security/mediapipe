@@ -232,12 +232,27 @@ absl::Status InferenceCalculatorGlImpl::GpuInferenceRunner::Process(
       [this, cc, &input_tensors, &output_tensors]() -> absl::Status {
         // Explicitly copy input.
         for (int i = 0; i < input_tensors.size(); ++i) {
+#if MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_31
           glBindBuffer(GL_COPY_READ_BUFFER,
                        input_tensors[i].GetOpenGlBufferReadView().name());
           glBindBuffer(GL_COPY_WRITE_BUFFER,
                        gpu_buffers_in_[i]->GetOpenGlBufferWriteView().name());
           glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0,
                               input_tensors[i].bytes());
+#elif MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_30
+          auto input_read_view = input_tensors[i].GetOpenGlTexture2dReadView();
+          int input_width, input_height;
+          Tensor::OpenGlTexture2dView::GetLayoutDimensions(input_tensors[i].shape(), &input_width, &input_height);
+
+          GLuint copy_fbo = 0;
+          glGenFramebuffers(1, &copy_fbo);
+          glBindFramebuffer(GL_FRAMEBUFFER, copy_fbo);
+          glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, input_read_view.name(), 0);
+
+          glBindTexture(GL_TEXTURE_2D, gpu_buffers_in_[i]->GetOpenGlTexture2dWriteView().name());
+          glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, input_width, input_height);
+          glDeleteFramebuffers(1, &copy_fbo);
+#endif
         }
 
         // Run inference.
@@ -251,12 +266,28 @@ absl::Status InferenceCalculatorGlImpl::GpuInferenceRunner::Process(
           const auto& t = gpu_buffers_out_[i];
           output_tensors.emplace_back(Tensor::ElementType::kFloat32,
                                       gpu_buffers_out_[i]->shape());
+#if MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_31
           auto read_view = t->GetOpenGlBufferReadView();
           glBindBuffer(GL_COPY_READ_BUFFER, read_view.name());
           auto write_view = output_tensors.back().GetOpenGlBufferWriteView();
           glBindBuffer(GL_COPY_WRITE_BUFFER, write_view.name());
           glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0,
                               t->bytes());
+#elif MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_30
+          auto output_read_view = t->GetOpenGlTexture2dReadView();
+          auto output_write_view = output_tensors.back().GetOpenGlTexture2dWriteView();
+          int output_width, output_height;
+          Tensor::OpenGlTexture2dView::GetLayoutDimensions(input_tensors[i].shape(), &output_width, &output_height);
+
+          GLuint copy_fbo = 0;
+          glGenFramebuffers(1, &copy_fbo);
+          glBindFramebuffer(GL_FRAMEBUFFER, copy_fbo);
+          glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, read_view.name(), 0);
+
+          glBindTexture(GL_TEXTURE_2D, output_write_view.name());
+          glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, output_width, output_height);
+          glDeleteFramebuffers(1, &copy_fbo);
+#endif
         }
 
         return absl::OkStatus();
