@@ -1640,6 +1640,12 @@ cc_library(
         ],
         # This setting is needed to allow bazel to build all targets on Mac with GPU disabled
         ":platform_apple_without_gpu": [],
+        "//mediapipe:wasm": [
+            ":tensors_to_segmentation_converter_gl_texture",
+            "//mediapipe/gpu:gl_calculator_helper",
+            "//mediapipe/gpu:gl_simple_shaders",
+            "//mediapipe/gpu:shader_util",
+        ],
         "//conditions:default": [
             ":tensors_to_segmentation_converter_gl_buffer",
             "//mediapipe/gpu:gl_calculator_helper",
