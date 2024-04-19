@@ -167,15 +167,25 @@ InferenceCalculatorGlAdvancedImpl::GpuInferenceRunner::Process(
   MP_RETURN_IF_ERROR(gl_context_->Run(
       [this, cc, &input_tensors, &output_tensors]() -> absl::Status {
         for (int i = 0; i < input_tensors.size(); ++i) {
+#if MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_31
           MP_RETURN_IF_ERROR(tflite_gpu_runner_->BindSSBOToInputTensor(
               input_tensors[i].GetOpenGlBufferReadView().name(), i));
+#elif MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_30
+          MP_RETURN_IF_ERROR(tflite_gpu_runner_->BindSSTOToInputTensor(
+              input_tensors[i].GetOpenGlTexture2dReadView().name(), i));
+#endif
         }
         output_tensors.reserve(output_shapes_.size());
         for (int i = 0; i < output_shapes_.size(); ++i) {
           output_tensors.emplace_back(Tensor::ElementType::kFloat32,
                                       output_shapes_[i]);
+#if MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_31
           MP_RETURN_IF_ERROR(tflite_gpu_runner_->BindSSBOToOutputTensor(
               output_tensors.back().GetOpenGlBufferWriteView().name(), i));
+#elif MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_30
+            MP_RETURN_IF_ERROR(tflite_gpu_runner_->BindSSTOToOutputTensor(
+              output_tensors.back().GetOpenGlTexture2dWriteView().name(), i));
+#endif
         }
         // Run inference.
         {

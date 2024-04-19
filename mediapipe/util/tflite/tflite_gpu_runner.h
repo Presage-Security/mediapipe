@@ -65,9 +65,14 @@ class TFLiteGPURunner {
   void ForceOpenCLInitFromSerializedModel() {
     opencl_init_from_serialized_model_is_forced_ = true;
   }
-
+#if MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_30
+  absl::Status BindSSTOToInputTensor(GLuint ssto_id, int input_id);
+  absl::Status BindSSTOToOutputTensor(GLuint ssto_id, int output_id);
+#endif
+#if MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_31
   absl::Status BindSSBOToInputTensor(GLuint ssbo_id, int input_id);
   absl::Status BindSSBOToOutputTensor(GLuint ssbo_id, int output_id);
+#endif
 
   int inputs_size() const { return input_shapes_.size(); }
   int outputs_size() const { return output_shapes_.size(); }

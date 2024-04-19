@@ -192,6 +192,20 @@ absl::Status TFLiteGPURunner::Build() {
   return builder->Build(&runner_);
 }
 
+#if MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_30
+absl::Status TFLiteGPURunner::BindSSTOToInputTensor(GLuint ssto_id, int input_id) {
+    OpenGlTexture texture;
+    texture.id = ssto_id;
+    return runner_->SetInputObject(input_id, std::move(texture));
+}
+
+absl::Status TFLiteGPURunner::BindSSTOToOutputTensor(GLuint ssto_id, int output_id) {
+    OpenGlBuffer texture;
+    texture.id = ssto_id;
+    return runner_->SetOutputObject(output_id, std::move(texture));
+}
+#endif
+#if MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_31
 absl::Status TFLiteGPURunner::BindSSBOToInputTensor(GLuint ssbo_id,
                                                     int input_id) {
   OpenGlBuffer buffer;
@@ -205,6 +219,7 @@ absl::Status TFLiteGPURunner::BindSSBOToOutputTensor(GLuint ssbo_id,
   buffer.id = ssbo_id;
   return runner_->SetOutputObject(output_id, std::move(buffer));
 }
+#endif
 
 absl::Status TFLiteGPURunner::Invoke() { return runner_->Run(); }
 
