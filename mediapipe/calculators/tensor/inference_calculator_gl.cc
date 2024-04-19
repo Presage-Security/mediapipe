@@ -191,11 +191,19 @@ absl::Status InferenceCalculatorGlImpl::GpuInferenceRunner::LoadDelegate(
         Tensor::ElementType::kFloat32,
         Tensor::Shape{std::vector<int>{
             tensor->dims->data, tensor->dims->data + tensor->dims->size}}));
+#if MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_31
     RET_CHECK_EQ(TfLiteGpuDelegateBindBufferToTensor(
                      delegate_.get(),
                      gpu_buffers_in_.back()->GetOpenGlBufferWriteView().name(),
                      interpreter_->inputs()[i]),
                  kTfLiteOk);
+#elif MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_31
+    RET_CHECK_EQ(TfLiteGpuDelegateBindBufferToTensor(
+                     delegate_.get(),
+                     gpu_buffers_in_.back()->GetOpenGlTexture2dWriteView().name(),
+                     interpreter_->inputs()[i]),
+                 kTfLiteOk);
+#endif
   }
   interpreter_->SetAllowBufferHandleOutput(true);
   // Get output image sizes.
@@ -211,11 +219,19 @@ absl::Status InferenceCalculatorGlImpl::GpuInferenceRunner::LoadDelegate(
         Tensor::ElementType::kFloat32,
         Tensor::Shape{std::vector<int>{
             tensor->dims->data, tensor->dims->data + tensor->dims->size}}));
+#if MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_31
     RET_CHECK_EQ(TfLiteGpuDelegateBindBufferToTensor(
                      delegate_.get(),
                      gpu_buffers_out_.back()->GetOpenGlBufferWriteView().name(),
                      output_indices[i]),
                  kTfLiteOk);
+#elif MEDIAPIPE_OPENGL_ES_VERSION >= MEDIAPIPE_OPENGL_ES_31
+    RET_CHECK_EQ(TfLiteGpuDelegateBindBufferToTensor(
+                     delegate_.get(),
+                     gpu_buffers_out_.back()->GetOpenGlTexture2dWriteView().name(),
+                     interpreter_->inputs()[i]),
+                 kTfLiteOk);
+#endif
   }
 
   // Must call this last.
@@ -282,7 +298,7 @@ absl::Status InferenceCalculatorGlImpl::GpuInferenceRunner::Process(
           GLuint copy_fbo = 0;
           glGenFramebuffers(1, &copy_fbo);
           glBindFramebuffer(GL_FRAMEBUFFER, copy_fbo);
-          glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, read_view.name(), 0);
+          glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, output_read_view.name(), 0);
 
           glBindTexture(GL_TEXTURE_2D, output_write_view.name());
           glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, output_width, output_height);
