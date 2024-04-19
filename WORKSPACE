@@ -426,6 +426,29 @@ http_archive(
     url = "https://github.com/opencv/opencv/releases/download/3.4.3/opencv-3.4.3-android-sdk.zip",
 )
 
+# ----------------------------------------------------------------------------------------------------------------------
+# WASM OpenCV configurations:
+# ----------------------------------------------------------------------------------------------------------------------
+#      pthreads: https://drive.google.com/u/0/uc?id=15LVS3gOvJdoE6q5xakPojgrsYe9km-Im&export=download
+#        sha256: 148d417a15fde00be4e9a9811d6bbae6dc9dea4f15c59459f292326ce71635e8
+# ----------------------------------------------------------------------------------------------------------------------
+# pthreads+simd: https://drive.usercontent.google.com/download?id=18pW3WyveGLpG9rM2JC43ygcsAD8h1KKr&export=download&authuser=0
+#        sha256: 4209aba32c9d4c70b687f5f12341b390a57249cddfea4e794ad1126bb9e505c6
+# ----------------------------------------------------------------------------------------------------------------------
+#          simd: https://drive.usercontent.google.com/download?id=1ANt_7aMiuQ29ojQIhaJxgl3u6wVYlnaA&export=download&authuser=0
+#        sha256: 526a8573920337f27743c4d1204fc4b3137c674dfdaf81ce8e6e0c845fbbc794
+# ----------------------------------------------------------------------------------------------------------------------
+# TODO: possibly, convert to s3_archive (see file_stream_test_data() implementation)
+http_archive(
+    name = "wasm_opencv",
+    build_file = "@//third_party:opencv_wasm.BUILD",
+    sha256 = "4209aba32c9d4c70b687f5f12341b390a57249cddfea4e794ad1126bb9e505c6",
+    strip_prefix = "build_opencv",
+    type = "zip",
+    url = "https://drive.usercontent.google.com/download?id=18pW3WyveGLpG9rM2JC43ygcsAD8h1KKr&export=download&authuser=0",
+)
+# ----------------------------------------------------------------------------------------------------------------------
+
 # After OpenCV 3.2.0, the pre-compiled opencv2.framework has google protobuf symbols, which will
 # trigger duplicate symbol errors in the linking stage of building a mediapipe ios app.
 # To get a higher version of OpenCV for iOS, opencv2.framework needs to be built from source with
