@@ -683,9 +683,9 @@ wasm_files()
 #region ------------------------- WASM ---------------------------------------------------------------------------------
 http_archive(
     name = "emsdk",
-    sha256 = "6cb6fd281081f309f82a2769fa06633e25fd851a8539462676bf021c78a5ba19",
-    strip_prefix = "emsdk-3.1.26//bazel",
-    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.26.tar.gz",
+    sha256 = "bd5fb05f50ee3410fba9d6d301db91f15efd45b9a87d32b45be28908079ab161",
+    strip_prefix = "emsdk-3.1.57//bazel",
+    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.57.tar.gz",
 )
 
 load("@emsdk//:deps.bzl", emsdk_deps = "deps")
@@ -694,7 +694,7 @@ emsdk_deps()
 
 load("@emsdk//:emscripten_deps.bzl", emsdk_emscripten_deps = "emscripten_deps")
 
-emsdk_emscripten_deps(emscripten_version = "3.1.26")
+emsdk_emscripten_deps(emscripten_version = "3.1.57")
 
 # Use for newer Emscripten versions:
 load("@emsdk//:toolchains.bzl", "register_emscripten_toolchains")

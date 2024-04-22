@@ -673,7 +673,7 @@ cc_library(
 cc_library(
     name = "inference_calculator_gl_if_compute_shader_available",
     deps = selects.with_or({
-        ":compute_shader_unavailable": [],
+        (":compute_shader_unavailable", "//mediapipe:wasm"): [],
         "//conditions:default": [
             ":inference_calculator_gl",
             ":inference_calculator_gl_advanced",
