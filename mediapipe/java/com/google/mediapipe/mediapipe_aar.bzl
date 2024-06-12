@@ -274,6 +274,9 @@ def mediapipe_java_proto_src_extractor(target, src_out, name = ""):
         src_jar = src_jar.replace("@mediapipe//", "")
     else:
         src_jar = src_jar.replace("@mediapipe//", "external/mediapipe/")
+
+    src_jar = src_jar.replace("//", "/")
+
     native.genrule(
         name = name + "_proto_java_src_extractor",
         srcs = [target],
