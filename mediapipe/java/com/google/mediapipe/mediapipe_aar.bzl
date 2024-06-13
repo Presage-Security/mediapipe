@@ -46,6 +46,7 @@ load("@build_bazel_rules_android//android:rules.bzl", "android_binary", "android
 def mediapipe_aar(
         name,
         srcs = [],
+        java_deps = [],
         gen_libmediapipe = True,
         calculators = [],
         assets = [],
@@ -55,6 +56,7 @@ def mediapipe_aar(
     Args:
       name: the name of the aar.
       srcs: the additional java source code to be added into the android library.
+      java_deps: the additional java libraries to be added into the android library.
       gen_libmediapipe: whether to generate libmediapipe_jni.so. Default to True.
       calculators: the calculator libraries to be compiled into the jni library.
       assets: additional assets to be included into the archive.
@@ -144,7 +146,7 @@ EOF
             "@maven//:com_google_flogger_flogger_system_backend",
             "@maven//:com_google_guava_guava",
             "@maven//:androidx_lifecycle_lifecycle_common",
-        ] + select({
+        ] + java_deps + select({
             "//conditions:default": [":" + name + "_jni_opencv_cc_lib"],
             "@mediapipe//mediapipe/framework/port:disable_opencv": [],
             "exclude_opencv_so_lib": [],
