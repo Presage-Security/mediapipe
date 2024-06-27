@@ -34,6 +34,7 @@ pkg_filegroup(
         "//mediapipe/gpu:headers",
     ],
     prefix = "include",
+    visibility = ["//visibility:public"],
 )
 
 filegroup(
@@ -43,6 +44,7 @@ filegroup(
         "//mediapipe/framework:mediapipe_calculator_framework",
         "//mediapipe/gpu:mediapipe_gpu",
     ],
+    visibility = ["//visibility:public"],
 )
 
 pkg_zip(
