@@ -480,3 +480,13 @@ cc_test(
         "@com_google_absl//absl/synchronization",
     ],
 )
+# region ===== PRESAGE: collect framework/formats headers =================================================================
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]),
+    prefix = "mediapipe/framework/deps",
+    visibility = ["//visibility:public"],
+)
+
+# endregion ============================================================================================================

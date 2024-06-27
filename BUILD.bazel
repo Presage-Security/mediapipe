@@ -28,6 +28,7 @@ pkg_filegroup(
     srcs = [
         "//mediapipe/calculators/core:headers",
         "//mediapipe/framework:headers",
+        "//mediapipe/framework/deps:headers",
         "//mediapipe/framework/formats:headers",
         "//mediapipe/framework/port:headers",
         "//mediapipe/framework/tool:headers",
