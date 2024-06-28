@@ -18,10 +18,16 @@ def _transitive_protos_with_aggregate_include_impl(ctx):
 
     header_paths = []
     headers = []
+    found_valid_dep = False
     for cc_info in cc_infos:
         for header in cc_info.compilation_context.direct_headers:
+            found_valid_dep = True
             header_paths.append(header.short_path)
             headers.append(header)
+
+    if not found_valid_dep:
+        fail("At least one dependency in the dependency tree of all supplied `deps` with 'proto_rules' containing" +
+             "'CcInfo' with headers is required.")
 
     output_aggregate_header = ctx.actions.declare_file(ctx.attr.aggregate_header.name)
     ctx.actions.write(output_aggregate_header, "#include " + "\n#include ".join(header_paths))

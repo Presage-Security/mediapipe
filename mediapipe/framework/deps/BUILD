@@ -488,7 +488,7 @@ load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 transitive_protos_with_aggregate_include(
     name = "mediapipe_calculator_framework_deps_cc_protos",
     aggregate_header = "mediapipe_calculator_framework_deps_cc_protos.h",
-    deps = [":proto_descriptor_proto"],
+    deps = [":proto_descriptor_cc_proto"],
 )
 
 pkg_files(
