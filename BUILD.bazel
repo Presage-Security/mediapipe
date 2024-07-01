@@ -34,6 +34,7 @@ pkg_filegroup(
         "//mediapipe/framework/profiler:headers",
         "//mediapipe/framework/tool:headers",
         "//mediapipe/gpu:headers",
+        "//mediapipe/util:headers",
     ],
     prefix = "include",
     visibility = ["//visibility:public"],
