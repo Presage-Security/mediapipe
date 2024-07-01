@@ -1831,12 +1831,17 @@ cc_library(
 # region ===== PRESAGE =================================================================================================
 
 load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
-load("//mediapipe/framework/tool:mediapipe_transitive_library.bzl", "mediapipe_cc_shared_library")
+load(
+    "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
+    "mediapipe_cc_shared_library",
+    "transitive_protos_with_aggregate_include",
+)
 
 mediapipe_cc_shared_library(
     name = "mediapipe_calculator_framework",
     visibility = ["//visibility:public"],
     deps = [
+        ":calculator_options_cc_proto",
         "//mediapipe/framework:calculator_framework",
         "//mediapipe/framework/tool:text_to_binary_graph",
         "//third_party/abseil:abseil_flags",
