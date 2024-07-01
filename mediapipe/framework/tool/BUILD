@@ -987,7 +987,7 @@ load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 pkg_files(
     name = "headers",
     srcs = glob(["**/*.h"]),
-    prefix = "mediapipe/framework/tools",
+    prefix = "mediapipe/framework/tool",
     visibility = ["//visibility:public"],
 )
 
