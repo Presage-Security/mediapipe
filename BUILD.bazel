@@ -31,6 +31,7 @@ pkg_filegroup(
         "//mediapipe/framework/deps:headers",
         "//mediapipe/framework/formats:headers",
         "//mediapipe/framework/port:headers",
+        "//mediapipe/framework/profiler:headers",
         "//mediapipe/framework/tool:headers",
         "//mediapipe/gpu:headers",
     ],
