@@ -1838,11 +1838,12 @@ load(
 )
 
 mediapipe_cc_shared_library(
-    name = "mediapipe_calculator_framework",
+    name = "mediapipe_framework",
     visibility = ["//visibility:public"],
     deps = [
+        ":calculator_framework",
+        ":calculator_graph",
         ":calculator_options_cc_proto",
-        "//mediapipe/framework:calculator_framework",
         "//mediapipe/framework/tool:text_to_binary_graph",
         "//third_party/abseil:abseil_flags",
     ],
@@ -1851,8 +1852,8 @@ mediapipe_cc_shared_library(
 pkg_files(
     name = "headers",
     srcs = glob(["*.h"]) + [
-        ":mediapipe_calculator_framework_cc_protos",
-        ":mediapipe_calculator_framework_cc_protos.h",
+        ":mediapipe_framework_cc_protos",
+        ":mediapipe_framework_cc_protos.h",
     ],
     prefix = "mediapipe/framework",
     visibility = ["//visibility:public"],

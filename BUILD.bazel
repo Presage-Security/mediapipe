@@ -44,7 +44,7 @@ filegroup(
     name = "mediapipe_libraries",
     srcs = [
         "//mediapipe/calculators/core:mediapipe_calculators_core",
-        "//mediapipe/framework:mediapipe_calculator_framework",
+        "//mediapipe/framework:mediapipe_framework",
         "//mediapipe/gpu:mediapipe_gpu",
     ],
     visibility = ["//visibility:public"],
