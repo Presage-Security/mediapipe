@@ -40,13 +40,14 @@ pkg_filegroup(
     visibility = ["//visibility:public"],
 )
 
-filegroup(
+pkg_files(
     name = "mediapipe_libraries",
     srcs = [
         "//mediapipe/calculators/core:mediapipe_calculators_core",
         "//mediapipe/framework:mediapipe_framework",
         "//mediapipe/gpu:mediapipe_gpu",
     ],
+    prefix = "lib",
     visibility = ["//visibility:public"],
 )
 
