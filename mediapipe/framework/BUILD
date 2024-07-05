@@ -1845,7 +1845,6 @@ mediapipe_cc_shared_library(
         ":calculator_graph",
         ":calculator_options_cc_proto",
         "//mediapipe/framework/tool:text_to_binary_graph",
-        "//third_party/abseil:abseil_flags",
     ],
 )
 
