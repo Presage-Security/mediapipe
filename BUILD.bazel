@@ -45,6 +45,7 @@ pkg_files(
     srcs = [
         "//mediapipe/calculators/core:mediapipe_calculators_core",
         "//mediapipe/framework:mediapipe_framework",
+        "//mediapipe/framework/formats:mediapipe_framework_formats",
         "//mediapipe/gpu:mediapipe_gpu",
     ],
     prefix = "lib",
