@@ -57,7 +57,9 @@ pkg_zip(
     srcs = [
         "LICENSE",
         ":mediapipe_headers",
-        ":mediapipe_libraries",
+        # Uncomment to include mediapipe libraries in the package.
+        # Caution: not supported & buggy! Would need much work to be used directly.
+        # ":mediapipe_libraries",
     ],
     out = "mediapipe.zip",
 )
