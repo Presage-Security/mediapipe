@@ -13,6 +13,9 @@ type: "FaceDetection"
 # The input image, either ImageFrame, GpuBuffer, or (multi-backend) Image.
 input_stream: "IMAGE:image"
 
+# Path to the face detection model. (string)
+input_side_packet: "MODEL:model_path"
+
 # ROI (region of interest) within the given image where faces should be
 # detected. (NormalizedRect)
 input_stream: "ROI:roi"
@@ -65,12 +68,12 @@ node: {
 node {
   calculator: "InferenceCalculator"
   input_stream: "TENSORS:input_tensors"
+  input_side_packet: "MODEL:model_path"
   output_stream: "TENSORS:detection_tensors"
   options: {
     [mediapipe.InferenceCalculatorOptions.ext] {}
   }
   option_value: "delegate:options/delegate"
-  option_value: "model_path:options/model_path"
 }
 
 # Detection tensors. (std::vector<Tensor>)
