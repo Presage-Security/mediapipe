@@ -28,12 +28,12 @@ input_stream: "IMAGE:image"
 # (NormalizedRect)
 input_stream: "ROI:roi"
 
+# Path to the pose landmark model. (string)
+input_side_packet: "MODEL_PATH:model_path"
+
 # Whether to predict the segmentation mask. If unspecified, functions as set to
 # false. (bool)
 input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
-
-# Path to the pose landmark model. (string)
-input_side_packet: "MODEL_PATH:model_path"
 
 # Pose landmarks within the given ROI. (NormalizedLandmarkList)
 # We have 33 landmarks (see pose_landmark_topology.svg) and there are other

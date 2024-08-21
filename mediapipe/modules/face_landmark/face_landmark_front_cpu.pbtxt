@@ -41,11 +41,6 @@ input_side_packet: "FACE_LANDMARK_MODEL_PATH:face_landmark_model_path"
 # landmarks on the current image. (bool)
 input_side_packet: "USE_PREV_LANDMARKS:use_prev_landmarks"
 
-# Whether to run face mesh model with attention on lips and eyes. (bool)
-# Attention provides more accuracy on lips and eye regions as well as iris
-# landmarks.
-input_side_packet: "WITH_ATTENTION:with_attention"
-
 # Collection of detected/predicted faces, each represented as a list of 468 face
 # landmarks. (std::vector<NormalizedLandmarkList>)
 # NOTE: there will not be an output packet in the LANDMARKS stream for this
