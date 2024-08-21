@@ -25,6 +25,18 @@ input_stream: "IMAGE:image"
 # ROI (region of interest) within the given image where a face is located.
 # (NormalizedRect)
 input_stream: "ROI:roi"
+
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:with_attention"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet { bool_value:true }
+    }
+  }
+}
+
+
 # Path to the face landmark model. (string)
 input_side_packet: "MODEL_PATH:model_path"
 
