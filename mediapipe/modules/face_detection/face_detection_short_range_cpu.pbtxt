@@ -6,7 +6,7 @@ type: "FaceDetectionShortRangeCpu"
 input_stream: "IMAGE:image"
 
 # Path to the face detection model. (string)
-input_side_packet: "MODEL:model_path"
+input_side_packet: "MODEL_PATH:model_path"
 
 # Detected faces. (std::vector<Detection>)
 output_stream: "DETECTIONS:detections"
@@ -15,10 +15,24 @@ graph_options: {
   [type.googleapis.com/mediapipe.FaceDetectionOptions] {}
 }
 
+# Loads the file in the specified path into a blob.
+node {
+  calculator: "LocalFileContentsCalculator"
+  input_side_packet: "FILE_PATH:model_path"
+  output_side_packet: "CONTENTS:model_blob"
+}
+
+# Converts the input blob into a TF Lite model.
+node {
+  calculator: "TfLiteModelCalculator"
+  input_side_packet: "MODEL_BLOB:model_blob"
+  output_side_packet: "MODEL:model"
+}
+
 node {
   calculator: "FaceDetectionShortRange"
   input_stream: "IMAGE:image"
-  input_side_packet: "MODEL:model_path"
+  input_side_packet: "MODEL:model"
   output_stream: "DETECTIONS:detections"
   node_options: {
     [type.googleapis.com/mediapipe.FaceDetectionOptions] {

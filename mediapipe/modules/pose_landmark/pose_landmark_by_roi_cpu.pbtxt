@@ -33,7 +33,7 @@ input_stream: "ROI:roi"
 input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
 
 # Path to the pose landmark model. (string)
-input_side_packet: "MODEL:model_path"
+input_side_packet: "MODEL_PATH:model_path"
 
 # Pose landmarks within the given ROI. (NormalizedLandmarkList)
 # We have 33 landmarks (see pose_landmark_topology.svg) and there are other
@@ -124,10 +124,24 @@ node: {
   }
 }
 
+# Loads the file in the specified path into a blob.
+node {
+  calculator: "LocalFileContentsCalculator"
+  input_side_packet: "FILE_PATH:model_path"
+  output_side_packet: "CONTENTS:model_blob"
+}
+
+# Converts the input blob into a TF Lite model.
+node {
+  calculator: "TfLiteModelCalculator"
+  input_side_packet: "MODEL_BLOB:model_blob"
+  output_side_packet: "MODEL:model"
+}
+
 # Runs model inference on CPU.
 node {
   calculator: "InferenceCalculator"
-  input_side_packet: "MODEL:model_path"
+  input_side_packet: "MODEL:model"
   input_stream: "TENSORS:input_tensors"
   output_stream: "TENSORS:output_tensors"
   options: {

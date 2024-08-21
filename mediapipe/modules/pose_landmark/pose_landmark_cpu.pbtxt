@@ -33,9 +33,9 @@ type: "PoseLandmarkCpu"
 input_stream: "IMAGE:image"
 
 # Path to the pose detection model. (string)
-input_side_packet: "POSE_DETECTION_MODEL:pose_detection_model_path"
+input_side_packet: "POSE_DETECTION_MODEL_PATH:pose_detection_model_path"
 # Path to the pose landmark model. (string)
-input_side_packet: "POSE_LANDMARK_MODEL:pose_landmark_model_path"
+input_side_packet: "POSE_LANDMARK_MODEL_PATH:pose_landmark_model_path"
 
 # Whether to filter landmarks across different input images to reduce jitter.
 # If unspecified, functions as set to true. (bool)
@@ -170,7 +170,7 @@ node {
 node {
   calculator: "PoseDetectionCpu"
   input_stream: "IMAGE:image_for_pose_detection"
-  input_side_packet: "MODEL:pose_detection_model_path"
+  input_side_packet: "MODEL_PATH:pose_detection_model_path"
   output_stream: "DETECTIONS:pose_detections"
 }
 
@@ -209,7 +209,7 @@ node {
 # Detects pose landmarks within specified region of interest of the image.
 node {
   calculator: "PoseLandmarkByRoiCpu"
-  input_side_packet: "MODEL:pose_landmark_model_path"
+  input_side_packet: "MODEL_PATH:pose_landmark_model_path"
   input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
   input_stream: "IMAGE:image"
   input_stream: "ROI:pose_rect"

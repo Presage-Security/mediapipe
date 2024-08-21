@@ -26,7 +26,7 @@ input_stream: "IMAGE:image"
 # (NormalizedRect)
 input_stream: "ROI:roi"
 # Path to the face landmark model. (string)
-input_side_packet: "MODEL:model_path"
+input_side_packet: "MODEL_PATH:model_path"
 
 # 468 or 478 facial landmarks within the given ROI. (NormalizedLandmarkList)
 #
@@ -65,13 +65,27 @@ node {
   output_side_packet: "OP_RESOLVER:op_resolver"
 }
 
+# Loads the file in the specified path into a blob.
+node {
+  calculator: "LocalFileContentsCalculator"
+  input_side_packet: "FILE_PATH:model_path"
+  output_side_packet: "CONTENTS:model_blob"
+}
+
+# Converts the input blob into a TF Lite model.
+node {
+  calculator: "TfLiteModelCalculator"
+  input_side_packet: "MODEL_BLOB:model_blob"
+  output_side_packet: "MODEL:model"
+}
+
 # Runs a TensorFlow Lite model on CPU that takes an image tensor and outputs a
 # vector of tensors representing, for instance, detection boxes/keypoints and
 # scores.
 node {
   calculator: "InferenceCalculator"
   input_stream: "TENSORS:input_tensors"
-  input_side_packet: "MODEL:model_path"
+  input_side_packet: "MODEL:model"
   input_side_packet: "OP_RESOLVER:op_resolver"
   output_stream: "TENSORS:output_tensors"
   options: {

@@ -17,7 +17,7 @@ type: "FaceDetectionShortRange"
 input_stream: "IMAGE:image"
 
 # Path to the face detection model. (string)
-input_side_packet: "MODEL:model_path"
+input_side_packet: "MODEL_PATH:model_path"
 
 # ROI (region of interest) within the given image where faces should be
 # detected. (NormalizedRect)
@@ -34,7 +34,7 @@ node {
   calculator: "FaceDetection"
   input_stream: "IMAGE:image"
   input_stream: "ROI:roi"
-  input_side_packet: "MODEL:model_path"
+  input_side_packet: "MODEL_PATH:model_path"
   output_stream: "DETECTIONS:detections"
   node_options: {
     [type.googleapis.com/mediapipe.FaceDetectionOptions] {

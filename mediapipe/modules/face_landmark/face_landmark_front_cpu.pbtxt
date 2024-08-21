@@ -33,9 +33,9 @@ input_stream: "IMAGE:image"
 input_side_packet: "NUM_FACES:num_faces"
 
 # Path to the face detection model. (string)
-input_side_packet: "FACE_DETECTION_MODEL:face_detection_model_path"
+input_side_packet: "FACE_DETECTION_MODEL_PATH:face_detection_model_path"
 # Path to the face landmark model. (string)
-input_side_packet: "FACE_LANDMARK_MODEL:face_landmark_model_path"
+input_side_packet: "FACE_LANDMARK_MODEL_PATH:face_landmark_model_path"
 
 # Whether landmarks on the previous image should be used to help localize
 # landmarks on the current image. (bool)
@@ -107,7 +107,7 @@ node {
 node {
   calculator: "FaceDetectionShortRangeCpu"
   input_stream: "IMAGE:gated_image"
-  input_side_packet: "MODEL:face_detection_model_path"
+  input_side_packet: "MODEL_PATH:face_detection_model_path"
   output_stream: "DETECTIONS:all_face_detections"
 }
 
@@ -203,7 +203,7 @@ node {
   calculator: "FaceLandmarkCpu"
   input_stream: "IMAGE:landmarks_loop_image"
   input_stream: "ROI:face_rect"
-  input_side_packet: "MODEL:face_landmark_model_path"
+  input_side_packet: "MODEL_PATH:face_landmark_model_path"
   output_stream: "LANDMARKS:face_landmarks"
 }
 
