@@ -49,6 +49,6 @@ cc_library(
     linkstatic = 1,
     visibility = ["//visibility:public"],
     linkopts = [
-        "-L/usr/local/lib",
+        "-Wl,-rpath,/usr/local/lib",
     ],
 )
