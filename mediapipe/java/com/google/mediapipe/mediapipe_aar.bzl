@@ -46,6 +46,7 @@ load("@build_bazel_rules_android//android:rules.bzl", "android_binary", "android
 def mediapipe_aar(
         name,
         srcs = [],
+        java_deps = [],
         gen_libmediapipe = True,
         calculators = [],
         assets = [],
@@ -55,6 +56,7 @@ def mediapipe_aar(
     Args:
       name: the name of the aar.
       srcs: the additional java source code to be added into the android library.
+      java_deps: the additional java libraries to be added into the android library.
       gen_libmediapipe: whether to generate libmediapipe_jni.so. Default to True.
       calculators: the calculator libraries to be compiled into the jni library.
       assets: additional assets to be included into the archive.
@@ -108,49 +110,49 @@ EOF
     android_library(
         name = name + "_android_lib",
         srcs = srcs + [
-                   "//mediapipe/java/com/google/mediapipe/components:java_src",
-                   "//mediapipe/java/com/google/mediapipe/framework:java_src",
-                   "//mediapipe/java/com/google/mediapipe/glutil:java_src",
-               ] + mediapipe_java_proto_srcs() +
+            "@mediapipe//mediapipe/java/com/google/mediapipe/components:java_src",
+            "@mediapipe//mediapipe/java/com/google/mediapipe/framework:java_src",
+            "@mediapipe//mediapipe/java/com/google/mediapipe/glutil:java_src",
+        ] + mediapipe_java_proto_srcs() +
                select({
                    "//conditions:default": [],
                    "enable_stats_logging": mediapipe_logging_java_proto_srcs(),
                }),
         manifest = "AndroidManifest.xml",
-        proguard_specs = ["//mediapipe/java/com/google/mediapipe/framework:proguard.pgcfg"],
+        proguard_specs = ["@mediapipe//mediapipe/java/com/google/mediapipe/framework:proguard.pgcfg"],
         deps = [
             ":" + name + "_jni_cc_lib",
-            "//mediapipe/framework:calculator_java_proto_lite",
-            "//mediapipe/framework:calculator_profile_java_proto_lite",
-            "//mediapipe/framework:calculator_options_java_proto_lite",
-            "//mediapipe/framework:mediapipe_options_java_proto_lite",
-            "//mediapipe/framework:packet_factory_java_proto_lite",
-            "//mediapipe/framework:packet_generator_java_proto_lite",
-            "//mediapipe/framework:status_handler_java_proto_lite",
-            "//mediapipe/framework:stream_handler_java_proto_lite",
-            "//mediapipe/framework/tool:calculator_graph_template_java_proto_lite",
-            "//mediapipe/java/com/google/mediapipe/components:android_components",
-            "//mediapipe/java/com/google/mediapipe/components:android_camerax_helper",
-            "//mediapipe/java/com/google/mediapipe/framework:android_framework",
-            "//mediapipe/java/com/google/mediapipe/framework/image",
-            "//mediapipe/java/com/google/mediapipe/glutil",
-            "//third_party:androidx_annotation",
-            "//third_party:androidx_appcompat",
-            "//third_party:androidx_core",
-            "//third_party:androidx_legacy_support_v4",
-            "//third_party:autovalue",
-            "//third_party:camerax_core",
-            "//third_party:camerax_camera2",
-            "//third_party:camerax_lifecycle",
+            "@mediapipe//mediapipe/framework:calculator_java_proto_lite",
+            "@mediapipe//mediapipe/framework:calculator_profile_java_proto_lite",
+            "@mediapipe//mediapipe/framework:calculator_options_java_proto_lite",
+            "@mediapipe//mediapipe/framework:mediapipe_options_java_proto_lite",
+            "@mediapipe//mediapipe/framework:packet_factory_java_proto_lite",
+            "@mediapipe//mediapipe/framework:packet_generator_java_proto_lite",
+            "@mediapipe//mediapipe/framework:status_handler_java_proto_lite",
+            "@mediapipe//mediapipe/framework:stream_handler_java_proto_lite",
+            "@mediapipe//mediapipe/framework/tool:calculator_graph_template_java_proto_lite",
+            "@mediapipe//mediapipe/java/com/google/mediapipe/components:android_components",
+            "@mediapipe//mediapipe/java/com/google/mediapipe/components:android_camerax_helper",
+            "@mediapipe//mediapipe/java/com/google/mediapipe/framework:android_framework",
+            "@mediapipe//mediapipe/java/com/google/mediapipe/framework/image",
+            "@mediapipe//mediapipe/java/com/google/mediapipe/glutil",
+            "@mediapipe//third_party:androidx_annotation",
+            "@mediapipe//third_party:androidx_appcompat",
+            "@mediapipe//third_party:androidx_core",
+            "@mediapipe//third_party:androidx_legacy_support_v4",
+            "@mediapipe//third_party:autovalue",
+            "@mediapipe//third_party:camerax_core",
+            "@mediapipe//third_party:camerax_camera2",
+            "@mediapipe//third_party:camerax_lifecycle",
             "@com_google_protobuf//:protobuf_javalite",
             "@maven//:com_google_code_findbugs_jsr305",
             "@maven//:com_google_flogger_flogger",
             "@maven//:com_google_flogger_flogger_system_backend",
             "@maven//:com_google_guava_guava",
             "@maven//:androidx_lifecycle_lifecycle_common",
-        ] + select({
+        ] + java_deps + select({
             "//conditions:default": [":" + name + "_jni_opencv_cc_lib"],
-            "//mediapipe/framework/port:disable_opencv": [],
+            "@mediapipe//mediapipe/framework/port:disable_opencv": [],
             "exclude_opencv_so_lib": [],
         }) + select({
             "//conditions:default": [],
@@ -183,7 +185,7 @@ def _mediapipe_jni(name, gen_libmediapipe, calculators = []):
             linkshared = 1,
             linkstatic = 1,
             deps = [
-                "//mediapipe/java/com/google/mediapipe/framework/jni:mediapipe_framework_jni",
+                "@mediapipe//mediapipe/java/com/google/mediapipe/framework/jni:mediapipe_framework_jni",
             ] + calculators,
         )
 
@@ -270,7 +272,17 @@ def mediapipe_java_proto_src_extractor(target, src_out, name = ""):
 
     if not name:
         name = target.split(":")[-1] + "_proto_java_src_extractor"
-    src_jar = target.replace("_java_proto_lite", "_proto-lite-src.jar").replace(":", "/").replace("//", "")
+
+    #TODO: when upgrading bazel >=6.5.0, replace with repo_name() and adjust usage (see https://bazel.build/versions/6.5.0/rules/lib/native#repository_name)
+    src_jar = target.replace("_java_proto_lite", "_proto-lite-src.jar").replace(":", "/")
+
+    if native.repository_name() == "@mediapipe":
+        src_jar = src_jar.replace("@mediapipe//", "")
+    else:
+        src_jar = src_jar.replace("@mediapipe//", "external/mediapipe/")
+
+    src_jar = src_jar.replace("//", "/")
+
     native.genrule(
         name = name + "_proto_java_src_extractor",
         srcs = [target],
@@ -293,87 +305,87 @@ def mediapipe_java_proto_srcs(name = ""):
     proto_src_list = []
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework:calculator_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework:calculator_java_proto_lite",
         src_out = "com/google/mediapipe/proto/CalculatorProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework:calculator_options_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework:calculator_options_java_proto_lite",
         src_out = "com/google/mediapipe/proto/CalculatorOptionsProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework:stream_handler_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework:stream_handler_java_proto_lite",
         src_out = "com/google/mediapipe/proto/StreamHandlerProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework:packet_factory_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework:packet_factory_java_proto_lite",
         src_out = "com/google/mediapipe/proto/PacketFactoryProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework:packet_generator_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework:packet_generator_java_proto_lite",
         src_out = "com/google/mediapipe/proto/PacketGeneratorProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework:status_handler_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework:status_handler_java_proto_lite",
         src_out = "com/google/mediapipe/proto/StatusHandlerProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework:mediapipe_options_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework:mediapipe_options_java_proto_lite",
         src_out = "com/google/mediapipe/proto/MediaPipeOptionsProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework/formats/annotation:rasterization_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework/formats/annotation:rasterization_java_proto_lite",
         src_out = "com/google/mediapipe/formats/annotation/proto/RasterizationProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework/formats:classification_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework/formats:classification_java_proto_lite",
         src_out = "com/google/mediapipe/formats/proto/ClassificationProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework/formats:detection_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework/formats:detection_java_proto_lite",
         src_out = "com/google/mediapipe/formats/proto/DetectionProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework/formats:landmark_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework/formats:landmark_java_proto_lite",
         src_out = "com/google/mediapipe/formats/proto/LandmarkProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework/formats:location_data_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework/formats:location_data_java_proto_lite",
         src_out = "com/google/mediapipe/formats/proto/LocationDataProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework/formats:matrix_data_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework/formats:matrix_data_java_proto_lite",
         src_out = "com/google/mediapipe/formats/proto/MatrixDataProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/framework/formats:rect_java_proto_lite",
+        target = "@mediapipe//mediapipe/framework/formats:rect_java_proto_lite",
         src_out = "com/google/mediapipe/formats/proto/RectProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/util:color_java_proto_lite",
+        target = "@mediapipe//mediapipe/util:color_java_proto_lite",
         src_out = "com/google/mediapipe/util/proto/ColorProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/util:label_map_java_proto_lite",
+        target = "@mediapipe//mediapipe/util:label_map_java_proto_lite",
         src_out = "com/google/mediapipe/util/proto/LabelMapProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/util:render_data_java_proto_lite",
+        target = "@mediapipe//mediapipe/util:render_data_java_proto_lite",
         src_out = "com/google/mediapipe/util/proto/RenderDataProto.java",
     ))
 

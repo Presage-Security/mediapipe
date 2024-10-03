@@ -13,6 +13,7 @@
 # limitations under the License.
 
 load("@mediapipe//mediapipe:platforms.bzl", "config_setting_and_platform")
+load("@bazel_skylib//lib:selects.bzl", "selects")
 
 licenses(["notice"])  # Apache 2.0
 
@@ -194,6 +195,39 @@ config_setting_and_platform(
         "@platforms//cpu:x86_64",
     ],
     visibility = ["//visibility:public"],
+)
+
+# Emscripten.
+config_setting(
+    name = "emscripten",
+    values = {"crosstool_top": "@emsdk//emscripten_toolchain:everything"},
+)
+
+# Emscripten + WASM.
+config_setting(
+    name = "emscripten_wasm",
+    values = {
+        "crosstool_top": "@emsdk//emscripten_toolchain:everything",
+        "cpu": "wasm",
+    },
+)
+
+# Emscripten + WASM w/ SIMD support.
+config_setting(
+    name = "emscripten_wasm_simd",
+    values = {
+        "crosstool_top": "@emsdk//emscripten_toolchain:everything",
+        "cpu": "wasm",
+        "copt": "-msimd128",
+    },
+)
+
+selects.config_setting_group(
+    name = "wasm",
+    match_any = [
+        ":emscripten_wasm",
+        ":emscripten_wasm_simd",
+    ],
 )
 
 exports_files(
