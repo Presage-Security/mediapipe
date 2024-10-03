@@ -198,10 +198,10 @@ def _mediapipe_jni(name, gen_libmediapipe, calculators = []):
     native.cc_library(
         name = name + "_opencv_cc_lib",
         srcs = select({
-            "//mediapipe:android_arm64": ["@android_opencv//:libopencv_java4_so_arm64-v8a"],
-            "//mediapipe:android_arm": ["@android_opencv//:libopencv_java4_so_armeabi-v7a"],
-            "//mediapipe:android_x86": ["@android_opencv//:libopencv_java4_so_x86"],
-            "//mediapipe:android_x86_64": ["@android_opencv//:libopencv_java4_so_x86_64"],
+            "@mediapipe//mediapipe:android_arm64": ["@android_opencv//:libopencv_java4_so_arm64-v8a"],
+            "@mediapipe//mediapipe:android_arm": ["@android_opencv//:libopencv_java4_so_armeabi-v7a"],
+            "@mediapipe//mediapipe:android_x86": ["@android_opencv//:libopencv_java4_so_x86"],
+            "@mediapipe//mediapipe:android_x86_64": ["@android_opencv//:libopencv_java4_so_x86_64"],
             "//conditions:default": [],
         }),
         alwayslink = 1,
