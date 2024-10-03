@@ -110,10 +110,10 @@ EOF
     android_library(
         name = name + "_android_lib",
         srcs = srcs + [
-            "@mediapipe//mediapipe/java/com/google/mediapipe/components:java_src",
-            "@mediapipe//mediapipe/java/com/google/mediapipe/framework:java_src",
-            "@mediapipe//mediapipe/java/com/google/mediapipe/glutil:java_src",
-        ] + mediapipe_java_proto_srcs() +
+                   "@mediapipe//mediapipe/java/com/google/mediapipe/components:java_src",
+                   "@mediapipe//mediapipe/java/com/google/mediapipe/framework:java_src",
+                   "@mediapipe//mediapipe/java/com/google/mediapipe/glutil:java_src",
+               ] + mediapipe_java_proto_srcs() +
                select({
                    "//conditions:default": [],
                    "enable_stats_logging": mediapipe_logging_java_proto_srcs(),
@@ -404,12 +404,12 @@ def mediapipe_logging_java_proto_srcs(name = ""):
     proto_src_list = []
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/util/analytics:mediapipe_log_extension_java_proto_lite",
+        target = "@mediapipe//mediapipe/util/analytics:mediapipe_log_extension_java_proto_lite",
         src_out = "com/google/mediapipe/proto/MediaPipeLoggingProto.java",
     ))
 
     proto_src_list.append(mediapipe_java_proto_src_extractor(
-        target = "//mediapipe/util/analytics:mediapipe_logging_enums_java_proto_lite",
+        target = "@mediapipe//mediapipe/util/analytics:mediapipe_logging_enums_java_proto_lite",
         src_out = "com/google/mediapipe/proto/MediaPipeLoggingEnumsProto.java",
     ))
     return proto_src_list
