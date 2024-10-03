@@ -14,8 +14,16 @@
 #
 
 load("@bazel_skylib//lib:selects.bzl", "selects")
+
+# region ===== PRESAGE: collect framework/formats headers =================================================================
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 load("//mediapipe/framework:mediapipe_register_type.bzl", "mediapipe_register_type")
 load("//mediapipe/framework/port:build_config.bzl", "mediapipe_proto_library")
+load(
+    "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
+    "mediapipe_cc_shared_library",
+    "transitive_protos_with_aggregate_include",
+)
 
 package(
     default_visibility = ["//visibility:public"],
@@ -647,13 +655,6 @@ cc_test(
         "//mediapipe/framework/port:status",
     ],
 )
-# region ===== PRESAGE: collect framework/formats headers =================================================================
-load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
-load(
-    "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
-    "mediapipe_cc_shared_library",
-    "transitive_protos_with_aggregate_include",
-)
 
 mediapipe_cc_shared_library(
     name = "mediapipe_framework_formats",
@@ -676,27 +677,6 @@ mediapipe_cc_shared_library(
     ],
 )
 
-#__DEBUG
-#transitive_protos_with_aggregate_include(
-#    name = "mediapipe_calculator_framework_formats_cc_protos",
-#    aggregate_header = "mediapipe_calculator_framework_formats_cc_protos.h",
-#    deps = [
-#        ":affine_transform_data_cc_proto",
-#        ":body_rig_cc_proto",
-#        ":classification_cc_proto",
-#        ":detection_cc_proto",
-#        ":image_file_properties_cc_proto",
-#        ":image_format_cc_proto",
-#        ":landmark_cc_proto",
-#        ":location_data_cc_proto",
-#        ":matrix_data_cc_proto",
-#        ":rect_cc_proto",
-#        ":time_series_header_cc_proto",
-#        "//mediapipe/framework/formats/annotation:locus_cc_proto",
-#    ],
-#)
-
-# TODO: automate renames for pb headers in subfolders
 pkg_files(
     name = "headers",
     srcs = glob(["**/*.h"]) + [
