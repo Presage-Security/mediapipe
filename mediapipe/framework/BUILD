@@ -26,7 +26,7 @@ package(default_visibility = ["//visibility:private"])
 package_group(
     name = "mediapipe_internal_proto_users",
     packages = [
-        "//mediapipe/...",
+        "public",
     ],
 )
 
@@ -1853,3 +1853,35 @@ cc_library(
         ":memory_manager",
     ],
 )
+
+# region ===== PRESAGE =================================================================================================
+
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+load(
+    "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
+    "mediapipe_cc_shared_library",
+    "transitive_protos_with_aggregate_include",
+)
+
+mediapipe_cc_shared_library(
+    name = "mediapipe_framework",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":calculator_framework",
+        ":calculator_graph",
+        ":calculator_options_cc_proto",
+        "//mediapipe/framework/tool:text_to_binary_graph",
+    ],
+)
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["*.h"]) + [
+        ":mediapipe_framework_cc_protos",
+        ":mediapipe_framework_cc_protos.h",
+    ],
+    prefix = "mediapipe/framework",
+    visibility = ["//visibility:public"],
+)
+
+# endregion ============================================================================================================

@@ -647,3 +647,66 @@ cc_test(
         "//mediapipe/framework/port:status",
     ],
 )
+# region ===== PRESAGE: collect framework/formats headers =================================================================
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+load(
+    "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
+    "mediapipe_cc_shared_library",
+    "transitive_protos_with_aggregate_include",
+)
+
+mediapipe_cc_shared_library(
+    name = "mediapipe_framework_formats",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":image_frame_opencv",
+        # protos
+        ":affine_transform_data_cc_proto",
+        ":body_rig_cc_proto",
+        ":classification_cc_proto",
+        ":detection_cc_proto",
+        ":image_file_properties_cc_proto",
+        ":image_format_cc_proto",
+        ":landmark_cc_proto",
+        ":location_data_cc_proto",
+        ":matrix_data_cc_proto",
+        ":rect_cc_proto",
+        ":time_series_header_cc_proto",
+        "//mediapipe/framework/formats/annotation:locus_cc_proto",
+    ],
+)
+
+#__DEBUG
+#transitive_protos_with_aggregate_include(
+#    name = "mediapipe_calculator_framework_formats_cc_protos",
+#    aggregate_header = "mediapipe_calculator_framework_formats_cc_protos.h",
+#    deps = [
+#        ":affine_transform_data_cc_proto",
+#        ":body_rig_cc_proto",
+#        ":classification_cc_proto",
+#        ":detection_cc_proto",
+#        ":image_file_properties_cc_proto",
+#        ":image_format_cc_proto",
+#        ":landmark_cc_proto",
+#        ":location_data_cc_proto",
+#        ":matrix_data_cc_proto",
+#        ":rect_cc_proto",
+#        ":time_series_header_cc_proto",
+#        "//mediapipe/framework/formats/annotation:locus_cc_proto",
+#    ],
+#)
+
+# TODO: automate renames for pb headers in subfolders
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]) + [
+        ":mediapipe_framework_formats_cc_protos",
+        ":mediapipe_framework_formats_cc_protos.h",
+    ],
+    prefix = "mediapipe/framework/formats",
+    renames = {
+        "//mediapipe/framework/formats/annotation:locus.pb.h": "annotation/locus.pb.h",
+    },
+    visibility = ["//visibility:public"],
+)
+# endregion ============================================================================================================
