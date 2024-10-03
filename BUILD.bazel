@@ -59,7 +59,7 @@ pkg_zip(
         ":mediapipe_headers",
         # Uncomment to include mediapipe libraries in the package.
         # Caution: not supported & buggy! Would need much work to be used directly.
-        # ":mediapipe_libraries",
+        ":mediapipe_libraries",
     ],
     out = "mediapipe.zip",
 )

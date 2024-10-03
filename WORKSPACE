@@ -101,7 +101,7 @@ http_archive(
     sha256 = "ea028ced757dbc3309518ae7038ed625b02d58190078a5801d30e7b28f8b9e9c",
     strip_prefix = "cpuinfo-ca678952a9a8eaa6de112d154e8e104b22f9ab3f",
     urls = [
-        "https://github.com/pytorch/cpuinfo/archive/ca678952a9a8eaa6de112d154e8e104b22f9ab3f.zip"
+        "https://github.com/pytorch/cpuinfo/archive/ca678952a9a8eaa6de112d154e8e104b22f9ab3f.zip",
     ],
 )
 
@@ -330,15 +330,19 @@ http_archive(
 # Sentencepiece
 http_archive(
     name = "com_google_sentencepiece",
-    strip_prefix = "sentencepiece-0.1.96",
     add_prefix = "sentencepiece",
-    sha256 = "8409b0126ebd62b256c685d5757150cf7fcb2b92a2f2b98efb3f38fc36719754",
-    urls = [
-        "https://github.com/google/sentencepiece/archive/refs/tags/v0.1.96.zip"
-    ],
     build_file = "@//third_party:sentencepiece.BUILD",
+    patch_args = [
+        "-d",
+        "sentencepiece",
+        "-p1",
+    ],
     patches = ["@//third_party:com_google_sentencepiece.diff"],
-    patch_args = ["-d", "sentencepiece", "-p1"],
+    sha256 = "8409b0126ebd62b256c685d5757150cf7fcb2b92a2f2b98efb3f38fc36719754",
+    strip_prefix = "sentencepiece-0.1.96",
+    urls = [
+        "https://github.com/google/sentencepiece/archive/refs/tags/v0.1.96.zip",
+    ],
 )
 
 http_archive(
@@ -612,8 +616,10 @@ http_archive(
 # TensorFlow repo should always go after the other external dependencies.
 # TF on 2024-07-18.
 _TENSORFLOW_GIT_COMMIT = "117a62ac439ed87eb26f67208be60e01c21960de"
+
 # curl -L https://github.com/tensorflow/tensorflow/archive/117a62ac439ed87eb26f67208be60e01c21960de.tar.gz | shasum -a 256
 _TENSORFLOW_SHA256 = "2a1e56f9f83f99e2b9d01a184bc6f409209b36c98fb94b6d5db3f0ab20ec33f2"
+
 http_archive(
     name = "org_tensorflow",
     patch_args = [
@@ -792,9 +798,6 @@ http_archive(
     sha256 = "6bea5877b1541d353bd77bdfbdb2696333ae5ed8f9e8cc22df657192218cad91",
     urls = ["https://github.com/nlohmann/json/releases/download/v3.9.1/include.zip"],
 )
-
-# Packaging Rules
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "rules_pkg",
