@@ -115,13 +115,13 @@ http_archive(
     ],
 )
 
-# XNNPACK on 2024-07-16
+# XNNPACK on 2024-09-24
 http_archive(
     name = "XNNPACK",
     # `curl -L <url> | shasum -a 256`
-    sha256 = "0e5d5c16686beff813e3946b26ca412f28acaf611228d20728ffb6479264fe19",
-    strip_prefix = "XNNPACK-9ddeb74f9f6866174d61888947e4aa9ffe963b1b",
-    url = "https://github.com/google/XNNPACK/archive/9ddeb74f9f6866174d61888947e4aa9ffe963b1b.zip",
+    sha256 = "feecde71526d955a0125f7ddd28b9f2d282cd6fca6c1c6bde48f29f86365dd0b",
+    strip_prefix = "XNNPACK-9007aa93227010168e615f9c6552035040c94a15",
+    url = "https://github.com/google/XNNPACK/archive/9007aa93227010168e615f9c6552035040c94a15.zip",
 )
 
 # TODO: This is an are indirect depedency. We should factor it out.
