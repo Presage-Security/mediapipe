@@ -83,8 +83,6 @@ http_archive(
 
 load("@rules_android_ndk//:rules.bzl", "android_ndk_repository")
 
-register_toolchains("@androidndk//:all")
-
 http_archive(
     name = "com_google_protobuf",
     patch_args = [
