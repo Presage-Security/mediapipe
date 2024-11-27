@@ -287,7 +287,7 @@ def mediapipe_java_proto_src_extractor(target, src_out, name = ""):
         name = name + "_proto_java_src_extractor",
         srcs = [target],
         outs = [src_out],
-        cmd = "unzip $(GENDIR)/" + src_jar + " -d $(GENDIR) && mv $(GENDIR)/" +
+        cmd = "unzip -o $(GENDIR)/" + src_jar + " -d $(GENDIR) && mv $(GENDIR)/" +
               src_out + " $$(dirname $(location " + src_out + "))",
     )
     return src_out
