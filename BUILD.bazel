@@ -1,3 +1,5 @@
+load("@rules_pkg//pkg:mappings.bzl", "pkg_filegroup", "pkg_files")
+
 # Copyright 2022 The MediaPipe Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 load("@rules_pkg//pkg:zip.bzl", "pkg_zip")
-load("@rules_pkg//pkg:mappings.bzl", "pkg_filegroup", "pkg_files")
 
 licenses(["notice"])
 
@@ -46,8 +47,12 @@ pkg_files(
         "//mediapipe/calculators/core:mediapipe_calculators_core",
         "//mediapipe/framework:mediapipe_framework",
         "//mediapipe/framework/formats:mediapipe_framework_formats",
-        "//mediapipe/gpu:mediapipe_gpu",
-    ],
+    ] + select({
+        "//conditions:default": [
+            "//mediapipe/gpu:mediapipe_gpu",
+        ],
+        "//mediapipe/gpu:disable_gpu": [],
+    }),
     prefix = "lib",
     visibility = ["//visibility:public"],
 )
