@@ -100,7 +100,7 @@ node {
 
 # Detects faces.
 node {
-  calculator: "FaceDetectionShortRangeCpu"
+  calculator: "FaceDetectionFullRangeCpu"
   input_stream: "IMAGE:gated_image"
   input_side_packet: "MODEL_PATH:face_detection_model_path"
   output_stream: "DETECTIONS:all_face_detections"
