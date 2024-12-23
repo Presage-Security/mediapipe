@@ -41,7 +41,7 @@ class SubgraphContext {
   // @node and/or @service_manager can be nullptr.
   SubgraphContext(CalculatorGraphConfig::Node* node,
                   std::shared_ptr<GraphServiceManager> service_manager)
-      : default_node_(node ? absl::nullopt
+      : default_node_(node ? std::nullopt
                            : std::optional<CalculatorGraphConfig::Node>(
                                  CalculatorGraphConfig::Node())),
         original_node_(node ? *node : default_node_.value()),
