@@ -126,7 +126,7 @@ def _unzip_opencv_xcframework_impl(ctx):
         outputs = output_files,
         arguments = [args],
         progress_message = "Unzipping %s" % ctx.file.zip_file.short_path,
-        command = "unzip -qq $1 -d $2",
+        command = "unzip -o -qq $1 -d $2",
     )
 
     # The symlinks of the opencv2 binaries for each platform in the xcframework
