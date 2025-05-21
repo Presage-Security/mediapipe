@@ -39,15 +39,16 @@ genrule(
         "$(execpath :opencv-4.11.0/platforms/apple/build_xcframework.py) \
         --iphonesimulator_archs arm64 \
         --iphoneos_archs arm64 \
-        --without dnn \
-        --without ml \
-        --without stitching \
-        --without photo \
-        --without objdetect \
-        --without gapi \
-        --without flann \
-        --without highgui \
-        --without videoio \
+        --without=dnn \
+        --without=ml \
+        --without=stitching \
+        --without=photo \
+        --without=objdetect \
+        --without=gapi \
+        --without=flann \
+        --without=highgui \
+        --without=videoio \
+        --without=objc \
         --disable PROTOBUF \
         --disable-bitcode \
         --disable-swift \
