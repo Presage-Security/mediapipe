@@ -29,10 +29,10 @@ exports_files(["LICENSE"])
 # is mentioned in an open issue in the opencv github repo.
 genrule(
     name = "build_opencv_xcframework",
-    srcs = glob(["opencv-4.5.3/**"]),
+    srcs = glob(["opencv-4.11.0/**"]),
     outs = ["opencv2.xcframework.zip"],
     cmd = "&&".join([
-        "$(location opencv-4.5.3/platforms/apple/build_xcframework.py) \
+        "$(location opencv-4.11.0/platforms/apple/build_xcframework.py) \
         --iphonesimulator_archs arm64 \
         --iphoneos_archs arm64 \
         --without dnn \

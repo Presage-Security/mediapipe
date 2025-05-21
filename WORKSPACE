@@ -515,9 +515,9 @@ http_archive(
 http_archive(
     name = "ios_opencv_source",
     build_file = "@//third_party:opencv_ios_source.BUILD",
-    sha256 = "a61e7a4618d353140c857f25843f39b2abe5f451b018aab1604ef0bc34cd23d5",
+    sha256 = "11dbd2c8d248fa97ac7d20f33c4bab8559ef32835d1c9274009150bb2cf5218a",
     type = "zip",
-    url = "https://github.com/opencv/opencv/archive/refs/tags/4.5.3.zip",
+    url = "https://github.com/opencv/opencv/archive/refs/tags/4.11.0.zip",
 )
 
 http_archive(
