@@ -85,16 +85,13 @@ select_headers(
 select_headers(
     name = "opencv_xcframework_simulator_headers",
     srcs = [":opencv_xcframework"],
-    platform = "ios_sim_arm64_platform",
+    platform = "ios-arm64-simulator",
 )
 
 # `cc_library` that can be linked to C++ targets to import opencv headers.
 cc_library(
     name = "opencv",
     hdrs = select({
-        "@//mediapipe:ios_x86_64": [
-            ":opencv_xcframework_simulator_headers",
-        ],
         "@//mediapipe:ios_sim_arm64": [
             ":opencv_xcframework_simulator_headers",
         ],
@@ -123,11 +120,10 @@ cc_library(
         "-framework QuartzCore",
     ],
     strip_include_prefix = select({
-        "@//mediapipe:ios_x86_64": "opencv2.xcframework/ios-arm64_x86_64-simulator/opencv2.framework/Versions/A/Headers",
-        "@//mediapipe:ios_sim_arm64": "opencv2.xcframework/ios-arm64_x86_64-simulator/opencv2.framework/Versions/A/Headers",
+        "@//mediapipe:ios_sim_arm64": "opencv2.xcframework/ios-arm64-simulator/opencv2.framework/Versions/A/Headers",
         "@//mediapipe:ios_arm64": "opencv2.xcframework/ios-arm64/opencv2.framework/Versions/A/Headers",
         # Random value is selected for default cases.
-        "//conditions:default": "opencv2.xcframework/ios-arm64_x86_64-simulator/opencv2.framework/Versions/A/Headers",
+        "//conditions:default": "opencv2.xcframework/ios-arm64-simulator/opencv2.framework/Versions/A/Headers",
     }),
     visibility = ["//visibility:public"],
     deps = [":opencv_xcframework"],
