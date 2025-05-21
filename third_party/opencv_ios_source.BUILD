@@ -85,7 +85,7 @@ select_headers(
 select_headers(
     name = "opencv_xcframework_simulator_headers",
     srcs = [":opencv_xcframework"],
-    platform = "ios-arm64_x86_64-simulator",
+    platform = "ios_sim_arm64_platform",
 )
 
 # `cc_library` that can be linked to C++ targets to import opencv headers.
