@@ -2,7 +2,7 @@
 #   OpenCV xcframework for video/image processing on iOS.
 
 load(
-    "@//third_party:opencv_ios_source.bzl",
+    "@mediapipe//third_party:opencv_ios_source.bzl",
     "select_headers",
     "unzip_opencv_xcframework",
 )
