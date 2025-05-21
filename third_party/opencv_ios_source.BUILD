@@ -33,7 +33,7 @@ genrule(
     outs = ["opencv2.xcframework.zip"],
     cmd = "&&".join([
         "$(location opencv-4.5.3/platforms/apple/build_xcframework.py) \
-        --iphonesimulator_archs arm64,x86_64 \
+        --iphonesimulator_archs arm64 \
         --iphoneos_archs arm64 \
         --without dnn \
         --without ml \
