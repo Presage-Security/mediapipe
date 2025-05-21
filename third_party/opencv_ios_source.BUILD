@@ -30,9 +30,12 @@ exports_files(["LICENSE"])
 genrule(
     name = "build_opencv_xcframework",
     srcs = glob(["opencv-4.11.0/**"]),
+    tools = [
+        "opencv-4.11.0/platforms/apple/build_xcframework.py",
+    ],
     outs = ["opencv2.xcframework.zip"],
-    cmd = "&&".join([
-        "$(location opencv-4.11.0/platforms/apple/build_xcframework.py) \
+    cmd = "\n".join([
+        "$(execpath :opencv-4.11.0/platforms/apple/build_xcframework.py) \
         --iphonesimulator_archs arm64 \
         --iphoneos_archs arm64 \
         --without dnn \
