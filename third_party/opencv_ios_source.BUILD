@@ -35,6 +35,7 @@ genrule(
     ],
     outs = ["opencv2.xcframework.zip"],
     cmd = "\n".join([
+        "export IPHONEOS_DEPLOYMENT_TARGET=15.0",
         "$(execpath :opencv-4.11.0/platforms/apple/build_xcframework.py) \
         --iphonesimulator_archs arm64 \
         --iphoneos_archs arm64 \
