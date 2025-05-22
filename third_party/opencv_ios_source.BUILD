@@ -39,6 +39,7 @@ genrule(
         "$(execpath :opencv-4.11.0/platforms/apple/build_xcframework.py) \
         --iphonesimulator_archs arm64 \
         --iphoneos_archs arm64 \
+        --with=features2d \
         --without=dnn \
         --without=ml \
         --without=stitching \
