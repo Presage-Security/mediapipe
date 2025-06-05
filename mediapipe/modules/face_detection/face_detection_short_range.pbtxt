@@ -16,8 +16,8 @@ type: "FaceDetectionShortRange"
 # The input image, either ImageFrame, GpuBuffer, or (multi-backend) Image.
 input_stream: "IMAGE:image"
 
-# Path to the face detection model. (string)
-input_side_packet: "MODEL_PATH:model_path"
+# Directory of the face detection model. (string)
+input_side_packet: "MODEL_DIRECTORY:model_directory"
 
 # ROI (region of interest) within the given image where faces should be
 # detected. (NormalizedRect)

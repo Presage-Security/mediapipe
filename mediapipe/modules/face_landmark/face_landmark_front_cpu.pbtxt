@@ -33,7 +33,7 @@ input_stream: "IMAGE:image"
 input_side_packet: "NUM_FACES:num_faces"
 
 # Path to the face detection model. (string)
-input_side_packet: "FACE_DETECTION_MODEL_PATH:face_detection_model_path"
+input_side_packet: "FACE_DETECTION_MODEL_DIRECTORY:face_detection_model_directory"
 # Path to the face landmark model. (string)
 input_side_packet: "FACE_LANDMARK_MODEL_PATH:face_landmark_model_path"
 
@@ -98,11 +98,19 @@ node {
   }
 }
 
-# Detects faces.
+# Detects faces. Optimized for short range.
 node {
   calculator: "FaceDetectionShortRangeCpu"
   input_stream: "IMAGE:gated_image"
-  input_side_packet: "MODEL_PATH:face_detection_model_path"
+  input_side_packet: "MODEL_DIRECTORY:face_detection_model_directory"
+  output_stream: "DETECTIONS:all_face_detections"
+}
+
+# Detects faces. Optimized for full range.
+node {
+  calculator: "FaceDetectionFullRangeCpu"
+  input_stream: "IMAGE:gated_image"
+  input_side_packet: "MODEL_DIRECTORY:face_detection_model_directory"
   output_stream: "DETECTIONS:all_face_detections"
 }
 
