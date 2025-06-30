@@ -50,7 +50,7 @@ message FaceDetectionOptions {
   optional float w_scale = 34 [default = 0.0];
   optional float h_scale = 35 [default = 0.0];
   // Score threshold for perserving from the SSD detections.
-  optional float min_score_thresh = 36;
+  optional float min_score_thresh = 36 [default = 0.1];
 
   // TfLite delegate to run inference.
   optional InferenceCalculatorOptions.Delegate delegate = 6;
