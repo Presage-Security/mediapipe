@@ -28,6 +28,7 @@ pkg_filegroup(
     name = "mediapipe_headers",
     srcs = [
         "//mediapipe/calculators/core:headers",
+        "//mediapipe/calculators/util:headers",
         "//mediapipe/framework:headers",
         "//mediapipe/framework/deps:headers",
         "//mediapipe/framework/formats:headers",
@@ -45,6 +46,7 @@ pkg_files(
     name = "mediapipe_libraries",
     srcs = [
         "//mediapipe/calculators/core:mediapipe_calculators_core",
+        "//mediapipe/calculators/util:mediapipe_calculators_util",
         "//mediapipe/framework:mediapipe_framework",
         "//mediapipe/framework/formats:mediapipe_framework_formats",
     ] + select({
