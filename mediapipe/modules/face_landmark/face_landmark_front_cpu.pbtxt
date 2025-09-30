@@ -40,6 +40,10 @@ input_side_packet: "USE_FULL_RANGE_FACE_DETECTION:use_full_range_face_detection"
 # Path to the face landmark model. (string)
 input_side_packet: "FACE_LANDMARK_MODEL_PATH:face_landmark_model_path"
 
+# Confidence threshold applied to the face presence score produced by the
+# landmark model. (double)
+input_side_packet: "FACE_PRESENCE_THRESHOLD:face_presence_threshold"
+
 
 # Whether landmarks on the previous image should be used to help localize
 # landmarks on the current image. (bool)
@@ -100,6 +104,24 @@ node {
       empty_packets_as_allow: true
     }
   }
+}
+
+# Provides a default face presence threshold when one is not specified.
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:default_face_presence_threshold"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet { double_value: 0.5 }
+    }
+  }
+}
+
+node {
+  calculator: "DefaultSidePacketCalculator"
+  input_side_packet: "OPTIONAL_VALUE:face_presence_threshold"
+  input_side_packet: "DEFAULT_VALUE:default_face_presence_threshold"
+  output_side_packet: "VALUE:effective_face_presence_threshold"
 }
 
 node {
@@ -213,6 +235,7 @@ node {
   input_stream: "IMAGE:landmarks_loop_image"
   input_stream: "ROI:face_rect"
   input_side_packet: "MODEL_PATH:face_landmark_model_path"
+  input_side_packet: "FACE_PRESENCE_THRESHOLD:effective_face_presence_threshold"
   output_stream: "LANDMARKS:face_landmarks"
 }
 

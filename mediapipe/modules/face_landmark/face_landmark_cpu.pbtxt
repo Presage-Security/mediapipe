@@ -40,6 +40,11 @@ node {
 # Path to the face landmark model. (string)
 input_side_packet: "MODEL_PATH:model_path"
 
+# Confidence threshold applied to the face presence score. (double)
+# Lower values make the graph more permissive when deciding if a face is
+# present in the ROI.
+input_side_packet: "FACE_PRESENCE_THRESHOLD:face_presence_threshold"
+
 # 468 or 478 facial landmarks within the given ROI. (NormalizedLandmarkList)
 #
 # Number of landmarks depends on the WITH_ATTENTION flag. If it's `true` - then
@@ -151,17 +156,32 @@ node {
   }
 }
 
+# Provides the default face presence threshold when none is supplied by the
+# parent graph.
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:default_face_presence_threshold"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet { double_value: 0.5 }
+    }
+  }
+}
+
+node {
+  calculator: "DefaultSidePacketCalculator"
+  input_side_packet: "OPTIONAL_VALUE:face_presence_threshold"
+  input_side_packet: "DEFAULT_VALUE:default_face_presence_threshold"
+  output_side_packet: "VALUE:effective_face_presence_threshold"
+}
+
 # Applies a threshold to the confidence score to determine whether a face is
 # present.
 node {
   calculator: "ThresholdingCalculator"
   input_stream: "FLOAT:face_presence_score"
+  input_side_packet: "THRESHOLD:effective_face_presence_threshold"
   output_stream: "FLAG:face_presence"
-  options: {
-    [mediapipe.ThresholdingCalculatorOptions.ext] {
-      threshold: 0.5
-    }
-  }
 }
 
 # Drop landmarks tensors if face is not present.
