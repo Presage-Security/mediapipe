@@ -198,18 +198,10 @@ config_setting_and_platform(
 )
 
 # Emscripten (WebAssembly)
-config_setting_and_platform(
-    name = "emscripten_mediapipe", # TODO: renamed to not overwrite Greg's edit below but should be re-evaluated (suffix added: _mediapipe)
-    constraint_values = [
-        "@platforms//cpu:wasm32",
-    ],
-    visibility = ["//visibility:public"],
-)
-# # Emscripten.
-
 config_setting(
     name = "emscripten",
     values = {"crosstool_top": "@emsdk//emscripten_toolchain:everything"},
+    visibility = ["//visibility:public"],
 )
 
 # Emscripten + WASM.
