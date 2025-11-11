@@ -61,6 +61,9 @@ cc_library(
         "//mediapipe:windows": [
             "@com_github_glog_glog_windows//:glog",
         ],
+        "//mediapipe:wasm": [
+            "@com_github_glog_glog_emscripten//:glog",
+        ],
         "//conditions:default": [
             "@com_github_glog_glog//:glog",
         ],
@@ -306,6 +309,7 @@ alias(
         "//mediapipe:ios": "@ios_opencv//:opencv",
         "//mediapipe:macos": "@macos_opencv//:opencv",
         "//mediapipe:windows": "@windows_opencv//:opencv",
+        "//mediapipe:wasm": "@wasm_opencv//:opencv",
         "//conditions:default": "@linux_opencv//:opencv",
     }),
 )

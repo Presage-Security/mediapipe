@@ -14,7 +14,9 @@
 
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 load("//mediapipe/framework/port:build_config.bzl", "mediapipe_proto_library")
+load("//mediapipe/framework/tool:mediapipe_transitive_library.bzl", "mediapipe_cc_shared_library")
 
 licenses(["notice"])
 
@@ -1899,3 +1901,89 @@ cc_test(
         "@com_google_absl//absl/status",
     ],
 )
+
+# region ===== PRESAGE =================================================================================================
+
+# Package into shared library temporarily, until MediaPipe upgrades bazel to 7.4+ and supports transitive static
+# libraries.
+# NOTE: this will generate transitive protobuf header inputs for the headers target below, so it's already a must-have,
+# even if we don't use the shared library directly.
+mediapipe_cc_shared_library(
+    name = "mediapipe_calculators_util",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":align_hand_to_pose_in_world_calculator",
+        ":alignment_points_to_rects_calculator",
+        ":annotation_overlay_calculator",
+        ":association_calculator",
+        ":association_detection_calculator",
+        ":association_norm_rect_calculator",
+        ":clock_latency_calculator",
+        ":clock_timestamp_calculator",
+        ":collection_has_min_size_calculator",
+        ":combine_joints_calculator",
+        ":detection_classifications_merger_calculator",
+        ":detection_label_id_to_text_calculator",
+        ":detection_letterbox_removal_calculator",
+        ":detection_projection_calculator",
+        ":detection_to_landmarks_calculator",
+        ":detection_transformation_calculator",
+        ":detection_unique_id_calculator",
+        ":detections_deduplicate_calculator",
+        ":detections_to_rects_calculator",
+        ":detections_to_render_data_calculator",
+        ":detections_to_timed_box_list_calculator",
+        ":face_to_rect_calculator",
+        ":filter_collection_calculator",
+        ":filter_detections_calculator",
+        ":flat_color_image_calculator",
+        ":from_image_calculator",
+        ":inverse_matrix_calculator",
+        ":labels_to_render_data_calculator",
+        ":landmark_letterbox_removal_calculator",
+        ":landmark_projection_calculator",
+        ":landmark_visibility_calculator",
+        ":landmarks_refinement_calculator",
+        ":landmarks_smoothing_calculator",
+        ":landmarks_to_detection_calculator",
+        ":landmarks_to_floats_calculator",
+        ":landmarks_to_render_data_calculator",
+        ":landmarks_transformation_calculator",
+        ":local_file_contents_calculator",
+        ":local_file_pattern_contents_calculator",
+        ":logic_calculator",
+        ":multi_landmarks_smoothing_calculator",
+        ":multi_world_landmarks_smoothing_calculator",
+        ":non_max_suppression_calculator",
+        ":packet_frequency_calculator",
+        ":packet_latency_calculator",
+        ":pass_through_or_empty_detection_vector_calculator",
+        ":rect_projection_calculator",
+        ":rect_to_render_data_calculator",
+        ":rect_to_render_scale_calculator",
+        ":rect_transformation_calculator",
+        ":refine_landmarks_from_heatmap_calculator",
+        ":set_joints_visibility_calculator",
+        ":set_landmark_visibility_calculator",
+        ":thresholding_calculator",
+        ":timed_box_list_id_to_label_calculator",
+        ":timed_box_list_to_render_data_calculator",
+        ":to_image_calculator",
+        ":top_k_scores_calculator",
+        ":visibility_copy_calculator",
+        ":visibility_smoothing_calculator",
+        ":world_landmark_projection_calculator",
+    ],
+)
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]) + [
+        ":mediapipe_calculators_util_cc_protos",
+        ":mediapipe_calculators_util_cc_protos.h",
+    ],
+    prefix = "mediapipe/calculators/util",
+    visibility = ["//visibility:public"],
+)
+
+# endregion ============================================================================================================

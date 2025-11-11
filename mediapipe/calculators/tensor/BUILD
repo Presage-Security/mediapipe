@@ -922,7 +922,7 @@ cc_library(
 cc_library(
     name = "inference_calculator_gl_if_compute_shader_available",
     deps = selects.with_or({
-        ":compute_shader_unavailable": [],
+        (":compute_shader_unavailable", "//mediapipe:wasm"): [],
         "//conditions:default": [
             ":inference_calculator_gl",
             ":inference_calculator_gl_advanced",
@@ -1981,6 +1981,12 @@ cc_library(
         ],
         # This setting is needed to allow bazel to build all targets on Mac with GPU disabled
         ":platform_apple_without_gpu": [],
+        "//mediapipe:wasm": [
+            ":tensors_to_segmentation_converter_gl_texture",
+            "//mediapipe/gpu:gl_calculator_helper",
+            "//mediapipe/gpu:gl_simple_shaders",
+            "//mediapipe/gpu:shader_util",
+        ],
         "//conditions:default": [
             ":tensors_to_segmentation_converter_gl_buffer",
             "//mediapipe/gpu:gl_calculator_helper",

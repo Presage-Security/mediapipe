@@ -82,7 +82,9 @@ inline int fourcc(char c1, char c2, char c3, char c4) {
 
 #else
 #include <opencv2/video.hpp>
+#ifndef __EMSCRIPTEN__
 #include <opencv2/videoio.hpp>
+#endif
 
 #if CV_VERSION_MAJOR == 4 && !defined(MEDIAPIPE_MOBILE)
 #include <opencv2/optflow.hpp>
@@ -94,11 +96,13 @@ inline Ptr<DenseOpticalFlow> createOptFlow_DualTVL1() {
 }  // namespace cv
 #endif
 
+#ifndef __EMSCRIPTEN__
 namespace mediapipe {
 inline int fourcc(char c1, char c2, char c3, char c4) {
   return cv::VideoWriter::fourcc(c1, c2, c3, c4);
 }
 }  // namespace mediapipe
-#endif
+#endif // __EMSCRIPTEN__
+#endif // CV_VERSION_EPOCH (OpenCV v2)
 
 #endif  // MEDIAPIPE_PORT_OPENCV_VIDEO_INC_H_

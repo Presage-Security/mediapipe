@@ -52,7 +52,7 @@ provider which it generates. This is how each node sends its gathered protos up
 the tree.
 """
 
-load("@com_google_protobuf//bazel/common:proto_info.bzl", "ProtoInfo")
+load("@rules_proto//proto:defs.bzl", "ProtoInfo")
 
 _TransitiveProtoAspectInfo = provider(
     "TransitiveProtoAspectInfo",

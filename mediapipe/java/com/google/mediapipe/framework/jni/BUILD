@@ -122,9 +122,9 @@ cc_library(
         "//conditions:default": [
             "//mediapipe/framework/port:file_helpers",
         ],
-        "//mediapipe:android": [
-            "//mediapipe/util/android:asset_manager_util",
-            "//mediapipe/util/android/file/base",
+        "@mediapipe//mediapipe:android": [
+            "@mediapipe//mediapipe/util/android:asset_manager_util",
+            "@mediapipe//mediapipe/util/android/file/base",
         ],
     }) + select({
         "//conditions:default": [

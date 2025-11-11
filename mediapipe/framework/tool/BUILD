@@ -1064,3 +1064,32 @@ exports_files(
         "//mediapipe/framework:__subpackages__",
     ],
 )
+
+# region ===== PRESAGE: collect framework/tools headers ================================================================
+load("//mediapipe/framework/tool:mediapipe_transitive_library.bzl", "transitive_protos_with_aggregate_include")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+
+transitive_protos_with_aggregate_include(
+    name = "mediapipe_calculator_framework_tool_cc_protos",
+    aggregate_header = "mediapipe_calculator_framework_tool_cc_protos.h",
+    deps = [
+        ":calculator_graph_template_cc_proto",
+        ":field_data_cc_proto",
+        ":node_chain_subgraph_cc_proto",
+        ":packet_generator_wrapper_calculator_cc_proto",
+        ":source_cc_proto",
+        ":switch_container_cc_proto",
+    ],
+)
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]) + [
+        ":mediapipe_calculator_framework_tool_cc_protos",
+        ":mediapipe_calculator_framework_tool_cc_protos.h",
+    ],
+    prefix = "mediapipe/framework/tool",
+    visibility = ["//visibility:public"],
+)
+
+# endregion ============================================================================================================

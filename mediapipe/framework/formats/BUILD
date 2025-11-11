@@ -16,8 +16,16 @@
 load("@bazel_skylib//lib:selects.bzl", "selects")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
+
+# region ===== PRESAGE: collect framework/formats headers =================================================================
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 load("//mediapipe/framework:mediapipe_register_type.bzl", "mediapipe_register_type")
 load("//mediapipe/framework/port:build_config.bzl", "mediapipe_proto_library")
+load(
+    "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
+    "mediapipe_cc_shared_library",
+    "transitive_protos_with_aggregate_include",
+)
 
 package(
     default_visibility = ["//visibility:public"],
@@ -778,3 +786,36 @@ cc_test(
         "@libyuv",
     ],
 )
+mediapipe_cc_shared_library(
+    name = "mediapipe_framework_formats",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":image_frame_opencv",
+        # protos
+        ":affine_transform_data_cc_proto",
+        ":body_rig_cc_proto",
+        ":classification_cc_proto",
+        ":detection_cc_proto",
+        ":image_file_properties_cc_proto",
+        ":image_format_cc_proto",
+        ":landmark_cc_proto",
+        ":location_data_cc_proto",
+        ":matrix_data_cc_proto",
+        ":rect_cc_proto",
+        ":time_series_header_cc_proto",
+        "//mediapipe/framework/formats/annotation:locus_cc_proto",
+    ],
+)
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]) + [
+        ":mediapipe_framework_formats_cc_protos",
+        ":mediapipe_framework_formats_cc_protos.h",
+    ],
+    prefix = "mediapipe/framework/formats",
+    # Note: With native cc_proto_library, individual .pb.h files are not exposed as targets
+    # The proto headers are included via the transitive dependencies
+    visibility = ["//visibility:public"],
+)
+# endregion ============================================================================================================

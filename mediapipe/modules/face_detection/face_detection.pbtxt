@@ -13,6 +13,9 @@ type: "FaceDetection"
 # The input image, either ImageFrame, GpuBuffer, or (multi-backend) Image.
 input_stream: "IMAGE:image"
 
+# Path to the face detection model. (string)
+input_side_packet: "MODEL_PATH:model_path"
+
 # ROI (region of interest) within the given image where faces should be
 # detected. (NormalizedRect)
 input_stream: "ROI:roi"
@@ -59,18 +62,32 @@ node: {
   option_value: "output_tensor_height:options/tensor_height"
 }
 
+# Loads the file in the specified path into a blob.
+node {
+  calculator: "LocalFileContentsCalculator"
+  input_side_packet: "FILE_PATH:model_path"
+  output_side_packet: "CONTENTS:model_blob"
+}
+
+# Converts the input blob into a TF Lite model.
+node {
+  calculator: "TfLiteModelCalculator"
+  input_side_packet: "MODEL_BLOB:model_blob"
+  output_side_packet: "MODEL:model"
+}
+
 # Runs a TensorFlow Lite model on CPU that takes an image tensor and outputs a
 # vector of tensors representing, for instance, detection boxes/keypoints and
 # scores.
 node {
   calculator: "InferenceCalculator"
   input_stream: "TENSORS:input_tensors"
+  input_side_packet: "MODEL:model"
   output_stream: "TENSORS:detection_tensors"
   options: {
     [mediapipe.InferenceCalculatorOptions.ext] {}
   }
   option_value: "delegate:options/delegate"
-  option_value: "model_path:options/model_path"
 }
 
 # Detection tensors. (std::vector<Tensor>)

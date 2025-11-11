@@ -1545,3 +1545,36 @@ cc_test(
         "//mediapipe/framework/port:gtest_main",
     ],
 )
+
+# region ===== PRESAGE =================================================================================================
+
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+load("//mediapipe/framework/tool:mediapipe_transitive_library.bzl", "mediapipe_cc_shared_library")
+
+mediapipe_cc_shared_library(
+    name = "mediapipe_calculators_core",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":flow_limiter_calculator",
+        ":gate_calculator",
+        ":packet_presence_calculator",
+        ":packet_resampler_calculator",
+        ":packet_thinner_calculator",
+        ":pass_through_calculator",
+        ":previous_loopback_calculator",
+        ":split_vector_calculator",
+        ":value_or_default_calculator",
+    ],
+)
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]) + [
+        ":mediapipe_calculators_core_cc_protos",
+        ":mediapipe_calculators_core_cc_protos.h",
+    ],
+    prefix = "mediapipe/calculators/core",
+    visibility = ["//visibility:public"],
+)
+
+# endregion ============================================================================================================

@@ -1,0 +1,57 @@
+commit 4d0725fc2566eaff0808249262e0f723ac265745
+Author: Greg Kramida <gregory.kramida@presagetech.com>
+Date:   Fri Apr 19 16:55:21 2024 -0400
+
+    fix(Emscripten): adjust compilation settings to fix  and  errors
+
+diff --git a/bazel/glog.bzl b/bazel/glog.bzl
+index 199fe01..02d53b0 100644
+--- a/bazel/glog.bzl
++++ b/bazel/glog.bzl
+@@ -66,19 +66,19 @@ def glog_library(with_gflags = 1, **kwargs):
+         "-DHAVE_SIGACTION",
+         # For logging.cc.
+         "-DHAVE_PREAD",
++        "-DHAVE_UNISTD_H",
++        "-DHAVE_MODE_T",
+     ]
+ 
+     linux_or_darwin_copts = wasm_copts + [
+         "-DGLOG_EXPORT=__attribute__((visibility(\\\"default\\\")))",
+         "-DGLOG_NO_EXPORT=__attribute__((visibility(\\\"default\\\")))",
+-        "-DHAVE_MODE_T",
+         "-DHAVE_POSIX_FADVISE",
+         "-DHAVE_SSIZE_T",
+         "-DHAVE_SYS_TYPES_H",
+         # For src/utilities.cc.
+         "-DHAVE_SYS_SYSCALL_H",
+         # For src/logging.cc to create symlinks.
+-        "-DHAVE_UNISTD_H",
+         "-fvisibility-inlines-hidden",
+         "-fvisibility=hidden",
+     ]
+@@ -158,7 +158,7 @@ def glog_library(with_gflags = 1, **kwargs):
+             "src/base/commandlineflags.h",
+             "src/stacktrace.h",
+             "src/utilities.h",
+-        ]
++        ],
+     )
+ 
+     native.cc_library(
+diff --git a/src/utilities.cc b/src/utilities.cc
+index 92bc5e5..671655d 100644
+--- a/src/utilities.cc
++++ b/src/utilities.cc
+@@ -129,9 +129,11 @@ static const int kPrintfPointerFieldWidth = 2 + 2 * sizeof(void*);
+ 
+ static void DebugWriteToStderr(const char* data, void*) {
+   // This one is signal-safe.
++#ifndef GLOG_OS_EMSCRIPTEN
+   if (write(fileno(stderr), data, strlen(data)) < 0) {
+     // Ignore errors.
+   }
++#endif
+   AlsoErrorWrite(GLOG_FATAL,
+                  glog_internal_namespace_::ProgramInvocationShortName(), data);
+ }

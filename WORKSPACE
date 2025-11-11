@@ -55,6 +55,17 @@ http_archive(
 )
 
 http_archive(
+    name = "rules_python",
+    sha256 = "9d04041ac92a0985e344235f5d946f71ac543f1b1565f2cdbc9a2aaee8adf55b",
+    strip_prefix = "rules_python-0.26.0",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.26.0/rules_python-0.26.0.tar.gz",
+)
+
+load("@rules_python//python:repositories.bzl", "py_repositories")
+
+py_repositories()
+
+http_archive(
     name = "com_google_protobuf",
     patch_args = [
         "-p1",
@@ -144,6 +155,21 @@ http_archive(
     strip_prefix = "glog-0.6.0",
     urls = [
         "https://github.com/google/glog/archive/v0.6.0.tar.gz",
+    ],
+)
+
+http_archive(
+    name = "com_github_glog_glog_emscripten",
+    patch_args = [
+        "-p1",
+    ],
+    patches = [
+        "@//third_party:com_github_glog_glog_emscripten_gettid_and_write_fix.diff",
+    ],
+    sha256 = "375106b5976231b92e66879c1a92ce062923b9ae573c42b56ba28b112ee4cc11",
+    strip_prefix = "glog-0.7.0",
+    urls = [
+        "https://github.com/google/glog/archive/v0.7.0.tar.gz",
     ],
 )
 
@@ -388,13 +414,17 @@ load("@org_tensorflow//tensorflow:workspace2.bzl", "tf_workspace2")
 
 tf_workspace2()
 
+http_archive(
+    name = "rules_pkg",
+    sha256 = "cad05f864a32799f6f9022891de91ac78f30e0fa07dc68abac92a628121b5b11",
+    urls = [
+        "https://github.com/bazelbuild/rules_pkg/releases/download/1.0.0/rules_pkg-1.0.0.tar.gz",
+    ],
+)
+
 load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
 
 rules_pkg_dependencies()
-
-load("@rules_python//python:repositories.bzl", "py_repositories")
-
-py_repositories()
 
 load("@rules_python//python:pip.bzl", "pip_parse")
 
@@ -639,6 +669,16 @@ http_archive(
     url = "https://github.com/opencv/opencv/releases/download/4.12.0/opencv-4.12.0-android-sdk.zip",
 )
 
+# Prebuilt OpenCV variants for WebAssembly builds.
+http_archive(
+    name = "wasm_opencv",
+    build_file = "@//third_party:opencv_wasm.BUILD",
+    sha256 = "4209aba32c9d4c70b687f5f12341b390a57249cddfea4e794ad1126bb9e505c6",
+    strip_prefix = "build_opencv",
+    type = "zip",
+    url = "https://drive.usercontent.google.com/download?id=18pW3WyveGLpG9rM2JC43ygcsAD8h1KKr&export=download&authuser=0",
+)
+
 # After OpenCV 3.2.0, the pre-compiled opencv2.framework has google protobuf symbols, which will
 # trigger duplicate symbol errors in the linking stage of building a mediapipe ios app.
 # To get a higher version of OpenCV for iOS, opencv2.framework needs to be built from source with
@@ -820,6 +860,26 @@ external_files()
 load("@//third_party:wasm_files.bzl", "wasm_files")
 
 wasm_files()
+
+# WebAssembly toolchain setup (Emscripten).
+http_archive(
+    name = "emsdk",
+    sha256 = "bd5fb05f50ee3410fba9d6d301db91f15efd45b9a87d32b45be28908079ab161",
+    strip_prefix = "emsdk-3.1.57//bazel",
+    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.57.tar.gz",
+)
+
+load("@emsdk//:deps.bzl", emsdk_deps = "deps")
+
+emsdk_deps()
+
+load("@emsdk//:emscripten_deps.bzl", emsdk_emscripten_deps = "emscripten_deps")
+
+emsdk_emscripten_deps(emscripten_version = "3.1.57")
+
+load("@emsdk//:toolchains.bzl", "register_emscripten_toolchains")
+
+register_emscripten_toolchains()
 
 # Eigen
 # org_tensorflow depends on Eigen. If updating tensorflow version,

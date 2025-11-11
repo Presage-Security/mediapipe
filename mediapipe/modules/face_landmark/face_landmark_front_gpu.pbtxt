@@ -32,6 +32,11 @@ input_stream: "IMAGE:image"
 # Max number of faces to detect/track. (int)
 input_side_packet: "NUM_FACES:num_faces"
 
+# Path to the face detection model. (string)
+input_side_packet: "FACE_DETECTION_MODEL_PATH:face_detection_model_path"
+# Path to the face landmark model. (string)
+input_side_packet: "FACE_LANDMARK_MODEL_PATH:face_landmark_model_path"
+
 # Whether landmarks on the previous image should be used to help localize
 # landmarks on the current image. (bool)
 input_side_packet: "USE_PREV_LANDMARKS:use_prev_landmarks"
@@ -39,7 +44,15 @@ input_side_packet: "USE_PREV_LANDMARKS:use_prev_landmarks"
 # Whether to run face mesh model with attention on lips and eyes. (bool)
 # Attention provides more accuracy on lips and eye regions as well as iris
 # landmarks.
-input_side_packet: "WITH_ATTENTION:with_attention"
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:with_attention"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet { bool_value:true }
+    }
+  }
+}
 
 # Collection of detected/predicted faces, each represented as a list of 468 face
 # landmarks. (std::vector<NormalizedLandmarkList>)
@@ -102,6 +115,7 @@ node {
 node {
   calculator: "FaceDetectionShortRangeGpu"
   input_stream: "IMAGE:gated_image"
+  input_side_packet: "MODEL_PATH:face_detection_model_path"
   output_stream: "DETECTIONS:all_face_detections"
 }
 
@@ -197,6 +211,7 @@ node {
   calculator: "FaceLandmarkGpu"
   input_stream: "IMAGE:landmarks_loop_image"
   input_stream: "ROI:face_rect"
+  input_side_packet: "MODEL_PATH:face_landmark_model_path"
   input_side_packet: "WITH_ATTENTION:with_attention"
   output_stream: "LANDMARKS:face_landmarks"
 }

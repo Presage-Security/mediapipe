@@ -1,0 +1,27 @@
+# region ===== PRESAGE =================================================================================================
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]),
+    prefix = "mediapipe/calculators",
+    visibility = ["//visibility:public"],
+)
+
+cc_shared_library(
+    name = "mediapipe_calculators",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//mediapipe/calculators/core:flow_limiter_calculator",
+        "//mediapipe/calculators/core:gate_calculator",
+        "//mediapipe/calculators/core:packet_presence_calculator",
+        "//mediapipe/calculators/core:packet_resampler_calculator",
+        "//mediapipe/calculators/core:packet_thinner_calculator",
+        "//mediapipe/calculators/core:pass_through_calculator",
+        "//mediapipe/calculators/core:previous_loopback_calculator",
+        "//mediapipe/calculators/core:split_vector_calculator",
+        "//mediapipe/calculators/core:value_or_default_calculator",
+    ],
+)
+
+# endregion ============================================================================================================

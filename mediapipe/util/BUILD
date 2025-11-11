@@ -544,3 +544,29 @@ cc_test(
         "@com_google_absl//absl/strings:string_view",
     ],
 )
+# region ===== PRESAGE: collect util headers ===========================================================================
+load("//mediapipe/framework/tool:mediapipe_transitive_library.bzl", "transitive_protos_with_aggregate_include")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+
+transitive_protos_with_aggregate_include(
+    name = "mediapipe_util_cc_protos",
+    aggregate_header = "mediapipe_util_cc_protos.h",
+    deps = [
+        ":audio_decoder_cc_proto",
+        ":color_cc_proto",
+        ":label_map_cc_proto",
+        ":render_data_cc_proto",
+    ],
+)
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]) + [
+        ":mediapipe_util_cc_protos",
+        ":mediapipe_util_cc_protos.h",
+    ],
+    prefix = "mediapipe/util",
+    visibility = ["//visibility:public"],
+)
+
+# endregion ============================================================================================================

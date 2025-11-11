@@ -15,8 +15,7 @@ Example:
 
 """
 
-load("@rules_cc//cc:cc_library.bzl", "cc_library")
-load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 load("//mediapipe/framework:encode_binary_proto.bzl", "encode_binary_proto", "generate_proto_descriptor_set")
 load("//mediapipe/framework:transitive_protos.bzl", "transitive_proto_cc_libs", "transitive_proto_descriptor_sets", "transitive_protos")
 load("//mediapipe/framework/deps:expand_template.bzl", "expand_template")
@@ -289,10 +288,10 @@ def mediapipe_options_library(
         name = name + "_type_name",
         srcs = [proto_lib + "_direct-direct-descriptor-set.proto.bin"],
         outs = [name + "_type_name.h"],
-        cmd = ("$(location " + "//mediapipe/framework/tool:message_type_util" + ") " +
+        cmd = ("$(location " + clean_dep("//mediapipe/framework/tool:message_type_util") + ") " +
                ("--input_path=$(location %s) " % (proto_lib + "_direct-direct-descriptor-set.proto.bin")) +
                ("--root_type_macro_output_path=$(location %s) " % (name + "_type_name.h"))),
-        tools = ["//mediapipe/framework/tool:message_type_util"],
+        tools = [clean_dep("//mediapipe/framework/tool:message_type_util")],
         visibility = visibility,
         testonly = testonly,
         compatible_with = compatible_with,

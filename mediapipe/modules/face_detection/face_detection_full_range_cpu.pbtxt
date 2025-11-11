@@ -12,6 +12,9 @@ type: "FaceDetectionFullRangeCpu"
 # The input image, either ImageFrame, or (multi-backend) Image.
 input_stream: "IMAGE:image"
 
+# Path to the face detection model. (string)
+input_side_packet: "MODEL_PATH:model_path"
+
 # Detected faces. (std::vector<Detection>)
 output_stream: "DETECTIONS:detections"
 
@@ -22,6 +25,7 @@ graph_options: {
 node {
   calculator: "FaceDetectionFullRange"
   input_stream: "IMAGE:image"
+  input_side_packet: "MODEL_PATH:model_path"
   output_stream: "DETECTIONS:detections"
   node_options: {
     [type.googleapis.com/mediapipe.FaceDetectionOptions] {

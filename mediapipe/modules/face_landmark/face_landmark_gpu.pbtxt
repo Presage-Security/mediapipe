@@ -30,6 +30,9 @@ input_stream: "ROI:roi"
 # landmarks.
 input_side_packet: "WITH_ATTENTION:with_attention"
 
+# Path to the face landmark model. (string)
+input_side_packet: "MODEL_PATH:model_path"
+
 # 468 or 478 facial landmarks within the given ROI. (NormalizedLandmarkList)
 #
 # Number of landmarks depends on the WITH_ATTENTION flag. If it's `true` - then
@@ -61,18 +64,25 @@ node: {
   }
 }
 
-# Loads the face landmarks TF Lite model.
-node {
-  calculator: "FaceLandmarksModelLoader"
-  input_side_packet: "WITH_ATTENTION:with_attention"
-  output_side_packet: "MODEL:model"
-}
-
 # Generates a single side packet containing a TensorFlow Lite op resolver that
 # supports custom ops needed by the model used in this graph.
 node {
   calculator: "TfLiteCustomOpResolverCalculator"
   output_side_packet: "OP_RESOLVER:op_resolver"
+}
+
+# Loads the file in the specified path into a blob.
+node {
+  calculator: "LocalFileContentsCalculator"
+  input_side_packet: "FILE_PATH:model_path"
+  output_side_packet: "CONTENTS:model_blob"
+}
+
+# Converts the input blob into a TF Lite model.
+node {
+  calculator: "TfLiteModelCalculator"
+  input_side_packet: "MODEL_BLOB:model_blob"
+  output_side_packet: "MODEL:model"
 }
 
 # Runs a TensorFlow Lite model on GPU that takes an image tensor and outputs a

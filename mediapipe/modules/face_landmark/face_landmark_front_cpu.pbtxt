@@ -32,14 +32,18 @@ input_stream: "IMAGE:image"
 # Max number of faces to detect/track. (int)
 input_side_packet: "NUM_FACES:num_faces"
 
+# Path to the face detection model. (string)
+input_side_packet: "FACE_DETECTION_MODEL_PATH:face_detection_model_path"
+# Whether to use short- or full-range face detection calculator configuration,
+# regardless of tflite model file path. (bool)
+input_side_packet: "USE_FULL_RANGE_FACE_DETECTION:use_full_range_face_detection"
+# Path to the face landmark model. (string)
+input_side_packet: "FACE_LANDMARK_MODEL_PATH:face_landmark_model_path"
+
+
 # Whether landmarks on the previous image should be used to help localize
 # landmarks on the current image. (bool)
 input_side_packet: "USE_PREV_LANDMARKS:use_prev_landmarks"
-
-# Whether to run face mesh model with attention on lips and eyes. (bool)
-# Attention provides more accuracy on lips and eye regions as well as iris
-# landmarks.
-input_side_packet: "WITH_ATTENTION:with_attention"
 
 # Collection of detected/predicted faces, each represented as a list of 468 face
 # landmarks. (std::vector<NormalizedLandmarkList>)
@@ -98,11 +102,22 @@ node {
   }
 }
 
-# Detects faces.
 node {
-  calculator: "FaceDetectionShortRangeCpu"
+  calculator: "SwitchContainer"
+  input_side_packet: "ENABLE:use_full_range_face_detection"
+  input_side_packet: "MODEL_PATH:face_detection_model_path"
   input_stream: "IMAGE:gated_image"
   output_stream: "DETECTIONS:all_face_detections"
+  options {
+    [mediapipe.SwitchContainerOptions.ext] {
+      contained_node: {
+        calculator: "FaceDetectionShortRangeCpu"
+      }
+      contained_node: {
+        calculator: "FaceDetectionFullRangeCpu"
+      }
+    }
+  }
 }
 
 # Makes sure there are no more detections than the provided num_faces.
@@ -197,7 +212,7 @@ node {
   calculator: "FaceLandmarkCpu"
   input_stream: "IMAGE:landmarks_loop_image"
   input_stream: "ROI:face_rect"
-  input_side_packet: "WITH_ATTENTION:with_attention"
+  input_side_packet: "MODEL_PATH:face_landmark_model_path"
   output_stream: "LANDMARKS:face_landmarks"
 }
 

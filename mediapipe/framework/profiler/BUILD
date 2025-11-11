@@ -381,3 +381,14 @@ cc_test(
         "@com_google_absl//absl/strings",
     ],
 )
+
+# region ===== PRESAGE: collect framework/formats headers =================================================================
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]),
+    prefix = "mediapipe/framework/profiler",
+    visibility = ["//visibility:public"],
+)
+# endregion ============================================================================================================

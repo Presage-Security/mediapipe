@@ -4,10 +4,12 @@
 # buildifier: disable=out-of-order-load
 load("//mediapipe/framework/tool:mediapipe_graph.bzl", "mediapipe_options_library")
 load("//mediapipe/framework/tool:mediapipe_proto_allowlist.bzl", "rewrite_target_list")
-load("@com_google_protobuf//bazel:cc_proto_library.bzl", "cc_proto_library")
-load("@com_google_protobuf//bazel:py_proto_library.bzl", "py_proto_library")
 load("@rules_proto//proto:defs.bzl", _proto_library = "proto_library")
+load("@rules_python//python:proto.bzl", py_proto_library = "py_proto_library")
 load("@rules_proto_grpc//js:defs.bzl", "js_proto_library")
+
+# cc_proto_library is a native Bazel rule
+cc_proto_library = native.cc_proto_library
 
 java_proto_library = native.java_proto_library
 java_lite_proto_library = native.java_lite_proto_library

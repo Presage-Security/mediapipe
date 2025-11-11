@@ -1,3 +1,5 @@
+load("@rules_pkg//pkg:mappings.bzl", "pkg_filegroup", "pkg_files")
+
 # Copyright 2022 The MediaPipe Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,6 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+load("@rules_pkg//pkg:zip.bzl", "pkg_zip")
 
 licenses(["notice"])
 
@@ -20,3 +23,50 @@ exports_files([
     "package.json",
     "yarn.lock",
 ])
+
+pkg_filegroup(
+    name = "mediapipe_headers",
+    srcs = [
+        "//mediapipe/calculators/core:headers",
+        "//mediapipe/calculators/util:headers",
+        "//mediapipe/framework:headers",
+        "//mediapipe/framework/deps:headers",
+        "//mediapipe/framework/formats:headers",
+        "//mediapipe/framework/port:headers",
+        "//mediapipe/framework/profiler:headers",
+        "//mediapipe/framework/tool:headers",
+        "//mediapipe/gpu:headers",
+        "//mediapipe/util:headers",
+    ],
+    prefix = "include",
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "mediapipe_libraries",
+    srcs = [
+        "//mediapipe/calculators/core:mediapipe_calculators_core",
+        "//mediapipe/calculators/util:mediapipe_calculators_util",
+        "//mediapipe/framework:mediapipe_framework",
+        "//mediapipe/framework/formats:mediapipe_framework_formats",
+    ] + select({
+        "//conditions:default": [
+            "//mediapipe/gpu:mediapipe_gpu",
+        ],
+        "//mediapipe/gpu:disable_gpu": [],
+    }),
+    prefix = "lib",
+    visibility = ["//visibility:public"],
+)
+
+pkg_zip(
+    name = "mediapipe_package",
+    srcs = [
+        "LICENSE",
+        ":mediapipe_headers",
+        # Uncomment to include mediapipe libraries in the package.
+        # Caution: not supported & buggy! Would need much work to be used directly.
+        ":mediapipe_libraries",
+    ],
+    out = "mediapipe.zip",
+)

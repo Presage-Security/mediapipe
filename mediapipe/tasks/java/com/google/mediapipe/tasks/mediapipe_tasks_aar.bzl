@@ -15,8 +15,7 @@
 """Building MediaPipe Tasks AARs."""
 
 load("@build_bazel_rules_android//android:rules.bzl", "android_binary", "android_library")
-load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
-load("@rules_cc//cc:cc_library.bzl", "cc_library")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 
 _CORE_TASKS_JAVA_PROTO_LITE_TARGETS = [
     "//mediapipe/gpu:gpu_origin_java_proto_lite",

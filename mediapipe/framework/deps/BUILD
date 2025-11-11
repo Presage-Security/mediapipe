@@ -532,3 +532,24 @@ cc_library(
     hdrs = ["compile_time_string.h"],
     deps = ["@com_google_absl//absl/strings:string_view"],
 )
+# region ===== PRESAGE: collect framework/formats headers =================================================================
+load("//mediapipe/framework/tool:mediapipe_transitive_library.bzl", "transitive_protos_with_aggregate_include")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+
+transitive_protos_with_aggregate_include(
+    name = "mediapipe_calculator_framework_deps_cc_protos",
+    aggregate_header = "mediapipe_calculator_framework_deps_cc_protos.h",
+    deps = [":proto_descriptor_cc_proto"],
+)
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]) + [
+        ":mediapipe_calculator_framework_deps_cc_protos",
+        ":mediapipe_calculator_framework_deps_cc_protos.h",
+    ],
+    prefix = "mediapipe/framework/deps",
+    visibility = ["//visibility:public"],
+)
+
+# endregion ============================================================================================================

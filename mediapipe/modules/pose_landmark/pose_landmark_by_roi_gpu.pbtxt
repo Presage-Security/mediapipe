@@ -28,6 +28,9 @@ input_stream: "IMAGE:image"
 # (NormalizedRect)
 input_stream: "ROI:roi"
 
+# Path to the pose landmark model. (string)
+input_side_packet: "MODEL_PATH:model_path"
+
 # Whether to predict the segmentation mask. If unspecified, functions as set to
 # false. (bool)
 input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
@@ -127,10 +130,17 @@ node: {
   }
 }
 
-# Loads the pose landmark TF Lite model.
+# Loads the file in the specified path into a blob.
 node {
-  calculator: "PoseLandmarkModelLoader"
-  input_side_packet: "MODEL_COMPLEXITY:model_complexity"
+  calculator: "LocalFileContentsCalculator"
+  input_side_packet: "FILE_PATH:model_path"
+  output_side_packet: "CONTENTS:model_blob"
+}
+
+# Converts the input blob into a TF Lite model.
+node {
+  calculator: "TfLiteModelCalculator"
+  input_side_packet: "MODEL_BLOB:model_blob"
   output_side_packet: "MODEL:model"
 }
 
