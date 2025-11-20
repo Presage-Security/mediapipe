@@ -123,8 +123,8 @@ node {
   input_side_packet: "ALLOW:use_prev_landmarks"
   input_stream: "prev_pose_rect_from_landmarks"
   output_stream: "gated_prev_pose_rect_from_landmarks"
-  options: {
-    [mediapipe.GateCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.GateCalculatorOptions] {
       allow: true
     }
   }
@@ -154,8 +154,8 @@ node {
   input_stream: "DISALLOW:prev_pose_rect_from_landmarks_is_present"
   output_stream: "image_for_pose_detection"
   output_stream: "image_size_for_pose_detection"
-  options: {
-    [mediapipe.GateCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.GateCalculatorOptions] {
       empty_packets_as_allow: true
     }
   }
@@ -174,8 +174,8 @@ node {
   calculator: "SplitDetectionVectorCalculator"
   input_stream: "pose_detections"
   output_stream: "pose_detection"
-  options: {
-    [mediapipe.SplitVectorCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.SplitVectorCalculatorOptions] {
       ranges: { begin: 0 end: 1 }
       element_only: true
     }

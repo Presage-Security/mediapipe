@@ -18,8 +18,8 @@ node: {
   calculator: "ImageTransformationCalculator"
   input_stream: "IMAGE_GPU:input_video"
   output_stream: "IMAGE_GPU:downscaled_input_video"
-  options: {
-    [mediapipe.ImageTransformationCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.ImageTransformationCalculatorOptions] {
       output_width: 240
       output_height: 320
     }
@@ -40,8 +40,8 @@ node: {
   output_stream: "CAMERA:camera_motion"
   output_stream: "FLOW:region_flow"
 
-  options: {
-    [mediapipe.MotionAnalysisCalculatorOptions.ext]: {
+  node_options: {
+    [type.googleapis.com/mediapipe.MotionAnalysisCalculatorOptions]: {
       analysis_options {
         analysis_policy: ANALYSIS_POLICY_CAMERA_MOBILE
         flow_options {
@@ -76,8 +76,8 @@ node: {
   input_stream: "CAMERA:camera_motion"
   output_stream: "TRACKING:tracking_data"
 
-  options: {
-    [mediapipe.FlowPackagerCalculatorOptions.ext]: {
+  node_options: {
+    [type.googleapis.com/mediapipe.FlowPackagerCalculatorOptions]: {
       flow_packager_options: {
         binary_tracking_data_support: false
       }
@@ -116,8 +116,8 @@ node: {
     }
   }
 
-  options: {
-    [mediapipe.BoxTrackerCalculatorOptions.ext]: {
+  node_options: {
+    [type.googleapis.com/mediapipe.BoxTrackerCalculatorOptions]: {
       tracker_options: {
         track_step_options {
           track_object_and_camera: true
@@ -139,8 +139,8 @@ node {
   input_stream: "TRACKED_BOXES:boxes"
   output_stream: "TRACKED_FRAME_ANNOTATION:tracked_objects"
   output_stream: "CANCEL_OBJECT_ID:cancel_object_id"
-  options: {
-    [mediapipe.FrameAnnotationTrackerCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.FrameAnnotationTrackerCalculatorOptions] {
       img_width: 240
       img_height: 320
       iou_threshold: 0.1
@@ -167,8 +167,8 @@ node {
   calculator: "Lift2DFrameAnnotationTo3DCalculator"
   input_stream: "FRAME_ANNOTATION:tracked_objects"
   output_stream: "LIFTED_FRAME_ANNOTATION:lifted_tracked_objects"
-  options: {
-    [mediapipe.Lift2DFrameAnnotationTo3DCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.Lift2DFrameAnnotationTo3DCalculatorOptions] {
       normalized_focal_x: 2.0975
       normalized_focal_y: 1.5731
     }

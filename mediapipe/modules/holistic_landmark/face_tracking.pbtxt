@@ -46,8 +46,8 @@ node {
   input_stream: "RECROP_RECT:face_recrop_roi"
   input_stream: "IMAGE_SIZE:image_size"
   output_stream: "TRACKING_RECT:face_tracking_roi"
-  options: {
-    [mediapipe.RoiTrackingCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.RoiTrackingCalculatorOptions] {
       rect_requirements: {
         rotation_degrees: 15.0
         translation: 0.1

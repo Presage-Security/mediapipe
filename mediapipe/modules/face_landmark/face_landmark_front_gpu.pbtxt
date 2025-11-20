@@ -80,8 +80,8 @@ node {
   input_side_packet: "ALLOW:use_prev_landmarks"
   input_stream: "prev_face_rects_from_landmarks"
   output_stream: "gated_prev_face_rects_from_landmarks"
-  options: {
-    [mediapipe.GateCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.GateCalculatorOptions] {
       allow: true
     }
   }
@@ -104,8 +104,8 @@ node {
   input_stream: "image"
   input_stream: "DISALLOW:prev_has_enough_faces"
   output_stream: "gated_image"
-  options: {
-    [mediapipe.GateCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.GateCalculatorOptions] {
       empty_packets_as_allow: true
     }
   }
@@ -176,8 +176,8 @@ node {
   input_stream: "face_rects_from_detections"
   input_stream: "gated_prev_face_rects_from_landmarks"
   output_stream: "face_rects"
-  options: {
-    [mediapipe.AssociationCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.AssociationCalculatorOptions] {
       min_similarity_threshold: 0.5
     }
   }

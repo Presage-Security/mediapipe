@@ -25,8 +25,8 @@ node {
   input_stream: "DETECTION:pose_face_detection"
   input_stream: "IMAGE_SIZE:image_size"
   output_stream: "NORM_RECT:pose_face_rect"
-  options: {
-    [mediapipe.DetectionsToRectsCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.DetectionsToRectsCalculatorOptions] {
       rotation_vector_start_keypoint_index: 5  # Right eye.
       rotation_vector_end_keypoint_index: 2  # Left eye.
       rotation_vector_target_angle_degrees: 0
@@ -41,8 +41,8 @@ node {
   input_stream: "NORM_RECT:pose_face_rect"
   input_stream: "IMAGE_SIZE:image_size"
   output_stream: "roi"
-  options: {
-    [mediapipe.RectTransformationCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.RectTransformationCalculatorOptions] {
       scale_x: 3.0
       scale_y: 3.0
       square_long: true
