@@ -129,8 +129,8 @@ node {
   calculator: "SplitNormalizedLandmarkListCalculator"
   input_stream: "pose_landmarks"
   output_stream: "face_landmarks_from_pose"
-  options: {
-    [mediapipe.SplitVectorCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.SplitVectorCalculatorOptions] {
       ranges: { begin: 0 end: 11 }
     }
   }

@@ -28,8 +28,8 @@ node {
   input_side_packet: "ALLOW:enable"
   input_stream: "prev_filtered_segmentation_mask"
   output_stream: "gated_prev_filtered_segmentation_mask"
-  options: {
-    [mediapipe.GateCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.GateCalculatorOptions] {
       allow: true
     }
   }
@@ -41,8 +41,8 @@ node {
   input_stream: "MASK:segmentation_mask"
   input_stream: "MASK_PREVIOUS:gated_prev_filtered_segmentation_mask"
   output_stream: "MASK_SMOOTHED:filtered_segmentation_mask"
-  options {
-    [mediapipe.SegmentationSmoothingCalculatorOptions.ext] {
+  node_options {
+    [type.googleapis.com/mediapipe.SegmentationSmoothingCalculatorOptions] {
       combine_with_previous_ratio: 0.7
     }
   }

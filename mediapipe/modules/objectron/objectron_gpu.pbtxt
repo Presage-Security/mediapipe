@@ -23,8 +23,8 @@ node {
   input_side_packet: "ALLOW:use_prev_landmarks"
   input_stream: "prev_box_rects_from_landmarks"
   output_stream: "gated_prev_box_rects_from_landmarks"
-  options: {
-    [mediapipe.GateCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.GateCalculatorOptions] {
       allow: true
     }
   }
@@ -48,8 +48,8 @@ node {
   input_stream: "DISALLOW:prev_has_enough_objects"
   output_stream: "detection_image"
 
-  options: {
-    [mediapipe.GateCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.GateCalculatorOptions] {
       empty_packets_as_allow: true
     }
   }
@@ -86,8 +86,8 @@ node {
   input_stream: "DETECTIONS:detections"
   input_stream: "IMAGE_SIZE:image_size"
   output_stream: "NORM_RECTS:box_rects_from_detections"
-  options: {
-    [mediapipe.DetectionsToRectsCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.DetectionsToRectsCalculatorOptions] {
       output_zero_rect_for_empty_detections: false
     }
   }
@@ -102,8 +102,8 @@ node {
   input_stream: "box_rects_from_detections"
   input_stream: "gated_prev_box_rects_from_landmarks"
   output_stream: "box_rects"
-  options: {
-    [mediapipe.AssociationCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.AssociationCalculatorOptions] {
       min_similarity_threshold: 0.2
     }
   }
@@ -153,8 +153,8 @@ node {
   calculator: "Lift2DFrameAnnotationTo3DCalculator"
   input_stream: "FRAME_ANNOTATION:box_annotations"
   output_stream: "LIFTED_FRAME_ANNOTATION:detected_objects"
-  options: {
-    [mediapipe.Lift2DFrameAnnotationTo3DCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.Lift2DFrameAnnotationTo3DCalculatorOptions] {
       normalized_focal_x: 2.0975
       normalized_focal_y: 1.5731
     }

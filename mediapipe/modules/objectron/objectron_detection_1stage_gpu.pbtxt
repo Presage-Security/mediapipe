@@ -12,8 +12,8 @@ node: {
   calculator: "ImageTransformationCalculator"
   input_stream: "IMAGE_GPU:input_video"
   output_stream: "IMAGE_GPU:transformed_input_video"
-  options: {
-    [mediapipe.ImageTransformationCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.ImageTransformationCalculatorOptions] {
       output_width: 480
       output_height: 640
       scale_mode: FIT
@@ -34,8 +34,8 @@ node {
 node {
   calculator: "TfLiteCustomOpResolverCalculator"
   output_side_packet: "opresolver"
-  options: {
-    [mediapipe.TfLiteCustomOpResolverCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.TfLiteCustomOpResolverCalculatorOptions] {
       use_gpu: true
     }
   }
@@ -49,8 +49,8 @@ node {
   input_stream: "TENSORS_GPU:image_tensor"
   output_stream: "TENSORS:detection_tensors"
   input_side_packet: "CUSTOM_OP_RESOLVER:opresolver"
-  options: {
-    [mediapipe.TfLiteInferenceCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.TfLiteInferenceCalculatorOptions] {
       model_path: "object_detection_3d.tflite"
     }
   }
@@ -64,8 +64,8 @@ node {
   calculator: "TfLiteTensorsToObjectsCalculator"
   input_stream: "TENSORS:detection_tensors"
   output_stream: "ANNOTATIONS:objects"
-  options: {
-    [mediapipe.TfLiteTensorsToObjectsCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.TfLiteTensorsToObjectsCalculatorOptions] {
       num_classes: 1
       num_keypoints: 9
       decoder_config {

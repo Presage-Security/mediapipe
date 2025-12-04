@@ -20,8 +20,8 @@ node {
   input_stream: "DETECTION:detection"
   input_stream: "IMAGE_SIZE:image_size"
   output_stream: "NORM_RECT:raw_roi"
-  options: {
-    [mediapipe.DetectionsToRectsCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.DetectionsToRectsCalculatorOptions] {
       rotation_vector_start_keypoint_index: 0
       rotation_vector_end_keypoint_index: 1
       rotation_vector_target_angle_degrees: 90
@@ -35,8 +35,8 @@ node {
   input_stream: "NORM_RECT:raw_roi"
   input_stream: "IMAGE_SIZE:image_size"
   output_stream: "roi"
-  options: {
-    [mediapipe.RectTransformationCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.RectTransformationCalculatorOptions] {
       scale_x: 1.25
       scale_y: 1.25
       square_long: true
