@@ -28,8 +28,6 @@ message FaceDetectionOptions {
   extend mediapipe.CalculatorOptions {
     optional FaceDetectionOptions ext = 374290926;
   }
-  // Path to the TF Lite model (ex: /path/to/modelname.tflite).
-  optional string model_path = 1;
 
   // The coordinate origin corner, either CONVENTIONAL or TOP_LEFT.
   optional GpuOrigin.Mode gpu_origin = 11;

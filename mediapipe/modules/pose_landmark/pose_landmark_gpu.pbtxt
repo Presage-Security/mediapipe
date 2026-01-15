@@ -32,6 +32,11 @@ type: "PoseLandmarkGpu"
 # GPU image. (GpuBuffer)
 input_stream: "IMAGE:image"
 
+# Path to the pose detection model. (string)
+input_side_packet: "POSE_DETECTION_MODEL_PATH:pose_detection_model_path"
+# Path to the pose landmark model. (string)
+input_side_packet: "POSE_LANDMARK_MODEL_PATH:pose_landmark_model_path"
+
 # Whether to filter landmarks across different input images to reduce jitter.
 # If unspecified, functions as set to true. (bool)
 input_side_packet: "SMOOTH_LANDMARKS:smooth_landmarks"
@@ -43,11 +48,6 @@ input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
 # Whether to filter segmentation mask across different input images to reduce
 # jitter. If unspecified, functions as set to true. (bool)
 input_side_packet: "SMOOTH_SEGMENTATION:smooth_segmentation"
-
-# Complexity of the pose landmark model: 0, 1 or 2. Landmark accuracy as well as
-# inference latency generally go up with the model complexity. If unspecified,
-# functions as set to 1. (int)
-input_side_packet: "MODEL_COMPLEXITY:model_complexity"
 
 # Whether landmarks on the previous image should be used to help localize
 # landmarks on the current image. (bool)
@@ -165,6 +165,7 @@ node {
 node {
   calculator: "PoseDetectionGpu"
   input_stream: "IMAGE:image_for_pose_detection"
+  input_side_packet: "MODEL_PATH:pose_detection_model_path"
   output_stream: "DETECTIONS:pose_detections"
 }
 
@@ -203,7 +204,7 @@ node {
 # Detects pose landmarks within specified region of interest of the image.
 node {
   calculator: "PoseLandmarkByRoiGpu"
-  input_side_packet: "MODEL_COMPLEXITY:model_complexity"
+  input_side_packet: "MODEL_PATH:pose_landmark_model_path"
   input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
   input_stream: "IMAGE:image"
   input_stream: "ROI:pose_rect"
