@@ -16,13 +16,13 @@ node {
   calculator: "SwitchContainer"
   input_side_packet: "SELECT:model_complexity"
   output_side_packet: "PACKET:model_path"
-  options: {
-    [mediapipe.SwitchContainerOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.SwitchContainerOptions] {
       select: 1
       contained_node: {
         calculator: "ConstantSidePacketCalculator"
-        options: {
-          [mediapipe.ConstantSidePacketCalculatorOptions.ext]: {
+        node_options: {
+          [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
             packet {
               string_value: "mediapipe/modules/pose_landmark/pose_landmark_lite.tflite"
             }
@@ -31,8 +31,8 @@ node {
       }
       contained_node: {
         calculator: "ConstantSidePacketCalculator"
-        options: {
-          [mediapipe.ConstantSidePacketCalculatorOptions.ext]: {
+        node_options: {
+          [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
             packet {
               string_value: "mediapipe/modules/pose_landmark/pose_landmark_full.tflite"
             }
@@ -41,8 +41,8 @@ node {
       }
       contained_node: {
         calculator: "ConstantSidePacketCalculator"
-        options: {
-          [mediapipe.ConstantSidePacketCalculatorOptions.ext]: {
+        node_options: {
+          [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
             packet {
               string_value: "mediapipe/modules/pose_landmark/pose_landmark_heavy.tflite"
             }

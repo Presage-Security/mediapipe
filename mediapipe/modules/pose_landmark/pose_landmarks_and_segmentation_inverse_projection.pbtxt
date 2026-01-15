@@ -116,8 +116,8 @@ node {
   input_stream: "MATRIX:inverse_transformation_matrix"
   input_stream: "OUTPUT_SIZE:image_size"
   output_stream: "IMAGE:segmentation_mask"
-  options: {
-    [mediapipe.WarpAffineCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.WarpAffineCalculatorOptions] {
       border_mode: BORDER_ZERO
       gpu_origin: TOP_LEFT
     }

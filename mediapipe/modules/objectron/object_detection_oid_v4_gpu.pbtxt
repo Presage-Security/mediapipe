@@ -13,8 +13,8 @@ node {
   input_stream: "IMAGE_GPU:input_video"
   output_stream: "TENSORS:image_tensor"
   output_stream: "LETTERBOX_PADDING:letterbox_padding"
-  options {
-    [mediapipe.ImageToTensorCalculatorOptions.ext] {
+  node_options {
+    [type.googleapis.com/mediapipe.ImageToTensorCalculatorOptions] {
       output_tensor_width: 300
       output_tensor_height: 300
       keep_aspect_ratio: false
@@ -35,8 +35,8 @@ node {
   calculator: "InferenceCalculator"
   input_stream: "TENSORS:image_tensor"
   output_stream: "TENSORS:detection_tensors"
-  options: {
-    [mediapipe.InferenceCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.InferenceCalculatorOptions] {
       model_path: "mediapipe/modules/objectron/object_detection_ssd_mobilenetv2_oidv4_fp16.tflite"
       delegate { gpu {} }
     }
@@ -48,8 +48,8 @@ node {
 node {
   calculator: "SsdAnchorsCalculator"
   output_side_packet: "anchors"
-  options: {
-    [mediapipe.SsdAnchorsCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.SsdAnchorsCalculatorOptions] {
       num_layers: 6
       min_scale: 0.2
       max_scale: 0.95
@@ -81,8 +81,8 @@ node {
   input_stream: "TENSORS:detection_tensors"
   input_side_packet: "ANCHORS:anchors"
   output_stream: "DETECTIONS:all_detections"
-  options: {
-    [mediapipe.TensorsToDetectionsCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.TensorsToDetectionsCalculatorOptions] {
       num_classes: 24
       num_boxes: 1917
       num_coords: 4
@@ -104,8 +104,8 @@ node {
   calculator: "DetectionLabelIdToTextCalculator"
   input_stream: "all_detections"
   output_stream: "labeled_detections"
-  options: {
-    [mediapipe.DetectionLabelIdToTextCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.DetectionLabelIdToTextCalculatorOptions] {
       label_map_path: "object_detection_oidv4_labelmap.txt"
     }
   }
@@ -125,8 +125,8 @@ node {
   calculator: "NonMaxSuppressionCalculator"
   input_stream: "filtered_detections"
   output_stream: "detections"
-  options: {
-    [mediapipe.NonMaxSuppressionCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.NonMaxSuppressionCalculatorOptions] {
       min_suppression_threshold: 0.5
       max_num_detections: 100
       overlap_type: INTERSECTION_OVER_UNION

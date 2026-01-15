@@ -116,8 +116,8 @@ node: {
   output_stream: "TENSORS:input_tensors"
   output_stream: "LETTERBOX_PADDING:letterbox_padding"
   output_stream: "MATRIX:transformation_matrix"
-  options: {
-    [mediapipe.ImageToTensorCalculatorOptions.ext] {
+  node_options: {
+    [type.googleapis.com/mediapipe.ImageToTensorCalculatorOptions] {
       output_tensor_width: 256
       output_tensor_height: 256
       keep_aspect_ratio: true
