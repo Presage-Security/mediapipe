@@ -37,12 +37,15 @@ exports_files([
 pkg_filegroup(
     name = "mediapipe_headers",
     srcs = [
+        "//mediapipe/calculators/util:headers",
         "//mediapipe/framework:headers",
         "//mediapipe/framework/deps:headers",
         "//mediapipe/framework/formats:headers",
         "//mediapipe/framework/port:headers",
         "//mediapipe/framework/profiler:headers",
         "//mediapipe/framework/tool:headers",
+        "//mediapipe/gpu:headers",
+        "//mediapipe/util:headers",
     ],
     prefix = "include",
     visibility = ["//visibility:public"],
@@ -53,7 +56,12 @@ pkg_files(
     srcs = [
         "//mediapipe/framework:mediapipe_framework",
         "//mediapipe/framework/formats:mediapipe_framework_formats",
-    ],
+    ] + select({
+        "//conditions:default": [
+            "//mediapipe/gpu:mediapipe_gpu",
+        ],
+        "//mediapipe/gpu:disable_gpu": [],
+    }),
     prefix = "lib",
     visibility = ["//visibility:public"],
 )
