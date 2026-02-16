@@ -29,7 +29,7 @@ package(default_visibility = ["//visibility:private"])
 package_group(
     name = "mediapipe_internal_proto_users",
     packages = [
-        "//mediapipe/...",
+        "public",
     ],
 )
 
