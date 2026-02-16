@@ -104,6 +104,14 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_apple/releases/download/2.1.0/rules_apple.2.1.0.tar.gz",
 )
 
+# macOS 15/26 toolchain compatibility: avoid old apple_support crosstool
+# wrappers that link exec tools with -Wl,-no_uuid.
+http_archive(
+    name = "build_bazel_apple_support",
+    sha256 = "dca96682317cc7112e6fae87332e13a8fefbc232354c2939b11b3e06c09e5949",
+    url = "https://github.com/bazelbuild/apple_support/releases/download/1.19.0/apple_support.1.19.0.tar.gz",
+)
+
 # GoogleTest/GoogleMock framework. Used by most unit-tests.
 # Last updated 2021-07-02.
 http_archive(

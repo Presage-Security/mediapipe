@@ -19,7 +19,7 @@ load("@rules_cc//cc:cc_test.bzl", "cc_test")
 load("//mediapipe/framework/port:build_config.bzl", "mediapipe_proto_library")
 load(
     "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
-    "mediapipe_cc_shared_library",
+    "transitive_protos_with_aggregate_include",
 )
 # Placeholder: load proto_library
 
@@ -2001,8 +2001,18 @@ cc_library(
 )
 
 # region ===== PRESAGE =================================================================================================
+transitive_protos_with_aggregate_include(
+    name = "mediapipe_framework_cc_protos",
+    aggregate_header = "mediapipe_framework_cc_protos.h",
+    deps = [
+        ":calculator_framework",
+        ":calculator_graph",
+        ":calculator_options_cc_proto",
+        "//mediapipe/framework/tool:text_to_binary_graph",
+    ],
+)
 
-mediapipe_cc_shared_library(
+cc_shared_library(
     name = "mediapipe_framework",
     visibility = ["//visibility:public"],
     deps = [
@@ -2010,7 +2020,19 @@ mediapipe_cc_shared_library(
         ":calculator_graph",
         ":calculator_options_cc_proto",
         "//mediapipe/framework/tool:text_to_binary_graph",
-    ],
+    ] + select({
+        "//conditions:default": [],
+        "//mediapipe:apple": [
+            "//third_party/apple_frameworks:Metal",
+        ],
+    }),
+    user_link_flags = select({
+        "//conditions:default": [],
+        "//mediapipe:apple": [
+            "-framework",
+            "Metal",
+        ],
+    }),
 )
 
 pkg_files(
@@ -2022,5 +2044,4 @@ pkg_files(
     prefix = "mediapipe/framework",
     visibility = ["//visibility:public"],
 )
-
 # endregion ============================================================================================================
