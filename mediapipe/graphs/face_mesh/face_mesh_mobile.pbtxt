@@ -36,10 +36,18 @@ node {
 # Defines side packets for further use in the graph.
 node {
   calculator: "ConstantSidePacketCalculator"
-  output_side_packet: "PACKET:with_attention"
+  output_side_packet: "PACKET:0:with_attention"
+  output_side_packet: "PACKET:1:face_detection_model_path"
+  output_side_packet: "PACKET:2:face_landmark_model_path"
   node_options: {
     [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
       packet { bool_value: true }
+      packet {
+        string_value: "mediapipe/modules/face_detection/face_detection_short_range.tflite"
+      }
+      packet {
+        string_value: "mediapipe/modules/face_landmark/face_landmark_with_attention.tflite"
+      }
     }
   }
 }
@@ -49,6 +57,8 @@ node {
   calculator: "FaceLandmarkFrontGpu"
   input_stream: "IMAGE:throttled_input_video"
   input_side_packet: "NUM_FACES:num_faces"
+  input_side_packet: "FACE_DETECTION_MODEL_PATH:face_detection_model_path"
+  input_side_packet: "FACE_LANDMARK_MODEL_PATH:face_landmark_model_path"
   input_side_packet: "WITH_ATTENTION:with_attention"
   output_stream: "LANDMARKS:multi_face_landmarks"
   output_stream: "ROIS_FROM_LANDMARKS:face_rects_from_landmarks"

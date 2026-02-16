@@ -11,10 +11,18 @@ output_stream: "pose_landmarks"
 # Generates side packet to enable segmentation.
 node {
   calculator: "ConstantSidePacketCalculator"
-  output_side_packet: "PACKET:enable_segmentation"
+  output_side_packet: "PACKET:0:enable_segmentation"
+  output_side_packet: "PACKET:1:pose_detection_model_path"
+  output_side_packet: "PACKET:2:pose_landmark_model_path"
   node_options: {
     [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
       packet { bool_value: true }
+      packet {
+        string_value: "mediapipe/modules/pose_detection/pose_detection.tflite"
+      }
+      packet {
+        string_value: "mediapipe/modules/pose_landmark/pose_landmark_full.tflite"
+      }
     }
   }
 }
@@ -43,6 +51,8 @@ node {
 # Subgraph that detects poses and corresponding landmarks.
 node {
   calculator: "PoseLandmarkGpu"
+  input_side_packet: "POSE_DETECTION_MODEL_PATH:pose_detection_model_path"
+  input_side_packet: "POSE_LANDMARK_MODEL_PATH:pose_landmark_model_path"
   input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
   input_stream: "IMAGE:throttled_input_video"
   output_stream: "LANDMARKS:pose_landmarks"

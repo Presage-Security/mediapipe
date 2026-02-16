@@ -25,8 +25,21 @@ graph_options: {
 }
 
 node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:model_path"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet {
+        string_value: "mediapipe/modules/face_detection/face_detection_short_range.tflite"
+      }
+    }
+  }
+}
+
+node {
   calculator: "FaceDetection"
   input_stream: "IMAGE:image"
+  input_side_packet: "MODEL_PATH:model_path"
   output_stream: "DETECTIONS:detections"
   node_options: {
     [type.googleapis.com/mediapipe.FaceDetectionOptions] {}
