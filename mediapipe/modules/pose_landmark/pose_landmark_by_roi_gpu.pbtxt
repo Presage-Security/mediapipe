@@ -1,18 +1,13 @@
 # MediaPipe graph to detect/predict pose landmarks and optionally segmentation
 # within an ROI. (GPU input, and inference is executed on GPU.)
 #
-# It is required that "pose_landmark_lite.tflite" or
-# "pose_landmark_full.tflite" or "pose_landmark_heavy.tflite" is available at
-# "mediapipe/modules/pose_landmark/pose_landmark_lite.tflite" or
-# "mediapipe/modules/pose_landmark/pose_landmark_full.tflite" or
-# "mediapipe/modules/pose_landmark/pose_landmark_heavy.tflite"
-# path respectively during execution, depending on the specification in the
-# MODEL_COMPLEXITY input side packet.
+# It is required that the model path in MODEL_PATH points to an existing pose
+# landmark model.
 #
 # EXAMPLE:
 #   node {
 #     calculator: "PoseLandmarkByRoiGpu"
-#     input_side_packet: "MODEL_COMPLEXITY:model_complexity"
+#     input_side_packet: "MODEL_PATH:model_path"
 #     input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
 #     input_stream: "IMAGE:image"
 #     input_stream: "ROI:roi"
@@ -32,10 +27,8 @@ input_stream: "ROI:roi"
 # false. (bool)
 input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
 
-# Complexity of the pose landmark model: 0, 1 or 2. Landmark accuracy as well as
-# inference latency generally go up with the model complexity. If unspecified,
-# functions as set to 1. (int)
-input_side_packet: "MODEL_COMPLEXITY:model_complexity"
+# Path to the pose landmark model. (string)
+input_side_packet: "MODEL_PATH:model_path"
 
 # Pose landmarks within the given ROI. (NormalizedLandmarkList)
 # We have 33 landmarks (see pose_landmark_topology.svg), and there are other
@@ -127,10 +120,17 @@ node: {
   }
 }
 
-# Loads the pose landmark TF Lite model.
+# Loads the file in the specified path into a blob.
 node {
-  calculator: "PoseLandmarkModelLoader"
-  input_side_packet: "MODEL_COMPLEXITY:model_complexity"
+  calculator: "LocalFileContentsCalculator"
+  input_side_packet: "FILE_PATH:model_path"
+  output_side_packet: "CONTENTS:model_blob"
+}
+
+# Converts the input blob into a TF Lite model.
+node {
+  calculator: "TfLiteModelCalculator"
+  input_side_packet: "MODEL_BLOB:model_blob"
   output_side_packet: "MODEL:model"
 }
 
