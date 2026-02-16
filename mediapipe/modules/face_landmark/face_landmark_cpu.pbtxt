@@ -32,6 +32,16 @@ input_side_packet: "WITH_ATTENTION:with_attention"
 # Path to the face landmark model. (string)
 input_side_packet: "MODEL_PATH:model_path"
 
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:hardcoded_with_attention"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet { bool_value:true }
+    }
+  }
+}
+
 # 468 or 478 facial landmarks within the given ROI. (NormalizedLandmarkList)
 #
 # Number of landmarks depends on the WITH_ATTENTION flag. If it's `true` - then
@@ -102,7 +112,7 @@ node {
 # Splits a vector of tensors into landmark tensors and face flag tensor.
 node {
   calculator: "SwitchContainer"
-  input_side_packet: "ENABLE:with_attention"
+  input_side_packet: "ENABLE:hardcoded_with_attention"
   input_stream: "output_tensors"
   output_stream: "landmark_tensors"
   output_stream: "face_flag_tensor"
@@ -168,7 +178,7 @@ node {
 # coordinates are normalized by the size of the input image to the model.
 node {
   calculator: "SwitchContainer"
-  input_side_packet: "ENABLE:with_attention"
+  input_side_packet: "ENABLE:hardcoded_with_attention"
   input_stream: "TENSORS:ensured_landmark_tensors"
   output_stream: "LANDMARKS:landmarks"
   options: {
