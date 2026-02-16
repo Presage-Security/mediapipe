@@ -46,6 +46,16 @@ input_side_packet: "USE_PREV_LANDMARKS:use_prev_landmarks"
 # landmarks.
 input_side_packet: "WITH_ATTENTION:with_attention"
 
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:hardcoded_with_attention"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet { bool_value:true }
+    }
+  }
+}
+
 # Collection of detected/predicted faces, each represented as a list of 468 face
 # landmarks. (std::vector<NormalizedLandmarkList>)
 # NOTE: there will not be an output packet in the LANDMARKS stream for this
@@ -204,7 +214,7 @@ node {
   input_stream: "IMAGE:landmarks_loop_image"
   input_stream: "ROI:face_rect"
   input_side_packet: "MODEL_PATH:face_landmark_model_path"
-  input_side_packet: "WITH_ATTENTION:with_attention"
+  input_side_packet: "WITH_ATTENTION:hardcoded_with_attention"
   output_stream: "LANDMARKS:face_landmarks"
 }
 
