@@ -60,3 +60,15 @@ diff -ruN a/contrib/minizip/minizip.c b/contrib/minizip/minizip.c
  // In darwin and perhaps other BSD variants off_t is a 64 bit value, hence no need for specific 64 bit functions
  #define FOPEN_FUNC(filename, mode) fopen(filename, mode)
  #define FTELLO_FUNC(stream) ftello(stream)
+diff -ruN a/zutil.h b/zutil.h
+--- a/zutil.h
++++ b/zutil.h
+@@ -137,7 +137,7 @@
+ #  endif
+ #endif
+ 
+-#if defined(MACOS) || defined(TARGET_OS_MAC)
++#if defined(MACOS)
+ #  define OS_CODE  7
+ #  ifndef Z_SOLO
+ #    if defined(__MWERKS__) && __dest_os != __be_os && __dest_os != __win32_os

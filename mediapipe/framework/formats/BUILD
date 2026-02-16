@@ -21,7 +21,7 @@ load("//mediapipe/framework:mediapipe_register_type.bzl", "mediapipe_register_ty
 load("//mediapipe/framework/port:build_config.bzl", "mediapipe_proto_library")
 load(
     "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
-    "mediapipe_cc_shared_library",
+    "transitive_protos_with_aggregate_include",
 )
 
 package(
@@ -784,8 +784,28 @@ cc_test(
 )
 
 # region ===== PRESAGE: collect framework/formats headers =================================================================
+transitive_protos_with_aggregate_include(
+    name = "mediapipe_framework_formats_cc_protos",
+    aggregate_header = "mediapipe_framework_formats_cc_protos.h",
+    deps = [
+        ":image_frame",
+        # protos
+        ":affine_transform_data_cc_proto",
+        ":body_rig_cc_proto",
+        ":classification_cc_proto",
+        ":detection_cc_proto",
+        ":image_file_properties_cc_proto",
+        ":image_format_cc_proto",
+        ":landmark_cc_proto",
+        ":location_data_cc_proto",
+        ":matrix_data_cc_proto",
+        ":rect_cc_proto",
+        ":time_series_header_cc_proto",
+        "//mediapipe/framework/formats/annotation:locus_cc_proto",
+    ],
+)
 
-mediapipe_cc_shared_library(
+cc_shared_library(
     name = "mediapipe_framework_formats",
     visibility = ["//visibility:public"],
     deps = [
@@ -815,5 +835,4 @@ pkg_files(
     prefix = "mediapipe/framework/formats",
     visibility = ["//visibility:public"],
 )
-
 # endregion ============================================================================================================
