@@ -99,11 +99,36 @@ output_stream: "SEGMENTATION_MASK:segmentation_mask"
 output_stream: "POSE_ROI:pose_landmarks_roi"
 output_stream: "POSE_DETECTION:pose_detection"
 
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:pose_detection_model_path"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet {
+        string_value: "mediapipe/modules/pose_detection/pose_detection.tflite"
+      }
+    }
+  }
+}
+
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:pose_landmark_model_path"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet {
+        string_value: "mediapipe/modules/pose_landmark/pose_landmark_full.tflite"
+      }
+    }
+  }
+}
+
 # Predicts pose landmarks.
 node {
   calculator: "PoseLandmarkGpu"
   input_stream: "IMAGE:image"
-  input_side_packet: "MODEL_COMPLEXITY:model_complexity"
+  input_side_packet: "POSE_DETECTION_MODEL_PATH:pose_detection_model_path"
+  input_side_packet: "POSE_LANDMARK_MODEL_PATH:pose_landmark_model_path"
   input_side_packet: "SMOOTH_LANDMARKS:smooth_landmarks"
   input_side_packet: "ENABLE_SEGMENTATION:enable_segmentation"
   input_side_packet: "SMOOTH_SEGMENTATION:smooth_segmentation"

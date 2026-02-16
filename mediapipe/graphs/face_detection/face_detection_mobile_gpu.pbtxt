@@ -29,10 +29,23 @@ node {
   output_stream: "throttled_input_video"
 }
 
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:face_detection_model_path"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet {
+        string_value: "mediapipe/modules/face_detection/face_detection_short_range.tflite"
+      }
+    }
+  }
+}
+
 # Subgraph that detects faces.
 node {
   calculator: "FaceDetectionShortRangeGpu"
   input_stream: "IMAGE:throttled_input_video"
+  input_side_packet: "MODEL_PATH:face_detection_model_path"
   output_stream: "DETECTIONS:face_detections"
 }
 

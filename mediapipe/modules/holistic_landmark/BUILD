@@ -249,6 +249,7 @@ mediapipe_simple_subgraph(
     deps = [
         ":face_landmarks_from_pose_gpu",
         ":hand_landmarks_left_and_right_gpu",
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/image:image_transformation_calculator",
         "//mediapipe/modules/pose_landmark:pose_landmark_gpu",
@@ -263,6 +264,7 @@ mediapipe_simple_subgraph(
     deps = [
         ":face_landmarks_from_pose_cpu",
         ":hand_landmarks_left_and_right_cpu",
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/image:image_transformation_calculator",
         "//mediapipe/modules/pose_landmark:pose_landmark_cpu",

@@ -37,9 +37,19 @@ node {
 node {
   calculator: "ConstantSidePacketCalculator"
   output_side_packet: "PACKET:0:num_faces"
+  output_side_packet: "PACKET:1:face_detection_model_path"
+  output_side_packet: "PACKET:2:use_full_range_face_detection"
+  output_side_packet: "PACKET:3:face_landmark_model_path"
   node_options: {
     [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
       packet { int_value: 1 }
+      packet {
+        string_value: "mediapipe/modules/face_detection/face_detection_short_range.tflite"
+      }
+      packet { bool_value: false }
+      packet {
+        string_value: "mediapipe/modules/face_landmark/face_landmark_with_attention.tflite"
+      }
     }
   }
 }
@@ -49,6 +59,9 @@ node {
   calculator: "FaceLandmarkFrontCpu"
   input_stream: "IMAGE:input_image"
   input_side_packet: "NUM_FACES:num_faces"
+  input_side_packet: "FACE_DETECTION_MODEL_PATH:face_detection_model_path"
+  input_side_packet: "USE_FULL_RANGE_FACE_DETECTION:use_full_range_face_detection"
+  input_side_packet: "FACE_LANDMARK_MODEL_PATH:face_landmark_model_path"
   output_stream: "LANDMARKS:multi_face_landmarks"
   output_stream: "ROIS_FROM_LANDMARKS:face_rects_from_landmarks"
   output_stream: "DETECTIONS:face_detections"

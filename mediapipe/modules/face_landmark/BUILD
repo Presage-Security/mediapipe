@@ -117,6 +117,7 @@ mediapipe_simple_subgraph(
     register_as = "FaceLandmarkFrontCpuImage",
     deps = [
         ":face_landmark_front_cpu",
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/image:image_transformation_calculator",
         "//mediapipe/calculators/util:from_image_calculator",
@@ -129,6 +130,7 @@ mediapipe_simple_subgraph(
     register_as = "FaceLandmarkFrontGpuImage",
     deps = [
         ":face_landmark_front_gpu",
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/image:image_transformation_calculator",
         "//mediapipe/calculators/util:from_image_calculator",
