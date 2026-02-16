@@ -13,6 +13,7 @@
 # limitations under the License.
 #
 
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
 load("@rules_cc//cc:objc_library.bzl", "objc_library")
@@ -381,3 +382,12 @@ cc_test(
         "@com_google_absl//absl/strings",
     ],
 )
+
+# region ===== PRESAGE: collect framework/profiler headers =============================================================
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]),
+    prefix = "mediapipe/framework/profiler",
+    visibility = ["//visibility:public"],
+)
+# endregion ============================================================================================================
