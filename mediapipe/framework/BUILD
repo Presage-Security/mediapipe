@@ -13,9 +13,14 @@
 # limitations under the License.
 
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
 load("//mediapipe/framework/port:build_config.bzl", "mediapipe_proto_library")
+load(
+    "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
+    "mediapipe_cc_shared_library",
+)
 # Placeholder: load proto_library
 
 licenses(["notice"])
@@ -1994,3 +1999,28 @@ cc_library(
         "@com_google_absl//absl/strings:string_view",
     ],
 )
+
+# region ===== PRESAGE =================================================================================================
+
+mediapipe_cc_shared_library(
+    name = "mediapipe_framework",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":calculator_framework",
+        ":calculator_graph",
+        ":calculator_options_cc_proto",
+        "//mediapipe/framework/tool:text_to_binary_graph",
+    ],
+)
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["*.h"]) + [
+        ":mediapipe_framework_cc_protos",
+        ":mediapipe_framework_cc_protos.h",
+    ],
+    prefix = "mediapipe/framework",
+    visibility = ["//visibility:public"],
+)
+
+# endregion ============================================================================================================

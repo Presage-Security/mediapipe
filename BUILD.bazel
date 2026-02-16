@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+load("@rules_pkg//pkg:mappings.bzl", "pkg_filegroup", "pkg_files")
+load("@rules_pkg//pkg:zip.bzl", "pkg_zip")
+
 licenses(["notice"])
 
 exports_files([
@@ -20,3 +23,37 @@ exports_files([
     "package.json",
     "yarn.lock",
 ])
+
+pkg_filegroup(
+    name = "mediapipe_headers",
+    srcs = [
+        "//mediapipe/framework:headers",
+        "//mediapipe/framework/deps:headers",
+        "//mediapipe/framework/formats:headers",
+        "//mediapipe/framework/port:headers",
+        "//mediapipe/framework/profiler:headers",
+        "//mediapipe/framework/tool:headers",
+    ],
+    prefix = "include",
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "mediapipe_libraries",
+    srcs = [
+        "//mediapipe/framework:mediapipe_framework",
+        "//mediapipe/framework/formats:mediapipe_framework_formats",
+    ],
+    prefix = "lib",
+    visibility = ["//visibility:public"],
+)
+
+pkg_zip(
+    name = "mediapipe_package",
+    srcs = [
+        "LICENSE",
+        ":mediapipe_headers",
+        ":mediapipe_libraries",
+    ],
+    out = "mediapipe.zip",
+)
