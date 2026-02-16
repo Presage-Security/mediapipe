@@ -110,6 +110,7 @@ cc_library(
         "//mediapipe/framework/stream_handler:fixed_size_input_stream_handler",
         "//mediapipe/framework/tool:executor_util",
         "//mediapipe/framework/tool:name_util",
+        "@com_github_nlohmann_json//:json",
         "@com_google_absl//absl/log:absl_check",
         "@com_google_absl//absl/log:absl_log",
         "@com_google_absl//absl/memory",
@@ -122,9 +123,9 @@ cc_library(
         "//conditions:default": [
             "//mediapipe/framework/port:file_helpers",
         ],
-        "//mediapipe:android": [
-            "//mediapipe/util/android:asset_manager_util",
-            "//mediapipe/util/android/file/base",
+        "@mediapipe//mediapipe:android": [
+            "@mediapipe//mediapipe/util/android:asset_manager_util",
+            "@mediapipe//mediapipe/util/android/file/base",
         ],
     }) + select({
         "//conditions:default": [
