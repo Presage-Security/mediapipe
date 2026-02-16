@@ -20,8 +20,21 @@ graph_options: {
 }
 
 node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:model_path"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet {
+        string_value: "mediapipe/modules/face_detection/face_detection_full_range_sparse.tflite"
+      }
+    }
+  }
+}
+
+node {
   calculator: "FaceDetectionFullRange"
   input_stream: "IMAGE:image"
+  input_side_packet: "MODEL_PATH:model_path"
   output_stream: "DETECTIONS:detections"
   node_options: {
     [type.googleapis.com/mediapipe.FaceDetectionOptions] {

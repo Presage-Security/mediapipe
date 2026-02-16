@@ -25,6 +25,7 @@ package(default_visibility = ["//visibility:public"])
 cc_library(
     name = "mobile_calculators",
     deps = [
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/util:annotation_overlay_calculator",
         "//mediapipe/calculators/util:detections_to_render_data_calculator",
@@ -38,6 +39,7 @@ cc_library(
 cc_library(
     name = "desktop_live_calculators",
     deps = [
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/util:annotation_overlay_calculator",
         "//mediapipe/calculators/util:detections_to_render_data_calculator",
@@ -48,6 +50,7 @@ cc_library(
 cc_library(
     name = "desktop_live_gpu_calculators",
     deps = [
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/util:annotation_overlay_calculator",
         "//mediapipe/calculators/util:detections_to_render_data_calculator",
@@ -89,6 +92,7 @@ mediapipe_binary_graph(
 cc_library(
     name = "face_detection_full_range_desktop_live_deps",
     deps = [
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/util:annotation_overlay_calculator",
         "//mediapipe/calculators/util:detections_to_render_data_calculator",

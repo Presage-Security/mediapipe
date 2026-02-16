@@ -33,6 +33,7 @@ mediapipe_simple_subgraph(
     register_as = "FaceDetectionShortRangeByRoiCpu",
     deps = [
         ":face_detection_short_range",
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
         "//mediapipe/calculators/tensor:image_to_tensor_calculator",
         "//mediapipe/calculators/tensor:inference_calculator",
         "//mediapipe/calculators/util:to_image_calculator",
@@ -45,6 +46,7 @@ mediapipe_simple_subgraph(
     register_as = "FaceDetectionShortRangeByRoiGpu",
     deps = [
         ":face_detection_short_range",
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
         "//mediapipe/calculators/tensor:image_to_tensor_calculator",
         "//mediapipe/calculators/tensor:inference_calculator",
         "//mediapipe/calculators/util:to_image_calculator",
@@ -93,6 +95,7 @@ mediapipe_simple_subgraph(
     register_as = "FaceDetectionWithoutRoi",
     deps = [
         ":face_detection",
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
     ],
 )
 
@@ -145,6 +148,7 @@ mediapipe_simple_subgraph(
     register_as = "FaceDetectionFullRangeGpu",
     deps = [
         ":face_detection_full_range",
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
     ],
 )
 
@@ -154,6 +158,7 @@ mediapipe_simple_subgraph(
     register_as = "FaceDetectionShortRangeImage",
     deps = [
         ":face_detection_short_range",
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/tensor:image_to_tensor_calculator",
         "//mediapipe/calculators/tensor:inference_calculator",
@@ -166,6 +171,7 @@ mediapipe_simple_subgraph(
     register_as = "FaceDetectionFullRangeImage",
     deps = [
         ":face_detection_full_range",
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/calculators/tensor:image_to_tensor_calculator",
         "//mediapipe/calculators/tensor:inference_calculator",

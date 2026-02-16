@@ -27,6 +27,18 @@ output_stream: "IMAGE:throttled_image"
 output_stream: "DETECTIONS:detections"
 
 node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:model_path"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet {
+        string_value: "mediapipe/modules/face_detection/face_detection_short_range.tflite"
+      }
+    }
+  }
+}
+
+node {
   calculator: "FlowLimiterCalculator"
   input_stream: "image"
   input_stream: "FINISHED:detections"
@@ -46,6 +58,7 @@ node {
 node {
   calculator: "FaceDetectionShortRange"
   input_stream: "IMAGE:throttled_image"
+  input_side_packet: "MODEL_PATH:model_path"
   output_stream: "DETECTIONS:detections"
   node_options: {
     [type.googleapis.com/mediapipe.FaceDetectionOptions] {}

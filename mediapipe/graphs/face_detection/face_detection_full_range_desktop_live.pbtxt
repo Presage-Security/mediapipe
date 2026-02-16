@@ -30,10 +30,23 @@ node {
   output_stream: "throttled_input_video"
 }
 
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:face_detection_model_path"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet {
+        string_value: "mediapipe/modules/face_detection/face_detection_full_range_sparse.tflite"
+      }
+    }
+  }
+}
+
 # Detects faces.
 node {
   calculator: "FaceDetectionFullRangeCpu"
   input_stream: "IMAGE:throttled_input_video"
+  input_side_packet: "MODEL_PATH:face_detection_model_path"
   output_stream: "DETECTIONS:detections"
 }
 
@@ -57,4 +70,3 @@ node {
   input_stream: "render_data"
   output_stream: "IMAGE:output_video"
 }
-
