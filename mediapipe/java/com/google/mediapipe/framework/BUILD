@@ -152,5 +152,5 @@ filegroup(
         ["*.java"],
         exclude = ["TypeNameRegistryFull.java"],
     ),
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
 )
