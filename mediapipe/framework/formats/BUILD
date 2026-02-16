@@ -14,10 +14,15 @@
 #
 
 load("@bazel_skylib//lib:selects.bzl", "selects")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
 load("//mediapipe/framework:mediapipe_register_type.bzl", "mediapipe_register_type")
 load("//mediapipe/framework/port:build_config.bzl", "mediapipe_proto_library")
+load(
+    "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
+    "mediapipe_cc_shared_library",
+)
 
 package(
     default_visibility = ["//visibility:public"],
@@ -724,7 +729,6 @@ mediapipe_register_type(
     ],
     deps = [":body_rig_cc_proto"],
 )
-
 cc_library(
     name = "tensor_ahwb_usage",
     srcs = ["tensor_ahwb_usage.cc"],
@@ -804,3 +808,38 @@ cc_test(
         "//mediapipe/framework/port:gtest_main",
     ],
 )
+
+# region ===== PRESAGE: collect framework/formats headers =================================================================
+
+mediapipe_cc_shared_library(
+    name = "mediapipe_framework_formats",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":image_frame",
+        # protos
+        ":affine_transform_data_cc_proto",
+        ":body_rig_cc_proto",
+        ":classification_cc_proto",
+        ":detection_cc_proto",
+        ":image_file_properties_cc_proto",
+        ":image_format_cc_proto",
+        ":landmark_cc_proto",
+        ":location_data_cc_proto",
+        ":matrix_data_cc_proto",
+        ":rect_cc_proto",
+        ":time_series_header_cc_proto",
+        "//mediapipe/framework/formats/annotation:locus_cc_proto",
+    ],
+)
+
+pkg_files(
+    name = "headers",
+    srcs = glob(["**/*.h"]) + [
+        ":mediapipe_framework_formats_cc_protos",
+        ":mediapipe_framework_formats_cc_protos.h",
+    ],
+    prefix = "mediapipe/framework/formats",
+    visibility = ["//visibility:public"],
+)
+
+# endregion ============================================================================================================
