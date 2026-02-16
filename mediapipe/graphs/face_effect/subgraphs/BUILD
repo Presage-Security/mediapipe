@@ -37,6 +37,7 @@ mediapipe_simple_subgraph(
     deps = [
         ":face_landmarks_smoothing",
         "//mediapipe/calculators/core:concatenate_detection_vector_calculator",
+        "//mediapipe/calculators/core:constant_side_packet_calculator",
         "//mediapipe/calculators/core:split_vector_calculator",
         "//mediapipe/calculators/image:image_properties_calculator",
         "//mediapipe/modules/face_detection:face_detection_short_range_gpu",
