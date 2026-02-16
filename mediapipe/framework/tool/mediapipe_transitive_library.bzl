@@ -1,4 +1,5 @@
-# Presage-specific: helpers for packaging shared C++ libraries and headers.
+# Presage-specific: helper for collecting transitive C++ proto headers into a
+# packageable file set.
 
 
 def _transitive_protos_with_aggregate_include_impl(ctx):
@@ -66,25 +67,3 @@ transitive_protos_with_aggregate_include = rule(
     },
     provides = [CcInfo],
 )
-
-
-def mediapipe_cc_shared_library(name, deps = [], testonly = False, **kwargs):
-    transitive_protos_with_aggregate_include(
-        name = name + "_cc_protos",
-        aggregate_header = name + "_cc_protos.h",
-        deps = deps,
-        testonly = testonly,
-    )
-
-    native.cc_library(
-        name = name + "_cc_protos_library",
-        deps = [name + "_cc_protos"],
-        testonly = testonly,
-    )
-
-    native.cc_shared_library(
-        name = name,
-        deps = deps + [name + "_cc_protos_library"],
-        testonly = testonly,
-        **kwargs
-    )

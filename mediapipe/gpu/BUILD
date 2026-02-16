@@ -24,7 +24,7 @@ load("//mediapipe/framework:mediapipe_cc_test.bzl", "mediapipe_cc_test")  # buil
 load("//mediapipe/framework:more_selects.bzl", "more_selects")
 load(
     "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
-    "mediapipe_cc_shared_library",
+    "transitive_protos_with_aggregate_include",
 )
 
 licenses(["notice"])
@@ -94,12 +94,12 @@ GL_BASE_LINK_OPTS = select({
         # load it early enough.
     ],
     "//mediapipe:ios": [
-        "-framework OpenGLES",
-        "-framework CoreVideo",
+        "-Wl,-framework,OpenGLES",
+        "-Wl,-framework,CoreVideo",
     ],
     "//mediapipe:macos": [
-        "-framework OpenGL",
-        "-framework CoreVideo",
+        "-Wl,-framework,OpenGL",
+        "-Wl,-framework,CoreVideo",
     ],
     "//mediapipe:emscripten": [
         # Needed for symbols such as glFenceSync.
@@ -158,12 +158,12 @@ cc_library(
     linkopts = select({
         "//conditions:default": [],
         "//mediapipe:ios": [
-            "-framework OpenGLES",
-            "-framework CoreVideo",
+            "-Wl,-framework,OpenGLES",
+            "-Wl,-framework,CoreVideo",
         ],
         "//mediapipe:macos": [
-            "-framework OpenGL",
-            "-framework CoreVideo",
+            "-Wl,-framework,OpenGL",
+            "-Wl,-framework,CoreVideo",
         ],
     }),
     visibility = ["//visibility:public"],
@@ -220,11 +220,11 @@ cc_library(
     linkopts = select({
         "//conditions:default": [],
         "//mediapipe:ios": [
-            "-framework OpenGLES",
+            "-Wl,-framework,OpenGLES",
         ],
         "//mediapipe:macos": [
-            "-framework OpenGL",
-            "-framework AppKit",
+            "-Wl,-framework,OpenGL",
+            "-Wl,-framework,AppKit",
         ],
     }),
     target_compatible_with = select({
@@ -1026,17 +1026,17 @@ cc_library(
     linkopts = select({
         "//conditions:default": [],
         "//mediapipe:apple": [
-            "-framework AVFoundation",
-            "-framework CoreVideo",
-            "-framework CoreGraphics",
-            "-framework CoreMedia",
-            "-framework GLKit",
-            "-framework QuartzCore",
+            "-Wl,-framework,AVFoundation",
+            "-Wl,-framework,CoreVideo",
+            "-Wl,-framework,CoreGraphics",
+            "-Wl,-framework,CoreMedia",
+            "-Wl,-framework,GLKit",
+            "-Wl,-framework,QuartzCore",
         ],
     }) + select({
         "//conditions:default": [],
         "//mediapipe:macos": [
-            "-framework AppKit",
+            "-Wl,-framework,AppKit",
         ],
     }),
     visibility = ["//visibility:public"],
@@ -1687,7 +1687,19 @@ mediapipe_cc_test(
 )
 
 # region ===== PRESAGE =================================================================================================
-mediapipe_cc_shared_library(
+transitive_protos_with_aggregate_include(
+    name = "mediapipe_gpu_cc_protos",
+    aggregate_header = "mediapipe_gpu_cc_protos.h",
+    deps = [
+        ":gl_calculator_helper",
+        ":gl_context",
+        ":gl_scaler_calculator",
+        ":gl_simple_calculator",
+        ":shader_util",
+    ],
+)
+
+cc_shared_library(
     name = "mediapipe_gpu",
     visibility = ["//visibility:public"],
     deps = [
@@ -1696,7 +1708,19 @@ mediapipe_cc_shared_library(
         ":gl_scaler_calculator",
         ":gl_simple_calculator",
         ":shader_util",
-    ],
+    ] + select({
+        "//conditions:default": [],
+        "//mediapipe:apple": [
+            "//third_party/apple_frameworks:Metal",
+        ],
+    }),
+    user_link_flags = select({
+        "//conditions:default": [],
+        "//mediapipe:apple": [
+            "-framework",
+            "Metal",
+        ],
+    }),
 )
 
 pkg_files(
