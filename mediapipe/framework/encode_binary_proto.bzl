@@ -61,9 +61,13 @@ def _canonicalize_proto_path_oss(f):
     file_name: google/protobuf/any.proto (used in .proto files)
     """
     if not f.root.path:
+        short_path = f.short_path
+        if short_path.startswith("../"):
+            repo_name, _, file_name = short_path[3:].partition("/")
+            return struct(proto_path = paths.join("external", repo_name), file_name = file_name)
         return struct(
             proto_path = ".",
-            file_name = f.short_path,
+            file_name = short_path,
         )
 
     # `f.path` looks like "<genfiles>/external/<repo>/(_virtual_imports/<library>/)?<file_name>"

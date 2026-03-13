@@ -55,6 +55,9 @@ cc_library(
         "//mediapipe:ios": [
             "@com_github_glog_glog_no_gflags//:glog",
         ],
+        "//mediapipe:emscripten": [
+            "@com_github_glog_glog_no_gflags//:glog",
+        ],
         "//mediapipe:macos": [
             "@com_github_glog_glog//:glog",
         ],
