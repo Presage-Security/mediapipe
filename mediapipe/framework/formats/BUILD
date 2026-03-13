@@ -724,6 +724,7 @@ mediapipe_register_type(
     ],
     deps = [":body_rig_cc_proto"],
 )
+
 cc_library(
     name = "tensor_ahwb_usage",
     srcs = ["tensor_ahwb_usage.cc"],
