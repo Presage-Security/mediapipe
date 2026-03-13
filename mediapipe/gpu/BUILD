@@ -89,12 +89,12 @@ GL_BASE_LINK_OPTS = select({
         # load it early enough.
     ],
     "//mediapipe:ios": [
-        "-Wl,-framework,OpenGLES",
-        "-Wl,-framework,CoreVideo",
+        "-framework OpenGLES",
+        "-framework CoreVideo",
     ],
     "//mediapipe:macos": [
-        "-Wl,-framework,OpenGL",
-        "-Wl,-framework,CoreVideo",
+        "-framework OpenGL",
+        "-framework CoreVideo",
     ],
     "//mediapipe:emscripten": [
         # Needed for symbols such as glFenceSync.
@@ -153,12 +153,12 @@ cc_library(
     linkopts = select({
         "//conditions:default": [],
         "//mediapipe:ios": [
-            "-Wl,-framework,OpenGLES",
-            "-Wl,-framework,CoreVideo",
+            "-framework OpenGLES",
+            "-framework CoreVideo",
         ],
         "//mediapipe:macos": [
-            "-Wl,-framework,OpenGL",
-            "-Wl,-framework,CoreVideo",
+            "-framework OpenGL",
+            "-framework CoreVideo",
         ],
     }),
     visibility = ["//visibility:public"],
@@ -215,11 +215,11 @@ cc_library(
     linkopts = select({
         "//conditions:default": [],
         "//mediapipe:ios": [
-            "-Wl,-framework,OpenGLES",
+            "-framework OpenGLES",
         ],
         "//mediapipe:macos": [
-            "-Wl,-framework,OpenGL",
-            "-Wl,-framework,AppKit",
+            "-framework OpenGL",
+            "-framework AppKit",
         ],
     }),
     target_compatible_with = select({
@@ -1029,17 +1029,17 @@ cc_library(
     linkopts = select({
         "//conditions:default": [],
         "//mediapipe:apple": [
-            "-Wl,-framework,AVFoundation",
-            "-Wl,-framework,CoreVideo",
-            "-Wl,-framework,CoreGraphics",
-            "-Wl,-framework,CoreMedia",
-            "-Wl,-framework,GLKit",
-            "-Wl,-framework,QuartzCore",
+            "-framework AVFoundation",
+            "-framework CoreVideo",
+            "-framework CoreGraphics",
+            "-framework CoreMedia",
+            "-framework GLKit",
+            "-framework QuartzCore",
         ],
     }) + select({
         "//conditions:default": [],
         "//mediapipe:macos": [
-            "-Wl,-framework,AppKit",
+            "-framework AppKit",
         ],
     }),
     visibility = ["//visibility:public"],
@@ -1650,4 +1650,3 @@ mediapipe_cc_test(
         "@com_google_absl//absl/log:absl_check",
     ],
 )
-
