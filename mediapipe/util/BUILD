@@ -12,15 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
 load("//mediapipe/framework:mediapipe_cc_test.bzl", "mediapipe_cc_test")
 load("//mediapipe/framework/port:build_config.bzl", "mediapipe_proto_library")
-load(
-    "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
-    "transitive_protos_with_aggregate_include",
-)
 # Placeholder: load py_library
 
 licenses(["notice"])
@@ -584,25 +579,3 @@ cc_test(
     ],
 )
 
-# region ===== PRESAGE: collect util headers ===========================================================================
-transitive_protos_with_aggregate_include(
-    name = "mediapipe_util_cc_protos",
-    aggregate_header = "mediapipe_util_cc_protos.h",
-    deps = [
-        ":audio_decoder_cc_proto",
-        ":color_cc_proto",
-        ":label_map_cc_proto",
-        ":render_data_cc_proto",
-    ],
-)
-
-pkg_files(
-    name = "headers",
-    srcs = glob(["**/*.h"]) + [
-        ":mediapipe_util_cc_protos",
-        ":mediapipe_util_cc_protos.h",
-    ],
-    prefix = "mediapipe/util",
-    visibility = ["//visibility:public"],
-)
-# endregion ============================================================================================================

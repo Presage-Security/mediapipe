@@ -16,16 +16,11 @@ load("@rules_cc//cc:cc_test.bzl", "cc_test")
 load("@rules_cc//cc:objc_library.bzl", "objc_library")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@bazel_skylib//lib:selects.bzl", "selects")  # buildifier: disable=out-of-order-load
-load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 load("//mediapipe/gpu:metal.bzl", "metal_library")
 load("@build_bazel_rules_apple//apple:ios.bzl", "ios_unit_test")
 load("//mediapipe/framework/port:build_config.bzl", "mediapipe_proto_library")  # buildifier: disable=out-of-order-load
 load("//mediapipe/framework:mediapipe_cc_test.bzl", "mediapipe_cc_test")  # buildifier: disable=out-of-order-load
 load("//mediapipe/framework:more_selects.bzl", "more_selects")
-load(
-    "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
-    "transitive_protos_with_aggregate_include",
-)
 
 licenses(["notice"])
 
@@ -1686,50 +1681,3 @@ mediapipe_cc_test(
     ],
 )
 
-# region ===== PRESAGE =================================================================================================
-transitive_protos_with_aggregate_include(
-    name = "mediapipe_gpu_cc_protos",
-    aggregate_header = "mediapipe_gpu_cc_protos.h",
-    deps = [
-        ":gl_calculator_helper",
-        ":gl_context",
-        ":gl_scaler_calculator",
-        ":gl_simple_calculator",
-        ":shader_util",
-    ],
-)
-
-cc_shared_library(
-    name = "mediapipe_gpu",
-    visibility = ["//visibility:public"],
-    deps = [
-        ":gl_calculator_helper",
-        ":gl_context",
-        ":gl_scaler_calculator",
-        ":gl_simple_calculator",
-        ":shader_util",
-    ] + select({
-        "//conditions:default": [],
-        "//mediapipe:apple": [
-            "//third_party/apple_frameworks:Metal",
-        ],
-    }),
-    user_link_flags = select({
-        "//conditions:default": [],
-        "//mediapipe:apple": [
-            "-framework",
-            "Metal",
-        ],
-    }),
-)
-
-pkg_files(
-    name = "headers",
-    srcs = glob(["**/*.h"]) + [
-        ":mediapipe_gpu_cc_protos",
-        ":mediapipe_gpu_cc_protos.h",
-    ],
-    prefix = "mediapipe/gpu",
-    visibility = ["//visibility:public"],
-)
-# endregion ============================================================================================================

@@ -14,17 +14,12 @@
 #
 
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
-load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
 load("@rules_cc//cc:objc_library.bzl", "objc_library")
 load("//mediapipe/framework:mediapipe_cc_test.bzl", "mediapipe_cc_test")
 load("//mediapipe/framework/port:build_config.bzl", "mediapipe_proto_library")
-load(
-    "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
-    "transitive_protos_with_aggregate_include",
-)
 load(
     "//mediapipe/framework/tool:mediapipe_graph.bzl",
     "data_as_c_string",
@@ -1070,36 +1065,9 @@ cc_library(
 )
 
 exports_files(
-    [
-        "build_defs.bzl",
-        "mediapipe_transitive_library.bzl",
-    ],
+    ["build_defs.bzl"],
     visibility = [
         "//mediapipe/framework:__subpackages__",
     ],
 )
 
-# region ===== PRESAGE: collect framework/tool headers ================================================================
-transitive_protos_with_aggregate_include(
-    name = "mediapipe_calculator_framework_tool_cc_protos",
-    aggregate_header = "mediapipe_calculator_framework_tool_cc_protos.h",
-    deps = [
-        ":calculator_graph_template_cc_proto",
-        ":field_data_cc_proto",
-        ":node_chain_subgraph_cc_proto",
-        ":packet_generator_wrapper_calculator_cc_proto",
-        ":source_cc_proto",
-        ":switch_container_cc_proto",
-    ],
-)
-
-pkg_files(
-    name = "headers",
-    srcs = glob(["**/*.h"]) + [
-        ":mediapipe_calculator_framework_tool_cc_protos",
-        ":mediapipe_calculator_framework_tool_cc_protos.h",
-    ],
-    prefix = "mediapipe/framework/tool",
-    visibility = ["//visibility:public"],
-)
-# endregion ============================================================================================================
