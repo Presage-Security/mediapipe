@@ -493,4 +493,3 @@ cc_library(
     hdrs = ["compile_time_string.h"],
     deps = ["//mediapipe/framework/deps:compile_time_string"],
 )
-

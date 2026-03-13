@@ -534,4 +534,3 @@ cc_library(
     hdrs = ["compile_time_string.h"],
     deps = ["@com_google_absl//absl/strings:string_view"],
 )
-
