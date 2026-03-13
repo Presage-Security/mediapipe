@@ -49,7 +49,7 @@ class CompileTimeString final {
       : internal_stored_str_(kEmptyStoredStr), internal_view_(v) {}
 
   // Does not support copy or assign.
-  CompileTimeString(const CompileTimeString&) = delete;
+  constexpr CompileTimeString(const CompileTimeString&) = default;
   CompileTimeString& operator=(const CompileTimeString&) = delete;
 
   constexpr size_t size() const {

@@ -8,14 +8,41 @@ def _transitive_protos_with_aggregate_include_impl(ctx):
         if CcInfo in dep:
             cc_infos.append(dep[CcInfo])
 
+    # Merge once so transitive header depsets are flattened a single time.
+    merged_cc_info = cc_common.merge_cc_infos(cc_infos = cc_infos)
+
+    seen = {}
     header_paths = []
     headers = []
     found_valid_dep = False
+
+    # Collect direct proto headers from immediate deps (covers cc_proto_library
+    # deps whose direct_headers include their own .pb.h files).
     for cc_info in cc_infos:
         for header in cc_info.compilation_context.direct_headers:
+            sp = header.short_path
+            if sp in seen:
+                continue
+            seen[sp] = True
             found_valid_dep = True
-            header_paths.append(header.short_path)
+            header_paths.append(sp)
             headers.append(header)
+
+    # Also collect transitive mediapipe proto headers that are missing from
+    # direct_headers (e.g. calculator.pb.h, mediapipe_options.pb.h which come
+    # from cc_proto_library targets deeper in the dependency graph).
+    for header in merged_cc_info.compilation_context.headers.to_list():
+        sp = header.short_path
+        if sp in seen:
+            continue
+        if not sp.endswith(".pb.h"):
+            continue
+        if not ("mediapipe/" in sp):
+            continue
+        seen[sp] = True
+        found_valid_dep = True
+        header_paths.append(sp)
+        headers.append(header)
 
     if not found_valid_dep:
         fail(
@@ -28,7 +55,7 @@ def _transitive_protos_with_aggregate_include_impl(ctx):
 
     headers.append(output_aggregate_header)
 
-    return [cc_common.merge_cc_infos(cc_infos = cc_infos), DefaultInfo(files = depset(headers))]
+    return [merged_cc_info, DefaultInfo(files = depset(headers))]
 
 
 transitive_protos_with_aggregate_include = rule(
