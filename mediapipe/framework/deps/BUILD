@@ -16,14 +16,9 @@
 #   The dependencies of mediapipe.
 
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
-load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
 load("//mediapipe/framework/port:build_config.bzl", "mediapipe_proto_library")
-load(
-    "//mediapipe/framework/tool:mediapipe_transitive_library.bzl",
-    "transitive_protos_with_aggregate_include",
-)
 
 licenses(["notice"])
 
@@ -540,20 +535,3 @@ cc_library(
     deps = ["@com_google_absl//absl/strings:string_view"],
 )
 
-# region ===== PRESAGE: collect framework/deps headers =================================================================
-transitive_protos_with_aggregate_include(
-    name = "mediapipe_calculator_framework_deps_cc_protos",
-    aggregate_header = "mediapipe_calculator_framework_deps_cc_protos.h",
-    deps = [":proto_descriptor_cc_proto"],
-)
-
-pkg_files(
-    name = "headers",
-    srcs = glob(["**/*.h"]) + [
-        ":mediapipe_calculator_framework_deps_cc_protos",
-        ":mediapipe_calculator_framework_deps_cc_protos.h",
-    ],
-    prefix = "mediapipe/framework/deps",
-    visibility = ["//visibility:public"],
-)
-# endregion ============================================================================================================
