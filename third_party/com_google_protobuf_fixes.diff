@@ -152,6 +152,22 @@ index 381e0e24e..332988bb3 100644
  )
  
  # This target exposes the headers for the protobuf runtime, and additionally
+diff --git a/src/google/protobuf/compiler/java/BUILD.bazel b/src/google/protobuf/compiler/java/BUILD.bazel
+--- a/src/google/protobuf/compiler/java/BUILD.bazel
++++ b/src/google/protobuf/compiler/java/BUILD.bazel
+@@ -84,7 +84,11 @@ cc_library(
+     name = "java_features_bootstrap",
+     srcs = ["java_features.pb.cc"],
+     hdrs = ["java_features.pb.h"],
+-    strip_include_prefix = "/src",
++    # Work around Bazel _virtual_includes path exceeding Windows MAX_PATH (260).
++    # strip_include_prefix creates a deeply-nested symlink tree that pushes this
++    # target over the limit.  Using includes instead adds -I<src/> directly.
++    # See https://github.com/bazelbuild/bazel/issues/18683
++    includes = ["../../../.."],
+     visibility = ["//editions:__pkg__"],
+     deps = [
+         "//src/google/protobuf",
 diff --git a/src/google/protobuf/arena.cc b/src/google/protobuf/arena.cc
 index 55d87ab6b..0df4f9670 100644
 --- a/src/google/protobuf/arena.cc
