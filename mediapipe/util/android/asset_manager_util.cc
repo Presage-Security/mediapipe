@@ -14,7 +14,9 @@
 
 #include "mediapipe/util/android/asset_manager_util.h"
 
+#include <cstdio>
 #include <fstream>
+#include <unistd.h>
 
 #include "absl/log/absl_check.h"
 #include "absl/log/absl_log.h"
@@ -171,11 +173,29 @@ absl::StatusOr<std::string> AssetManager::CachedFileFromAsset(
   std::string dir_path = File::StripBasename(file_path);
   MP_RETURN_IF_ERROR(file::RecursivelyCreateDir(dir_path, file::Defaults()));
 
-  std::ofstream output_file(file_path);
-  RET_CHECK(output_file.good()) << "could not open cache file: " << file_path;
+  // Write to a thread-specific temporary file first, then atomically rename to
+  // the final path. This prevents a race where concurrent calculator threads
+  // loading the same model truncate each other's in-progress writes via
+  // std::ofstream (which uses O_TRUNC). POSIX rename() is atomic when src and
+  // dst are on the same filesystem (both are under cache_dir here).
+  std::string tmp_path =
+      absl::StrCat(file_path, ".tmp.", getpid(), ".", gettid());
 
-  output_file << asset_data;
-  RET_CHECK(output_file.good()) << "could not write cache file: " << file_path;
+  {
+    std::ofstream output_file(tmp_path);
+    RET_CHECK(output_file.good())
+        << "could not open temp cache file: " << tmp_path;
+
+    output_file << asset_data;
+    RET_CHECK(output_file.good())
+        << "could not write temp cache file: " << tmp_path;
+  }
+
+  if (std::rename(tmp_path.c_str(), file_path.c_str()) != 0) {
+    std::remove(tmp_path.c_str());
+    return absl::InternalError(
+        absl::StrCat("could not rename temp cache file to: ", file_path));
+  }
 
   return file_path;
 }
