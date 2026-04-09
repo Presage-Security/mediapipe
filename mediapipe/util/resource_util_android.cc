@@ -23,12 +23,25 @@
 #include "mediapipe/util/android/asset_manager_util.h"
 #include "mediapipe/util/android/file/base/helpers.h"
 
+//__DEBUG
+#include <unistd.h>
+
 namespace mediapipe {
 
 namespace {
 absl::StatusOr<std::string> PathToResourceAsFileInternal(
     const std::string& path) {
-  return Singleton<AssetManager>::get()->CachedFileFromAsset(path);
+  //__DEBUG
+  ABSL_LOG(WARNING) << "__DEBUG [ResUtil] CachedFileFromAsset BEGIN  path=\"" << path << "\"  tid=" << gettid();
+  auto result = Singleton<AssetManager>::get()->CachedFileFromAsset(path);
+  //__DEBUG
+  if (result.ok()) {
+    ABSL_LOG(WARNING) << "__DEBUG [ResUtil] CachedFileFromAsset OK     cached=\"" << *result << "\"  tid=" << gettid();
+  } else {
+    ABSL_LOG(ERROR) << "__DEBUG [ResUtil] CachedFileFromAsset FAILED  path=\"" << path
+                    << "\"  status=" << result.status() << "  tid=" << gettid();
+  }
+  return result;
 }
 }  // namespace
 
@@ -41,6 +54,8 @@ absl::Status DefaultGetResourceContents(const std::string& path,
         << "Setting \"read_as_binary\" to false is a no-op on Android.";
   }
   if (absl::StartsWith(path, "/")) {
+    //__DEBUG
+    ABSL_LOG(WARNING) << "__DEBUG [ResUtil] GetResourceContents reading absolute path=\"" << path << "\"  tid=" << gettid();
     return file::GetContents(path, output, file::Defaults());
   }
 
@@ -59,6 +74,8 @@ absl::Status DefaultGetResourceContents(const std::string& path,
     return file::GetContents(path, output, file::Defaults());
   }
 
+  //__DEBUG
+  ABSL_LOG(WARNING) << "__DEBUG [ResUtil] GetResourceContents reading asset path=\"" << path << "\"  tid=" << gettid();
   RET_CHECK(Singleton<AssetManager>::get()->ReadFile(path, output))
       << "could not read asset: " << path;
   return absl::OkStatus();
@@ -66,6 +83,9 @@ absl::Status DefaultGetResourceContents(const std::string& path,
 }  // namespace internal
 
 absl::StatusOr<std::string> PathToResourceAsFile(const std::string& path) {
+  //__DEBUG
+  ABSL_LOG(WARNING) << "__DEBUG [ResUtil] PathToResourceAsFile  path=\"" << path << "\"  tid=" << gettid();
+
   // Return full path.
   if (absl::StartsWith(path, "/")) {
     return path;
@@ -78,6 +98,8 @@ absl::StatusOr<std::string> PathToResourceAsFile(const std::string& path) {
       ABSL_LOG(INFO) << "Successfully loaded: " << path;
       return status_or_path;
     }
+    //__DEBUG
+    ABSL_LOG(WARNING) << "__DEBUG [ResUtil] full-path attempt failed, trying basename  path=\"" << path << "\"";
   }
 
   // If that fails, assume it was a relative path, and try just the base name.
@@ -91,6 +113,8 @@ absl::StatusOr<std::string> PathToResourceAsFile(const std::string& path) {
       ABSL_LOG(INFO) << "Successfully loaded: " << base_name;
       return status_or_path;
     }
+    //__DEBUG
+    ABSL_LOG(ERROR) << "__DEBUG [ResUtil] basename attempt also failed  base=\"" << base_name << "\"";
   }
 
   // Try the test environment.

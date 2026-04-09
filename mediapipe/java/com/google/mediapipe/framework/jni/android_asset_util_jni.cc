@@ -21,13 +21,27 @@
 #include "mediapipe/java/com/google/mediapipe/framework/jni/jni_util.h"
 #include "mediapipe/util/android/asset_manager_util.h"
 
+//__DEBUG
+#include <unistd.h>
+#include "absl/log/absl_log.h"
+
 JNIEXPORT jboolean JNICALL ANDROID_ASSET_UTIL_METHOD(
     nativeInitializeAssetManager)(JNIEnv* env, jclass clz,
                                   jobject android_context,
                                   jstring cache_dir_path) {
+  //__DEBUG
+  auto cache_str = mediapipe::android::JStringToStdString(env, cache_dir_path);
+  ABSL_LOG(WARNING) << "__DEBUG [JNI-AssetInit] nativeInitializeAssetManager BEGIN"
+                    << "  cache_dir=\"" << cache_str << "\""
+                    << "  tid=" << gettid();
+
   mediapipe::AssetManager* asset_manager =
       Singleton<mediapipe::AssetManager>::get();
-  return asset_manager->InitializeFromActivity(
-      env, android_context,
-      mediapipe::android::JStringToStdString(env, cache_dir_path));
+  auto result = asset_manager->InitializeFromActivity(
+      env, android_context, cache_str);
+
+  //__DEBUG
+  ABSL_LOG(WARNING) << "__DEBUG [JNI-AssetInit] nativeInitializeAssetManager END  result=" << (result ? "OK" : "FAILED")
+                    << "  tid=" << gettid();
+  return result;
 }

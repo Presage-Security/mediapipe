@@ -27,6 +27,10 @@
 #include "tensorflow/lite/allocation.h"
 #include "tensorflow/lite/model_builder.h"
 
+//__DEBUG
+#include "absl/log/absl_log.h"
+#include <unistd.h>
+
 namespace mediapipe {
 
 // Loads TfLite model from model blob specified as input side packet and outputs
@@ -108,14 +112,37 @@ class TfLiteModelCalculator : public CalculatorBase {
     if (cc->InputSidePackets().HasTag(kModelBlobTag)) {
       model_packet = cc->InputSidePackets().Tag(kModelBlobTag);
       const std::string& model_blob = model_packet.Get<std::string>();
+      //__DEBUG
+      ABSL_LOG(WARNING) << "__DEBUG [TfLiteModelCalc] Open() MODEL_BLOB size=" << model_blob.size()
+                        << "  tid=" << gettid();
+      //__DEBUG — log first 8 bytes to check FlatBuffer magic ("TFL3" at offset 4)
+      if (model_blob.size() >= 8) {
+        ABSL_LOG(WARNING) << "__DEBUG [TfLiteModelCalc] header bytes:"
+                          << " [0]=" << (int)(unsigned char)model_blob[0]
+                          << " [1]=" << (int)(unsigned char)model_blob[1]
+                          << " [2]=" << (int)(unsigned char)model_blob[2]
+                          << " [3]=" << (int)(unsigned char)model_blob[3]
+                          << " [4]=" << (char)model_blob[4]
+                          << (char)model_blob[5]
+                          << (char)model_blob[6]
+                          << (char)model_blob[7];
+      } else {
+        ABSL_LOG(ERROR) << "__DEBUG [TfLiteModelCalc] MODEL_BLOB TOO SMALL size=" << model_blob.size();
+      }
       model = tflite::FlatBufferModel::BuildFromBuffer(model_blob.data(),
                                                        model_blob.size());
+      //__DEBUG
+      ABSL_LOG(WARNING) << "__DEBUG [TfLiteModelCalc] BuildFromBuffer result=" << (model ? "OK" : "NULL")
+                        << "  tid=" << gettid();
     }
 
     if (cc->InputSidePackets().HasTag(kModelSpanTag)) {
       model_packet = cc->InputSidePackets().Tag(kModelSpanTag);
       const absl::Span<const uint8_t>& model_view =
           model_packet.Get<absl::Span<const uint8_t>>();
+      //__DEBUG
+      ABSL_LOG(WARNING) << "__DEBUG [TfLiteModelCalc] Open() MODEL_SPAN size=" << model_view.size()
+                        << "  tid=" << gettid();
       model = tflite::FlatBufferModel::BuildFromBuffer(
           reinterpret_cast<const char*>(model_view.data()), model_view.size());
     }
@@ -136,6 +163,10 @@ class TfLiteModelCalculator : public CalculatorBase {
 #endif
     }
 
+    //__DEBUG
+    if (!model) {
+      ABSL_LOG(ERROR) << "__DEBUG [TfLiteModelCalc] model is NULL — will fail  tid=" << gettid();
+    }
     RET_CHECK(model) << "Failed to load TfLite model.";
 
     TfLiteModelPtr output_model = TfLiteModelPtr(

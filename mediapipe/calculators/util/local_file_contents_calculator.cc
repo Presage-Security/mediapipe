@@ -86,11 +86,32 @@ class LocalFileContentsCalculator : public CalculatorBase {
          ++input_id, ++output_id) {
       std::string file_path =
           cc->InputSidePackets().Get(input_id).Get<std::string>();
-      MP_ASSIGN_OR_RETURN(file_path, PathToResourceAsFile(file_path));
+      //__DEBUG
+      ABSL_LOG(WARNING) << "__DEBUG [LFCC] Open() resolving path=\"" << file_path << "\"";
+      auto resolved_or = PathToResourceAsFile(file_path);
+      //__DEBUG
+      if (resolved_or.ok()) {
+        ABSL_LOG(WARNING) << "__DEBUG [LFCC] PathToResourceAsFile OK  resolved=\"" << *resolved_or << "\"";
+        file_path = *std::move(resolved_or);
+      } else {
+        ABSL_LOG(ERROR) << "__DEBUG [LFCC] PathToResourceAsFile FAILED  path=\"" << file_path
+                        << "\"  status=" << resolved_or.status();
+        return resolved_or.status();
+      }
 
+      //__DEBUG
+      ABSL_LOG(WARNING) << "__DEBUG [LFCC] GetResourceContents BEGIN  path=\"" << file_path << "\"";
       std::string contents;
-      MP_RETURN_IF_ERROR(GetResourceContents(
-          file_path, &contents, /*read_as_binary=*/!options.text_mode()));
+      auto read_status = GetResourceContents(
+          file_path, &contents, /*read_as_binary=*/!options.text_mode());
+      //__DEBUG
+      if (read_status.ok()) {
+        ABSL_LOG(WARNING) << "__DEBUG [LFCC] GetResourceContents OK  size=" << contents.size();
+      } else {
+        ABSL_LOG(ERROR) << "__DEBUG [LFCC] GetResourceContents FAILED  path=\"" << file_path
+                        << "\"  status=" << read_status;
+        return read_status;
+      }
       cc->OutputSidePackets().Get(output_id).Set(
           MakePacket<std::string>(std::move(contents)));
     }

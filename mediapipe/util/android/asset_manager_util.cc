@@ -24,6 +24,9 @@
 #include "mediapipe/util/android/file/base/file.h"
 #include "mediapipe/util/android/file/base/filesystem.h"
 
+//__DEBUG
+#include <unistd.h>
+
 namespace {
 
 // Checks for, prints and clears any pending Java exceptions.
@@ -66,11 +69,21 @@ bool AssetManager::InitializeFromAssetManager(
 
 bool AssetManager::InitializeFromContext(JNIEnv* env, jobject context,
                                          const std::string& cache_dir_path) {
+  //__DEBUG
+  ABSL_LOG(WARNING) << "__DEBUG [AssetMgr] InitializeFromContext BEGIN  cache_dir=\"" << cache_dir_path
+                    << "\"  existing_asset_mgr=" << (asset_manager_ != nullptr)
+                    << "  existing_context=" << (context_ != nullptr)
+                    << "  tid=" << gettid();
+
   if (!mediapipe::java::SetJavaVM(env)) {
+    //__DEBUG
+    ABSL_LOG(ERROR) << "__DEBUG [AssetMgr] SetJavaVM FAILED";
     return false;
   }
 
   if (context_ != nullptr) {
+    //__DEBUG
+    ABSL_LOG(WARNING) << "__DEBUG [AssetMgr] deleting old context global ref";
     env->DeleteGlobalRef(context_);
   }
   context_ = env->NewGlobalRef(context);
@@ -86,9 +99,13 @@ bool AssetManager::InitializeFromContext(JNIEnv* env, jobject context,
 
   // TODO: Don't swallow the exception
   if (ExceptionPrintClear(env)) {
+    //__DEBUG
+    ABSL_LOG(ERROR) << "__DEBUG [AssetMgr] InitializeFromContext JNI exception during getAssets()";
     return false;
   }
 
+  //__DEBUG
+  ABSL_LOG(WARNING) << "__DEBUG [AssetMgr] InitializeFromContext calling InitializeFromAssetManager";
   return InitializeFromAssetManager(env, local_asset_manager, cache_dir_path);
 }
 
@@ -136,16 +153,27 @@ bool AssetManager::FileExists(const std::string& filename, bool* is_dir) {
 bool AssetManager::ReadFile(const std::string& filename, std::string* output) {
   ABSL_CHECK(output);
   if (!asset_manager_) {
+    //__DEBUG
+    ABSL_LOG(ERROR) << "__DEBUG [AssetMgr] ReadFile FAILED — asset_manager_ is NULL  file=\"" << filename
+                    << "\"  tid=" << gettid();
     ABSL_LOG(ERROR) << "Asset manager was not initialized from JNI";
     return false;
   }
 
+  //__DEBUG
+  ABSL_LOG(WARNING) << "__DEBUG [AssetMgr] ReadFile AAssetManager_open  file=\"" << filename
+                    << "\"  asset_mgr_ptr=" << asset_manager_ << "  tid=" << gettid();
   AAsset* asset =
       AAssetManager_open(asset_manager_, filename.c_str(), AASSET_MODE_RANDOM);
   if (asset == nullptr) {
+    //__DEBUG
+    ABSL_LOG(ERROR) << "__DEBUG [AssetMgr] ReadFile AAssetManager_open returned NULL  file=\"" << filename
+                    << "\"  tid=" << gettid();
     return false;
   } else {
     size_t size = AAsset_getLength(asset);
+    //__DEBUG
+    ABSL_LOG(WARNING) << "__DEBUG [AssetMgr] ReadFile OK  file=\"" << filename << "\"  size=" << size << "  tid=" << gettid();
     output->resize(size);
     memcpy(static_cast<void*>(&output->at(0)), AAsset_getBuffer(asset), size);
     AAsset_close(asset);
@@ -155,6 +183,12 @@ bool AssetManager::ReadFile(const std::string& filename, std::string* output) {
 
 absl::StatusOr<std::string> AssetManager::CachedFileFromAsset(
     const std::string& asset_path) {
+  //__DEBUG
+  ABSL_LOG(WARNING) << "__DEBUG [AssetMgr] CachedFileFromAsset  asset=\"" << asset_path
+                    << "\"  cache_dir_size=" << cache_dir_path_.size()
+                    << "  cache_dir=\"" << cache_dir_path_
+                    << "\"  tid=" << gettid();
+
   RET_CHECK(cache_dir_path_.size()) << "asset manager not initialized";
 
   std::string file_path =
@@ -165,18 +199,27 @@ absl::StatusOr<std::string> AssetManager::CachedFileFromAsset(
   // unconditionally.
 
   std::string asset_data;
+  //__DEBUG
+  ABSL_LOG(WARNING) << "__DEBUG [AssetMgr] CachedFileFromAsset ReadFile BEGIN  asset=\"" << asset_path << "\"  tid=" << gettid();
   RET_CHECK(ReadFile(asset_path, &asset_data))
       << "could not read asset: " << asset_path;
+  //__DEBUG
+  ABSL_LOG(WARNING) << "__DEBUG [AssetMgr] CachedFileFromAsset ReadFile OK  asset=\"" << asset_path
+                    << "\"  data_size=" << asset_data.size() << "  tid=" << gettid();
 
   std::string dir_path = File::StripBasename(file_path);
   MP_RETURN_IF_ERROR(file::RecursivelyCreateDir(dir_path, file::Defaults()));
 
+  //__DEBUG
+  ABSL_LOG(WARNING) << "__DEBUG [AssetMgr] CachedFileFromAsset writing cache  path=\"" << file_path << "\"  tid=" << gettid();
   std::ofstream output_file(file_path);
   RET_CHECK(output_file.good()) << "could not open cache file: " << file_path;
 
   output_file << asset_data;
   RET_CHECK(output_file.good()) << "could not write cache file: " << file_path;
 
+  //__DEBUG
+  ABSL_LOG(WARNING) << "__DEBUG [AssetMgr] CachedFileFromAsset DONE  cached=\"" << file_path << "\"  tid=" << gettid();
   return file_path;
 }
 
