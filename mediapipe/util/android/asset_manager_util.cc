@@ -14,6 +14,7 @@
 
 #include "mediapipe/util/android/asset_manager_util.h"
 
+#include <cstdio>
 #include <fstream>
 
 #include "absl/log/absl_check.h"
@@ -210,13 +211,30 @@ absl::StatusOr<std::string> AssetManager::CachedFileFromAsset(
   std::string dir_path = File::StripBasename(file_path);
   MP_RETURN_IF_ERROR(file::RecursivelyCreateDir(dir_path, file::Defaults()));
 
-  //__DEBUG
-  ABSL_LOG(WARNING) << "__DEBUG [AssetMgr] CachedFileFromAsset writing cache  path=\"" << file_path << "\"  tid=" << gettid();
-  std::ofstream output_file(file_path);
-  RET_CHECK(output_file.good()) << "could not open cache file: " << file_path;
+  // Write to a temporary file first, then atomically rename to the final path.
+  // This prevents a race where concurrent threads truncate each other's
+  // in-progress writes via std::ofstream (which uses O_TRUNC).
+  std::string tmp_path = absl::StrCat(file_path, ".tmp.", gettid());
 
-  output_file << asset_data;
-  RET_CHECK(output_file.good()) << "could not write cache file: " << file_path;
+  //__DEBUG
+  ABSL_LOG(WARNING) << "__DEBUG [AssetMgr] CachedFileFromAsset writing cache  tmp=\"" << tmp_path << "\"  final=\"" << file_path << "\"  tid=" << gettid();
+  {
+    std::ofstream output_file(tmp_path);
+    RET_CHECK(output_file.good()) << "could not open temp cache file: " << tmp_path;
+
+    output_file << asset_data;
+    RET_CHECK(output_file.good()) << "could not write temp cache file: " << tmp_path;
+  }
+
+  // std::rename is atomic on POSIX when src and dst are on the same filesystem
+  // (which they are — both under cache_dir). If another thread renames at the
+  // same moment, one wins and the other's rename is a no-op that overwrites
+  // with identical content.
+  if (std::rename(tmp_path.c_str(), file_path.c_str()) != 0) {
+    std::remove(tmp_path.c_str());
+    return absl::InternalError(
+        absl::StrCat("could not rename temp cache file to: ", file_path));
+  }
 
   //__DEBUG
   ABSL_LOG(WARNING) << "__DEBUG [AssetMgr] CachedFileFromAsset DONE  cached=\"" << file_path << "\"  tid=" << gettid();
