@@ -277,29 +277,35 @@ class GlTextureWarpAffineRunner
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_);
     glViewport(0, 0, output->width(), output->height());
 
+    // Bind textures with their actual GL target: GL_TEXTURE_2D on iOS/Android,
+    // but GL_TEXTURE_RECTANGLE on macOS (CVPixelBuffer GpuBuffers go through
+    // CVOpenGLTextureCache -> RECTANGLE). Hardcoding GL_TEXTURE_2D bound/parameterized
+    // the wrong target on macOS -> per-frame GL_INVALID_OPERATION.
+    const GLenum out_target = output->target();
+    const GLenum in_target = texture.target();
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, output->name());
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
+    glBindTexture(out_target, output->name());
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, out_target,
                            output->name(), 0);
 
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(texture.target(), texture.name());
+    glBindTexture(in_target, texture.name());
 
     // a) Filtering.
     if (interpolation_ == AffineTransformation::Interpolation::kNearest) {
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+      glTexParameteri(in_target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+      glTexParameteri(in_target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     } else {
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      glTexParameteri(in_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+      glTexParameteri(in_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     }
 
     // b) Clamping.
     std::optional<Program> program = program_;
     switch (border_mode) {
       case AffineTransformation::BorderMode::kReplicate: {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(in_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(in_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         break;
       }
       case AffineTransformation::BorderMode::kZero: {
@@ -307,9 +313,9 @@ class GlTextureWarpAffineRunner
         if (program_custom_zero_) {
           program = program_custom_zero_;
         } else {
-          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-          glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR,
+          glTexParameteri(in_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+          glTexParameteri(in_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+          glTexParameterfv(in_target, GL_TEXTURE_BORDER_COLOR,
                            std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f}.data());
         }
 #else
@@ -365,10 +371,10 @@ class GlTextureWarpAffineRunner
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
     // Resetting to MediaPipe texture param defaults.
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(in_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(in_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(in_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(in_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glDisableVertexAttribArray(kAttribVertex);
     glDisableVertexAttribArray(kAttribTexturePosition);
@@ -376,9 +382,9 @@ class GlTextureWarpAffineRunner
     glBindVertexArray(0);
 
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindTexture(in_target, 0);
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindTexture(out_target, 0);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
