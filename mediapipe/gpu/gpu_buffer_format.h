@@ -19,9 +19,12 @@
 
 #ifdef __APPLE__
 #include <CoreVideo/CoreVideo.h>
-#if !TARGET_OS_OSX
+// Presage fork: enable CVPixelBuffer-backed GpuBuffers on macOS too, not just
+// iOS. CoreVideo and CVMetalTextureCache are available on macOS, so this lets
+// MPPMetalHelper's metalTextureWithGpuBuffer: and the Metal image-to-tensor
+// converter compile/link there, unblocking the TFLite Metal inference delegate
+// on macOS (GPU inference offload). Upstream gates this to iOS only.
 #define MEDIAPIPE_GPU_BUFFER_USE_CV_PIXEL_BUFFER 1
-#endif  // TARGET_OS_OSX
 #endif  // defined(__APPLE__)
 
 #include "mediapipe/framework/formats/image_format.pb.h"
