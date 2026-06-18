@@ -52,9 +52,14 @@ absl::Status GlContext::CreateContext(NSOpenGLContext* share_context) {
   // hardware).
   // TODO: Remove the need for the OSX_ENABLE_3_2_CORE if this
   // proves to be safe in general.
-#if defined(TARGET_OS_OSX) && defined(OSX_ENABLE_3_2_CORE)
+#if defined(TARGET_OS_OSX)
+      // Presage fork: request a 4.1 core profile on macOS so MediaPipe's GLSL
+      // "#version 330" shaders compile. The default (no profile) is a legacy
+      // 2.1 context (GLSL 120 only), and even upstream's gated 3.2-core path
+      // (GLSL 150) is still < 330. Apple Silicon supports GL 4.1 core. This only
+      // affects GPU-enabled macOS builds. Upstream TODO: make this the default.
       NSOpenGLPFAOpenGLProfile,
-      NSOpenGLProfileVersion3_2Core,
+      NSOpenGLProfileVersion4_1Core,
 #endif
       NSOpenGLPFAAccelerated,
       NSOpenGLPFAColorSize,
