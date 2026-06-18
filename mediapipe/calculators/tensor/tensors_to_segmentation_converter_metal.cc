@@ -290,10 +290,14 @@ TensorsToSegmentationMetalConverter::Convert(const Tensor& input_tensor,
     {
       gpu_helper_.BindFramebuffer(output_texture);
       glActiveTexture(GL_TEXTURE1);
-      glBindTexture(GL_TEXTURE_2D, small_mask_texture.name());
+      // Bind with the texture's actual target: GL_TEXTURE_2D on iOS/Android, but
+      // GL_TEXTURE_RECTANGLE on macOS (CVPixelBuffer GpuBuffers are RECTANGLE via
+      // CVOpenGLTextureCache). Hardcoding GL_TEXTURE_2D bound a RECTANGLE texture
+      // to the wrong target → per-frame GL_INVALID_OPERATION on macOS.
+      glBindTexture(small_mask_texture.target(), small_mask_texture.name());
       glUseProgram(upsample_program_);
       GlRender();
-      glBindTexture(GL_TEXTURE_2D, 0);
+      glBindTexture(small_mask_texture.target(), 0);
       glFlush();
     }
 
