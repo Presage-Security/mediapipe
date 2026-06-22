@@ -21,6 +21,13 @@
 #include "mediapipe/framework/formats/motion/optical_flow_field.h"
 #include "mediapipe/framework/port/opencv_video_inc.h"
 
+// Dense TVL1 optical flow is provided by the opencv_contrib `optflow` module
+// (cv::optflow::createOptFlow_DualTVL1). Builds against a trimmed/contrib-less
+// OpenCV define MEDIAPIPE_DISABLE_OPENCV_CONTRIB, which compiles this calculator
+// out entirely so the build succeeds without the optflow module.
+#if !defined(MEDIAPIPE_DISABLE_OPENCV_CONTRIB)
+#include <opencv2/optflow.hpp>
+
 namespace mediapipe {
 namespace {
 
@@ -120,7 +127,7 @@ absl::Status Tvl1OpticalFlowCalculator::GetContract(CalculatorContract* cc) {
 absl::Status Tvl1OpticalFlowCalculator::Open(CalculatorContext* cc) {
   {
     absl::MutexLock lock(mutex_);
-    tvl1_computers_.emplace_back(cv::createOptFlow_DualTVL1());
+    tvl1_computers_.emplace_back(cv::optflow::createOptFlow_DualTVL1());
   }
   if (cc->Outputs().HasTag(kForwardFlowTag)) {
     forward_requested_ = true;
@@ -177,7 +184,7 @@ absl::Status Tvl1OpticalFlowCalculator::CalculateOpticalFlow(
     }
   }
   if (tvl1_computer.empty()) {
-    tvl1_computer = cv::createOptFlow_DualTVL1();
+    tvl1_computer = cv::optflow::createOptFlow_DualTVL1();
   }
 
   flow->Allocate(first.cols, first.rows);
@@ -195,3 +202,5 @@ absl::Status Tvl1OpticalFlowCalculator::CalculateOpticalFlow(
 REGISTER_CALCULATOR(Tvl1OpticalFlowCalculator);
 
 }  // namespace mediapipe
+
+#endif  // !defined(MEDIAPIPE_DISABLE_OPENCV_CONTRIB)
