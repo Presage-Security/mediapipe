@@ -3,7 +3,6 @@
 
 """.bzl file for mediapipe open source build configs."""
 
-load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
 load(
     "//mediapipe/framework/tool:mediapipe_proto.bzl",
     _mediapipe_cc_proto_library = "mediapipe_cc_proto_library",
@@ -28,7 +27,7 @@ def ts_library(
         deps = [],
         testonly = 0,
         allow_unoptimized_namespaces = False):
-    """Generate ts_project for MediaPipe open source version.
+    """Unsupported in this fork: the web/TypeScript surface is not built here.
 
     Args:
         name: The name of the target.
@@ -38,38 +37,10 @@ def ts_library(
         testonly: Whether the target is testonly.
         allow_unoptimized_namespaces: Whether to allow unoptimized namespaces.
     """
-    _ignore = [allow_unoptimized_namespaces]  # buildifier: disable=unused-variable
+    _ignore = [srcs, visibility, deps, testonly, allow_unoptimized_namespaces]  # buildifier: disable=unused-variable
 
-    # aspect_rules_ts automatically generates a `{name}_types`
-    # target when `declaration = True`. By suffixing the underlying ts_project
-    # target name and exposing an alias, we dodge collisions with existing
-    # explicit `_types` targets (like ts_declaration) defined in MediaPipe
-    # BUILDs.
-    internal_name = name + "_internal"
-
-    ts_project(**provided_args(
-        name = internal_name,
-        srcs = srcs,
-        visibility = visibility,
-        deps = deps + [
-            "//:node_modules/@types/jasmine",
-            "//:node_modules/@types/node",
-            "//:node_modules/@types/offscreencanvas",
-            "//:node_modules/@types/google-protobuf",
-            "//:node_modules/@webgpu/types",
-        ],
-        testonly = testonly,
-        declaration = True,
-        transpiler = "tsc",
-        tsconfig = "//:tsconfig",
-    ))
-
-    # Proxy the internal target back to the requested name.
-    native.alias(
-        name = name,
-        actual = internal_name,
-        visibility = visibility,
-    )
+    fail("ts_library (%s) is not available in the Presage fork; the web/TS " % name +
+         "targets under mediapipe/tasks/web and mediapipe/web are not built here.")
 
 def ts_declaration(
         name,
