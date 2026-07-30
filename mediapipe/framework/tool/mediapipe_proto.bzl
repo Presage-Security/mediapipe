@@ -7,7 +7,7 @@ load("//mediapipe/framework/tool:mediapipe_proto_allowlist.bzl", "rewrite_target
 load("@com_google_protobuf//bazel:cc_proto_library.bzl", "cc_proto_library")
 load("@com_google_protobuf//bazel:py_proto_library.bzl", "py_proto_library")
 load("@rules_proto//proto:defs.bzl", _proto_library = "proto_library")
-load("@rules_proto_grpc_js//:defs.bzl", "js_proto_library")
+load("@rules_proto_grpc//js:defs.bzl", "js_proto_library")
 
 java_proto_library = native.java_proto_library
 java_lite_proto_library = native.java_lite_proto_library
